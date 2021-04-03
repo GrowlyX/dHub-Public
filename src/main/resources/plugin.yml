@@ -1,0 +1,11 @@
+
+name: dHub
+version: 1.0
+main: com.solexgames.HubPlugin
+depend: [Scandium, PlaceholderAPI]
+
+commands:
+  dhub:
+    aliases: [setup, setupdhub]
+  build:
+    aliases: [buildmode]

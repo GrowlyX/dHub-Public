@@ -1,0 +1,72 @@
+#
+#  dHub - by GrowlyX (SolexGames)
+#
+queue:
+  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE
+settings:
+  enable-scoreboard: true
+  allow-chat: true
+  setup-anti-listeners: true
+  lowest-y-axis: 2
+permissions:
+  build-mode: "dhub.permissions.build"
+  chat-in-hub: "dhub.permissions.chat"
+  setup-command: "dhub.permissions.setup"
+scoreboard:
+  enabled: true
+  title: "&6&lSolexGames"
+  lines:
+    - "&7&m-------------------"
+    - "&6Online:"
+    - "&e%bungee_total%"
+    - " "
+    - "&6Rank:"
+    - "%scandium_rankcolor%%scandium_rankname%"
+    - " "
+    - "&7demo.solexgames.com"
+    - "&7&m-------------------"
+double-jump:
+  enabled: true
+  velocity: 2.5
+  sound:
+    enabled: true
+    value: "EXPLOSION"
+  effect:
+    enabled: true
+    value: "BLAZE_SHOOT"
+ender-butt:
+  enabled: true
+speed:
+  enabled: true
+  multiply: 0.5
+items:
+  enderbutt:
+    display: "&6&lEnderbutt"
+    type: "ENDER_PEARL"
+    durability: 0
+    unbreakable: false
+    slot: 4
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to go flying with the Enderbutt!"
+  server-selector:
+    display: "&6&lServer Selector"
+    type: "COMPASS"
+    durability: 0
+    unbreakable: false
+    slot: 0
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view all available servers!"
+  hub-selector:
+    display: "&6&lHub Selector"
+    type: "NETHER_STAR"
+    durability: 0
+    unbreakable: false
+    slot: 8
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view all available hub servers!"

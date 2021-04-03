@@ -1,0 +1,77 @@
+hub-selector:
+  title: "Hub Selector"
+  fill-stained-glass: false
+  item:
+    display: "&6&l<server-name>"
+    item: "NETHER_STAR"
+    durability: 0
+    lore:
+      - "&a<status>"
+      - " "
+      - "&e&lPlayers: &6<online>/<max>"
+      - "&aClick to join!"
+server-selector:
+  title: "Server Selector"
+  size: 9
+  fill-stained-glass: false
+  items:
+    2:
+      display: "&b&lKitPvP"
+      type: "DIAMOND_SWORD"
+      durability: 0
+      unbreakable: false
+      action:
+        enabled: true
+        string: "sc hello this is a menu action"
+      lore:
+        enabled: true
+        strings:
+          - "&7Practice your PvP skills"
+          - "&7by fighting against others!"
+          - "  "
+          - "%na-dev_status%"
+          - "  "
+          - "&e&lPlayers: &6%bungee_kitpvp%/350"
+          - "&e&lQueued: &61"
+          - "  "
+          - "&aClick to queue!"
+    4:
+      display: "&6&lSkyBlock"
+      type: "GRASS"
+      durability: 0
+      unbreakable: false
+      action:
+        enabled: true
+        string: "vanish"
+      lore:
+        enabled: true
+        strings:
+          - "&7Expand your island whilst"
+          - "&7using a limited set of resources!"
+          - "  "
+          - "%na-dev_status%"
+          - "  "
+          - "&e&lPlayers: &6%bungee_skyblock%/250"
+          - "&e&lQueued: &61"
+          - "  "
+          - "&aClick to queue!"
+    6:
+      display: "&a&lSurvival"
+      type: "DIAMOND"
+      durability: 0
+      unbreakable: false
+      action:
+        enabled: true
+        string: "mod"
+      lore:
+        enabled: true
+        strings:
+          - "&7Our twist to the"
+          - "&7Vanilla Minecraft experience"
+          - "  "
+          - "%na-dev_status%"
+          - "  "
+          - "&e&lPlayers: &6%bungee_survival%/150"
+          - "&e&lQueued: &61"
+          - "  "
+          - "&aClick to queue!"
