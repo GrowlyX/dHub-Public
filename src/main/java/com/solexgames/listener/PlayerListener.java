@@ -1,25 +1,19 @@
 package com.solexgames.listener;
 
 import com.solexgames.HubPlugin;
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.util.Color;
 import com.solexgames.manager.HubManager;
 import com.solexgames.menu.HubSelectorMenu;
 import com.solexgames.menu.ServerSelectorMenu;
-import com.solexgames.scoreboard.HubScoreBoard;
+import com.solexgames.scoreboard.ScoreboardAdapter;
 import com.solexgames.util.ItemUtil;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-
-import java.util.Map;
 
 public class PlayerListener implements Listener {
 
@@ -50,7 +44,7 @@ public class PlayerListener implements Listener {
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector").getValue());
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector").getValue());
 
-        new HubScoreBoard(player);
+        new ScoreboardAdapter(player);
     }
 
     @EventHandler

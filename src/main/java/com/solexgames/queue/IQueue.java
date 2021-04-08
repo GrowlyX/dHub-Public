@@ -2,8 +2,21 @@ package com.solexgames.queue;
 
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
+/**
+ * @author GrowlyX
+ * @since 4/3/2021
+ */
+
 public interface IQueue {
 
-    void isInQueue(Player player);
+    boolean isInQueue(Player player);
+
+    String getQueueName(Player player);
+
+    int getQueuePosition(Player player);
+
+    List<Player> getQueuePlayers(Player player);
 
 }

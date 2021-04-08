@@ -42,7 +42,6 @@ public final class HubPlugin extends JavaPlugin {
         this.menus = new ExternalConfig("menus");
 
         this.hubManager = new HubManager();
-
         this.enderButt = ItemUtil.getItemFromConfig("items.enderbutt").getItemMeta().getDisplayName();
 
         this.getCommand("build").setExecutor(new BuildCommand());

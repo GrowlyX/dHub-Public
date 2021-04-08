@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class HubScoreBoard extends ScoreBoard {
+public class ScoreboardAdapter extends ScoreBoard {
 
     private final Player player;
     private final HubManager manager;
 
-    public HubScoreBoard(Player player) {
+    public ScoreboardAdapter(Player player) {
         super(player);
 
         this.player = player;
