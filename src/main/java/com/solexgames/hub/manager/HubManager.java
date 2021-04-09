@@ -1,6 +1,6 @@
-package com.solexgames.manager;
+package com.solexgames.hub.manager;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.util.LocationUtil;
 import lombok.Getter;
 import lombok.Setter;

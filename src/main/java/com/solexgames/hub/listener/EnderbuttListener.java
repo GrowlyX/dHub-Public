@@ -1,6 +1,6 @@
-package com.solexgames.listener;
+package com.solexgames.hub.listener;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

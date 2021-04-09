@@ -1,14 +1,13 @@
-package com.solexgames.scoreboard;
+package com.solexgames.hub.scoreboard;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.board.ScoreBoard;
 import com.solexgames.core.util.Color;
-import com.solexgames.manager.HubManager;
+import com.solexgames.hub.manager.HubManager;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

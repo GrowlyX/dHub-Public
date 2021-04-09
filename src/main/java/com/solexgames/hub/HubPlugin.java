@@ -1,14 +1,14 @@
-package com.solexgames;
+package com.solexgames.hub;
 
-import com.solexgames.command.BuildCommand;
-import com.solexgames.command.DHubCommand;
+import com.solexgames.hub.listener.AntiListener;
+import com.solexgames.hub.listener.EnderbuttListener;
+import com.solexgames.hub.command.BuildCommand;
+import com.solexgames.hub.command.DHubCommand;
 import com.solexgames.core.CorePlugin;
-import com.solexgames.external.ExternalConfig;
-import com.solexgames.listener.AntiListener;
-import com.solexgames.listener.EnderbuttListener;
-import com.solexgames.listener.PlayerListener;
-import com.solexgames.manager.HubManager;
-import com.solexgames.util.ItemUtil;
+import com.solexgames.hub.external.ExternalConfig;
+import com.solexgames.hub.listener.PlayerListener;
+import com.solexgames.hub.manager.HubManager;
+import com.solexgames.hub.util.ItemUtil;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -64,6 +64,7 @@ public final class HubPlugin extends JavaPlugin {
         this.settings.reloadConfig();
         this.location.reloadConfig();
         this.menus.reloadConfig();
+
         this.reloadConfig();
 
         this.getLogger().info("Reloaded all configs!");

@@ -1,6 +1,6 @@
-package com.solexgames.util;
+package com.solexgames.hub.util;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import me.clip.placeholderapi.PlaceholderAPI;

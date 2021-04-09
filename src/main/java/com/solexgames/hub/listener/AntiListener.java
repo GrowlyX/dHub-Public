@@ -1,8 +1,6 @@
-package com.solexgames.listener;
+package com.solexgames.hub.listener;
 
-import com.solexgames.HubPlugin;
-import com.solexgames.core.util.Color;
-import com.solexgames.core.util.LocationUtil;
+import com.solexgames.hub.HubPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

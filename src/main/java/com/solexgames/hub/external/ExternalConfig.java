@@ -1,12 +1,11 @@
-package com.solexgames.external;
+package com.solexgames.hub.external;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -18,7 +17,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 
 @Getter
 @Setter

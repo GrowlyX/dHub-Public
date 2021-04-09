@@ -1,4 +1,4 @@
-package com.solexgames.queue;
+package com.solexgames.hub.queue;
 
 import org.bukkit.entity.Player;
 

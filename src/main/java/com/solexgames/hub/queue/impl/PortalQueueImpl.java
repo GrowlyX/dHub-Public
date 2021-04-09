@@ -1,11 +1,11 @@
-package com.solexgames.queue.impl;
+package com.solexgames.hub.queue.impl;
 
-import com.solexgames.queue.IQueue;
+import com.solexgames.hub.queue.IQueue;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class EZQueueImpl implements IQueue {
+public class PortalQueueImpl implements IQueue {
 
     @Override
     public boolean isInQueue(Player player) {

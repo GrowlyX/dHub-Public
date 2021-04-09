@@ -1,15 +1,16 @@
-package com.solexgames.util;
+package com.solexgames.hub.util;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import org.bukkit.entity.Player;
 
-public class BungeeUtil {
+public final class BungeeUtil {
 
     public static void sendToServer(Player player, String server) {
         try {
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
             out.writeUTF("Connect");
             out.writeUTF(server);
 

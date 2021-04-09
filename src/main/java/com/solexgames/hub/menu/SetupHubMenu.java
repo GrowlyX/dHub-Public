@@ -1,11 +1,11 @@
-package com.solexgames.menu;
+package com.solexgames.hub.menu;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.LocationUtil;
 import com.solexgames.core.util.builder.ItemBuilder;
-import com.solexgames.manager.HubManager;
+import com.solexgames.hub.manager.HubManager;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

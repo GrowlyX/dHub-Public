@@ -1,8 +1,13 @@
 
 name: dHub
-version: 1.0
-main: com.solexgames.HubPlugin
-depend: [Scandium, PlaceholderAPI]
+version: ${git.commit.id.abbrev}-STABLE
+main: com.solexgames.hub.HubPlugin
+
+load: STARTUP
+api-version: "1.13"
+
+author: SolexGames
+website: https://www.solexgames.com
 
 commands:
   dhub:

@@ -1,21 +1,19 @@
-package com.solexgames.menu;
+package com.solexgames.hub.menu;
 
-import com.solexgames.HubPlugin;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.enums.NetworkServerType;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.server.NetworkServer;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
-import com.solexgames.external.ExternalConfig;
-import com.solexgames.util.BungeeUtil;
-import com.solexgames.util.ItemUtil;
+import com.solexgames.hub.external.ExternalConfig;
+import com.solexgames.hub.util.BungeeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;

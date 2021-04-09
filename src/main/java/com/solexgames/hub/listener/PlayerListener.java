@@ -1,11 +1,11 @@
-package com.solexgames.listener;
+package com.solexgames.hub.listener;
 
-import com.solexgames.HubPlugin;
-import com.solexgames.manager.HubManager;
-import com.solexgames.menu.HubSelectorMenu;
-import com.solexgames.menu.ServerSelectorMenu;
-import com.solexgames.scoreboard.ScoreboardAdapter;
-import com.solexgames.util.ItemUtil;
+import com.solexgames.hub.HubPlugin;
+import com.solexgames.hub.util.ItemUtil;
+import com.solexgames.hub.manager.HubManager;
+import com.solexgames.hub.menu.HubSelectorMenu;
+import com.solexgames.hub.menu.ServerSelectorMenu;
+import com.solexgames.hub.scoreboard.ScoreboardAdapter;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

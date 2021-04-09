@@ -1,13 +1,13 @@
-package com.solexgames.command;
+package com.solexgames.hub.command;
 
-import com.solexgames.core.command.BaseCommand;
+import com.solexgames.hub.menu.SetupHubMenu;
 import com.solexgames.core.util.Color;
-import com.solexgames.menu.SetupHubMenu;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DHubCommand extends BaseCommand {
+public class DHubCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
