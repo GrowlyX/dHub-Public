@@ -1,5 +1,6 @@
 package com.solexgames.hub.listener;
 
+import com.cryptomorin.xseries.XSound;
 import com.solexgames.hub.HubPlugin;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public class EnderbuttListener implements Listener {
         if ((event.hasItem() && event.getAction().name().contains("RIGHT") && event.getItem().hasItemMeta())) {
             if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(HubPlugin.getInstance().getEnderButt())) {
                 player.setVelocity(event.getPlayer().getLocation().getDirection().multiply(2.5F));
-                player.playSound(event.getPlayer().getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
+                player.playSound(event.getPlayer().getLocation(), XSound.ENTITY_EXPERIENCE_ORB_PICKUP.parseSound(), 1.0F, 1.0F);
 
                 event.setCancelled(true);
                 event.setUseItemInHand(Event.Result.DENY);

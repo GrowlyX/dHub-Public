@@ -16,62 +16,61 @@ server-selector:
   fill-stained-glass: false
   items:
     2:
-      display: "&b&lKitPvP"
+      display: "&6&lKitPvP"
+      type: "BLAZE_POWDER"
+      durability: 0
+      unbreakable: false
+      action:
+        enabled: true
+        string: "joinqueue kitpvp"
+      lore:
+        enabled: true
+        strings:
+          - ""
+          - "&7Select a kit, jump down, and fight"
+          - "&7with other players to get to the "
+          - "&7top of the kitpvp leaderboards!"
+          - "  "
+          - "&6&lStatus:"
+          - " &7&l► &ePlayers: &3%bungee_kitpvp%/350"
+          - " &7&l► &eIn-Queue: &30"
+          - "  "
+          - "&aClick to queue for KitPvP!"
+    4:
+      display: "&3&LDuels"
       type: "DIAMOND_SWORD"
       durability: 0
       unbreakable: false
       action:
         enabled: true
-        string: "sc hello this is a menu action"
+        string: "joinqueue na-practice"
       lore:
         enabled: true
         strings:
-          - "&7Practice your PvP skills"
-          - "&7by fighting against others!"
+          - ""
+          - "&7Duels players, gain elo, and"
+          - "&7climb your way to the top of"
+          - "&7the leaderboards!"
           - "  "
-          - "%na-dev_status%"
+          - "&a&lStatus:"
+          - " &7&l► &ePlayers: &3%bungee_na-duels%/350"
+          - " &7&l► &eIn-Queue: &30"
           - "  "
-          - "&e&lPlayers: &6%bungee_kitpvp%/350"
-          - "&e&lQueued: &61"
-          - "  "
-          - "&aClick to queue!"
-    4:
-      display: "&6&lSkyBlock"
-      type: "GRASS"
-      durability: 0
-      unbreakable: false
-      action:
-        enabled: true
-        string: "vanish"
-      lore:
-        enabled: true
-        strings:
-          - "&7Expand your island whilst"
-          - "&7using a limited set of resources!"
-          - "  "
-          - "%na-dev_status%"
-          - "  "
-          - "&e&lPlayers: &6%bungee_skyblock%/250"
-          - "&e&lQueued: &61"
-          - "  "
-          - "&aClick to queue!"
+          - "&aClick to queue for Duels!"
     6:
-      display: "&a&lSurvival"
-      type: "DIAMOND"
-      durability: 0
+      display: "&c&lComing Soon"
+      type: "BEDROCK"
+      durability: 15
       unbreakable: false
       action:
-        enabled: true
-        string: "mod"
+        enabled: false
+        string: "menu events"
       lore:
         enabled: true
         strings:
-          - "&7Our twist to the"
-          - "&7Vanilla Minecraft experience"
+          - ""
+          - "&7This gamemode is coming soon..."
+          - "&7Join our discord for more information."
+          - "&7dsc.gg/blarerip"
           - "  "
-          - "%na-dev_status%"
-          - "  "
-          - "&e&lPlayers: &6%bungee_survival%/150"
-          - "&e&lQueued: &61"
-          - "  "
-          - "&aClick to queue!"
+          - "&cYou cannot queue for this server."

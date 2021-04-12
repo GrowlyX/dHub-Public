@@ -85,6 +85,10 @@
 
     <repositories>
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
@@ -99,6 +103,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.NoSequel</groupId>
+            <artifactId>TabAPI</artifactId>
+            <version>a086154966</version>
+        </dependency>
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
@@ -123,7 +132,7 @@
             <artifactId>Scandium</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/Scandium-BUILD-1909cbc.jar</systemPath>
+            <systemPath>${basedir}/lib/Scandium-BUILD-89996c5.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
