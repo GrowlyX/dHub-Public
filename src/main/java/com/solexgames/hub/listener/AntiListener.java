@@ -1,6 +1,7 @@
 package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,11 +37,13 @@ public class AntiListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         event.setCancelled(true);
+
         if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
-            if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
+            final Player player = (Player) event.getEntity();
+
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 if (HubPlugin.getInstance().getHubManager().isHubLocationSet()) {
-                    player.teleport(HubPlugin.getInstance().getHubManager().getHubLocation());
+                    player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
                 }
             }
         }
@@ -130,7 +133,7 @@ public class AntiListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         if (event.getPlayer().getLocation().getY() < HubPlugin.getInstance().getHubManager().getLowestYAxis()) {
             if (HubPlugin.getInstance().getHubManager().isHubLocationSet()) {
-                event.getPlayer().teleport(HubPlugin.getInstance().getHubManager().getHubLocation());
+                event.getPlayer().teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
             }
         }
     }
