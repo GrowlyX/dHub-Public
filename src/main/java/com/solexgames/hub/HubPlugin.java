@@ -57,14 +57,14 @@ public final class HubPlugin extends JavaPlugin {
         this.getCommand("build").setExecutor(new BuildCommand());
         this.getCommand("dhub").setExecutor(new DHubCommand());
 
-        CorePlugin.getInstance().registerListeners(new PlayerListener());
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         if (this.hubManager.isAntiListeners()) {
-            CorePlugin.getInstance().registerListeners(new AntiListener());
+            this.getServer().getPluginManager().registerEvents(new AntiListener(), this);
         }
 
         if (this.hubManager.isEnderButtEnabled()) {
-            CorePlugin.getInstance().registerListeners(new EnderbuttListener());
+            this.getServer().getPluginManager().registerEvents(new EnderbuttListener(), this);
         }
 
         String version = this.getServer().getVersion();

@@ -33,6 +33,8 @@ public class PlayerListener implements Listener {
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
+        new ScoreboardAdapter(player);
+
         Bukkit.getOnlinePlayers().stream()
                 .filter(player1 -> player1 != player && !player1.hasPermission("scandium.staff"))
                 .forEach(player::hidePlayer);
@@ -56,12 +58,8 @@ public class PlayerListener implements Listener {
             player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt").getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt").getValue());
         }
 
-        if (!CorePlugin.getInstance().getServerManager().getNetwork().equals(ServerType.MCL)) {
-            player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector").getValue());
-            player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector").getValue());
-        }
-
-        new ScoreboardAdapter(player);
+        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector").getValue());
+        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector").getValue());
     }
 
     @EventHandler
