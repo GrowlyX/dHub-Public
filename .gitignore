@@ -1,2 +1,7 @@
 # Project exclude paths
 /target/
+
+# User specific
+/.idea
+/lib
+/lib/queues
