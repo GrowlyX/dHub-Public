@@ -3,6 +3,7 @@ package com.solexgames.hub.command;
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,7 @@ public class BuildCommand implements CommandExecutor {
 
         final boolean toggleType = !this.plugin.getPermittedBuilders().contains(player);
         final String toggleMessage = toggleType ? ChatColor.GREEN + "You've been added to the Build Mode." : ChatColor.RED + "You've been removed from the Build Mode.";
+        final GameMode toggleGameMode = toggleType ? GameMode.CREATIVE : GameMode.ADVENTURE;
 
         if (toggleType) {
             this.plugin.getPermittedBuilders().add(player);
@@ -36,6 +38,7 @@ public class BuildCommand implements CommandExecutor {
             this.plugin.getPermittedBuilders().remove(player);
         }
 
+        player.setGameMode(toggleGameMode);
         player.sendMessage(toggleMessage);
 
         return false;

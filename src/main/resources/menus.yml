@@ -35,7 +35,7 @@ server-selector:
   items:
     2:
       display: "&6&lKitPvP"
-      type: "BLAZE_POWDER"
+      type: "BLAZE_POWDER" w
       durability: 0
       unbreakable: false
       action:
