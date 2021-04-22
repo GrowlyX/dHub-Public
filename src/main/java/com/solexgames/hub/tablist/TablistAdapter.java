@@ -17,20 +17,31 @@ public class TablistAdapter implements TabElementHandler {
     @Override
     public TabElement getElement(Player player) {
         final TabElement element = new TabElement();
-        final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.slots");
+        final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.left");
 
         section.getKeys(false).forEach(s -> {
-            int slot;
-
-            try {
-                slot = Integer.parseInt(s);
-            } catch (Exception ignored) {
-                return;
-            }
-
+            final int slot = Integer.parseInt(s);
             final String value = PlaceholderAPI.setPlaceholders(player, Color.translate(section.getString(s)));
 
-            element.add(slot, value);
+            element.add(0, slot, value);
+        });
+
+        final ConfigurationSection center = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.center");
+
+        center.getKeys(false).forEach(s -> {
+            final int slot = Integer.parseInt(s);
+            final String value = PlaceholderAPI.setPlaceholders(player, Color.translate(center.getString(s)));
+
+            element.add(1, slot, value);
+        });
+
+        final ConfigurationSection right = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.right");
+
+        right.getKeys(false).forEach(s -> {
+            final int slot = Integer.parseInt(s);
+            final String value = PlaceholderAPI.setPlaceholders(player, Color.translate(right.getString(s)));
+
+            element.add(2, slot, value);
         });
 
         return element;
