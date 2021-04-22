@@ -17,7 +17,7 @@ public class TablistAdapter implements TabElementHandler {
     @Override
     public TabElement getElement(Player player) {
         final TabElement element = new TabElement();
-        final ConfigurationSection section = this.plugin.getConfig().getConfigurationSection("tablist.slots");
+        final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.slots");
 
         section.getKeys(false).forEach(s -> {
             int slot;
