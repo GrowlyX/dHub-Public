@@ -2,7 +2,7 @@
 #  dHub - by GrowlyX (SolexGames)
 #
 queue:
-  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE, AJQUEUE, AJQUEUEPLUS
+  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE
 settings:
   enable-scoreboard: true
   allow-chat: true
