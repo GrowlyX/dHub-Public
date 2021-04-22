@@ -35,7 +35,8 @@ public class MenuCommand implements CommandExecutor {
             if (targetMenu.equals("list")) {
                 final String listString = this.plugin.getSubMenuHandler().getMenuPathList().stream()
                         .map(StringUtils::capitalize)
-                        .collect(Collectors.joining(ChatColor.WHITE + ", " + Color.SECONDARY_COLOR));
+                        .collect(Collectors.joining(ChatColor.WHITE + ", " + Color.SECONDARY_COLOR))
+                        + ChatColor.WHITE + ".";
 
                 player.sendMessage(Color.SECONDARY_COLOR + "Available menus: " + Color.SECONDARY_COLOR + listString);
             } else {
