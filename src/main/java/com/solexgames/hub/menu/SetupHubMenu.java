@@ -45,11 +45,7 @@ public class SetupHubMenu extends AbstractInventoryMenu {
             ItemStack item = event.getCurrentItem();
             if (item == null || item.getType() == Material.AIR) return;
             if (event.getRawSlot() == 3) {
-                HubPlugin.getInstance().getHubManager().setHubLocation(player.getLocation());
-                HubPlugin.getInstance().getConfig().set("locations.spawn-location", LocationUtil.getStringFromLocation(player.getLocation()).orElse("none"));
-                HubPlugin.getInstance().saveConfig();
-
-                player.sendMessage(Color.translate("&aSuccessfully set the hub spawn!"));
+                player.sendMessage(Color.translate("&aUse /setworldspawn!"));
                 player.closeInventory();
 
                 return;

@@ -33,11 +33,9 @@ public class PlayerListener implements Listener {
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
-        new ScoreboardAdapter(player);
-
-        Bukkit.getOnlinePlayers().stream()
-                .filter(player1 -> player1 != player && !player1.hasPermission("scandium.staff"))
-                .forEach(player::hidePlayer);
+        if (hubManager.isScoreboardEnabled()) {
+            new ScoreboardAdapter(player);
+        }
 
         if (hubManager.isHubSpeedEnabled()) {
             player.setWalkSpeed(0.5F);

@@ -17,7 +17,6 @@ import java.util.List;
 public class HubManager {
 
     private List<String> scoreboardLines;
-    private Location hubLocation;
 
     private String scoreboardTitle;
     private String buildModePermission;
@@ -45,19 +44,6 @@ public class HubManager {
     private int lowestYAxis;
 
     public HubManager() {
-        if (HubPlugin.getInstance().getConfig().getString("locations.spawn-location") == null) {
-            this.isHubLocationSet = false;
-            HubPlugin.getInstance().getLogger().info("Make sure to setup dHub via /setupdhub!");
-        } else {
-            try {
-                this.hubLocation = LocationUtil.getLocationFromString(HubPlugin.getInstance().getConfig().getString("locations.spawn-location")).orElse(null);
-                this.isHubLocationSet = true;
-            } catch (Exception e) {
-                this.isHubLocationSet = false;
-                HubPlugin.getInstance().getLogger().info("Something went wrong while trying to setup your spawn, maybe try setting it up again?");
-            }
-        }
-
         try {
             this.lowestYAxis = HubPlugin.getInstance().getSettings().getInt("settings.lowest-y-axis");
         } catch (Exception e) {
