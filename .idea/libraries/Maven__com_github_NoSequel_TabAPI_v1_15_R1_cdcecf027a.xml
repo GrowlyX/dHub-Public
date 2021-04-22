@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.NoSequel.TabAPI:v1_15_R1:cdcecf027a">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/NoSequel/TabAPI/v1_15_R1/cdcecf027a/v1_15_R1-cdcecf027a.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/NoSequel/TabAPI/v1_15_R1/cdcecf027a/v1_15_R1-cdcecf027a-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/NoSequel/TabAPI/v1_15_R1/cdcecf027a/v1_15_R1-cdcecf027a-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

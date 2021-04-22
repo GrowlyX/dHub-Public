@@ -1,7 +1,9 @@
 package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +15,10 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
+@RequiredArgsConstructor
 public class AntiListener implements Listener {
+
+    private final HubPlugin plugin;
 
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
@@ -22,14 +27,14 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onPlayerInventory(InventoryClickEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getWhoClicked().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getWhoClicked())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
@@ -42,9 +47,12 @@ public class AntiListener implements Listener {
             final Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                if (HubPlugin.getInstance().getHubManager().isHubLocationSet()) {
-                    player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-                }
+                final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
+
+                location.setPitch(0);
+                location.setYaw(0);
+
+                player.teleport(location);
             }
         }
     }
@@ -61,7 +69,7 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
@@ -102,7 +110,7 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onItemPickup(PlayerPickupItemEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.getItem().remove();
             event.setCancelled(true);
         }
@@ -110,31 +118,34 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onBucketFill(PlayerBucketFillEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(event.getPlayer().getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (event.getPlayer().getLocation().getY() < HubPlugin.getInstance().getHubManager().getLowestYAxis()) {
-            if (HubPlugin.getInstance().getHubManager().isHubLocationSet()) {
-                event.getPlayer().teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-            }
+        if (event.getPlayer().getLocation().getY() < this.plugin.getHubManager().getLowestYAxis()) {
+            final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
+
+            location.setPitch(0);
+            location.setYaw(0);
+
+            event.getPlayer().teleport(location);
         }
     }
 }

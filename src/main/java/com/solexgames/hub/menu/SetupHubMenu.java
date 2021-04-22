@@ -1,5 +1,6 @@
 package com.solexgames.hub.menu;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.Color;
@@ -7,6 +8,7 @@ import com.solexgames.core.util.LocationUtil;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.manager.HubManager;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,43 +20,44 @@ public class SetupHubMenu extends AbstractInventoryMenu {
 
     private final Player player;
     private final HubManager hubManager;
+    private final HubPlugin plugin;
 
-    public SetupHubMenu(Player player) {
+    public SetupHubMenu(Player player, HubPlugin plugin) {
         super("Setup dHub", 9);
 
         this.player = player;
-        this.hubManager = HubPlugin.getInstance().getHubManager();
+        this.plugin = plugin;
+        this.hubManager = this.plugin.getHubManager();
 
         this.update();
     }
 
     @Override
     public void update() {
-        this.inventory.setItem(3, new ItemBuilder(Material.INK_SACK, 2).setDisplayName("&6Set Spawn").addLore("", "&7Click this item to set", "&7the hub spawn.").create());
-        this.inventory.setItem(5, new ItemBuilder(Material.INK_SACK, 6).setDisplayName("&6Reload dHub").addLore("", "&7Click this item to reload", "&7configuration files!").create());
+        this.inventory.setItem(4, new ItemBuilder(XMaterial.LIME_DYE.parseMaterial(), 6)
+                .setDisplayName("&aReload Neon")
+                .addLore(
+                        "&7Click this item to reload",
+                        "&7configuration files!"
+                ).create());
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent event) {
-        Inventory clickedInventory = event.getClickedInventory();
-        Inventory topInventory = event.getView().getTopInventory();
+        final Inventory clickedInventory = event.getClickedInventory();
+        final Inventory topInventory = event.getView().getTopInventory();
+
         if (!topInventory.equals(this.inventory)) return;
         if (topInventory.equals(clickedInventory)) {
             event.setCancelled(true);
 
-            ItemStack item = event.getCurrentItem();
-            if (item == null || item.getType() == Material.AIR) return;
-            if (event.getRawSlot() == 3) {
-                player.sendMessage(Color.translate("&aUse /setworldspawn!"));
-                player.closeInventory();
+            final ItemStack item = event.getCurrentItem();
 
-                return;
-            }
-            if (event.getRawSlot() == 5) {
-                HubPlugin.getInstance().reloadAllConfigs();
+            if (!(item == null || item.getType() == Material.AIR) && event.getRawSlot() == 4) {
+                this.plugin.reloadAllConfigs();
 
-                player.sendMessage(Color.translate("&aSuccessfully reloaded dHub!"));
-                player.closeInventory();
+                this.player.sendMessage(Color.SECONDARY_COLOR + "You've reloaded all configuration files related to Neon!");
+                this.player.closeInventory();
             }
         }
     }

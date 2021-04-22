@@ -1,5 +1,5 @@
 
-name: dHub
+name: Neon
 version: ${git.commit.id.abbrev}-STABLE
 main: com.solexgames.hub.HubPlugin
 
@@ -10,7 +10,7 @@ author: SolexGames
 website: https://www.solexgames.com
 
 commands:
-  dhub:
-    aliases: [setup, setupdhub]
+  neon:
+    aliases: [setup]
   build:
     aliases: [buildmode]

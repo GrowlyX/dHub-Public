@@ -5,11 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.solexgames</groupId>
-    <artifactId>dHub</artifactId>
+    <artifactId>Neon</artifactId>
     <version>1.0-DEV</version>
     <packaging>jar</packaging>
-
-    <name>dHub</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -80,7 +78,7 @@
         </resources>
 
         <!--suppress UnresolvedMavenProperty -->
-        <finalName>dHub-BUILD-${git.commit.id.abbrev}</finalName>
+        <finalName>Neon-BUILD-${git.commit.id.abbrev}</finalName>
     </build>
 
     <repositories>
@@ -106,7 +104,7 @@
         <dependency>
             <groupId>com.github.NoSequel</groupId>
             <artifactId>TabAPI</artifactId>
-            <version>a086154966</version>
+            <version>cdcecf027a</version>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
@@ -132,7 +130,23 @@
             <artifactId>Scandium</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/Scandium-BUILD-89996c5.jar</systemPath>
+            <systemPath>${basedir}/lib/Scandium.jar</systemPath>
+        </dependency>
+
+        <!-- Queue Implementation Dependencies !-->
+        <dependency>
+            <groupId>com.portal.queue</groupId>
+            <artifactId>Portal</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/queues/Portal.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.ajqueue.queue</groupId>
+            <artifactId>AJQueuePlus</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/queues/AJQueuePlus.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

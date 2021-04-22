@@ -2,29 +2,39 @@
 #  dHub - by GrowlyX (SolexGames)
 #
 queue:
-  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE
+  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE, AJQUEUE, AJQUEUEPLUS
 settings:
   enable-scoreboard: true
   allow-chat: true
   setup-anti-listeners: true
   lowest-y-axis: 2
 permissions:
-  build-mode: "dhub.permissions.build"
-  chat-in-hub: "dhub.permissions.chat"
-  setup-command: "dhub.permissions.setup"
+  build-mode: "neon.command.build"
+  setup-command: "neon.command.setup"
 scoreboard:
   enabled: true
   title: "&6&lSolexGames"
-  lines:
-    - "&7&m-------------------"
-    - "&6Online:"
-    - "&e%bungee_total%"
-    - " "
-    - "&6Rank:"
-    - "%scandium_rankcolor%%scandium_rankname%"
-    - " "
-    - "&7demo.solexgames.com"
-    - "&7&m-------------------"
+  type:
+    normal:
+      - "&7&m-------------------"
+      - "&6Online:"
+      - "&e%bungee_total%"
+      - " "
+      - "&6Rank:"
+      - "%scandium_rankcolor%%scandium_rankname%"
+      - " "
+      - "&7demo.solexgames.com"
+      - "&7&m-------------------"
+    queued:
+      - "&7&m-------------------"
+      - "&6Online:"
+      - "&e%bungee_total%"
+      - " "
+      - "&6Queued:"
+      - "&e<queue_name> &7(#<queue_position/<queue_maximum>)"
+      - " "
+      - "&7demo.solexgames.com"
+      - "&7&m-------------------"
 double-jump:
   enabled: true
   velocity: 2.5

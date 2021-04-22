@@ -17,6 +17,6 @@ public interface IQueue {
 
     int getQueuePosition(Player player);
 
-    List<Player> getQueuePlayers(Player player);
+    int getQueuePlayers(Player player);
 
 }

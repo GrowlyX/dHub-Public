@@ -14,9 +14,9 @@ import java.util.List;
 
 public final class ItemUtil {
 
-    public static AbstractMap.SimpleEntry<Integer, ItemStack> getInventoryItemFromConfig(String section) {
-        ConfigurationSection configurationSection = HubPlugin.getInstance().getSettings().getConfiguration().getConfigurationSection(section);
-        ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
+    public static AbstractMap.SimpleEntry<Integer, ItemStack> getInventoryItemFromConfig(String section, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getSettings().getConfiguration().getConfigurationSection(section);
+        final ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
 
         if (configurationSection.getString("display") != null) {
             itemBuilder.setDisplayName(configurationSection.getString("display"));
@@ -31,9 +31,9 @@ public final class ItemUtil {
         return new AbstractMap.SimpleEntry<>(configurationSection.getInt("slot"), itemBuilder.create());
     }
 
-    public static ItemStack getItemFromConfig(String section) {
-        ConfigurationSection configurationSection = HubPlugin.getInstance().getSettings().getConfiguration().getConfigurationSection(section);
-        ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
+    public static ItemStack getItemFromConfig(String section, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getSettings().getConfiguration().getConfigurationSection(section);
+        final ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
 
         if (configurationSection.getString("display") != null) {
             itemBuilder.setDisplayName(configurationSection.getString("display"));
@@ -48,9 +48,9 @@ public final class ItemUtil {
         return itemBuilder.create();
     }
 
-    public static ItemStack getMenuItem(String section, Player player) {
-        ConfigurationSection configurationSection = HubPlugin.getInstance().getMenus().getConfiguration().getConfigurationSection(section);
-        ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
+    public static ItemStack getMenuItem(String section, Player player, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
+        final ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
 
         if (configurationSection.getString("display") != null) {
             itemBuilder.setDisplayName(configurationSection.getString("display"));
@@ -68,8 +68,8 @@ public final class ItemUtil {
         return itemBuilder.create();
     }
 
-    public static String getActionFromConfig(String section) {
-        ConfigurationSection configurationSection = HubPlugin.getInstance().getMenus().getConfiguration().getConfigurationSection(section);
+    public static String getActionFromConfig(String section, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
         return configurationSection.getString("action.string");
     }
 }

@@ -1,13 +1,12 @@
 package com.solexgames.hub.listener;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.enums.ServerType;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.manager.HubManager;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.scoreboard.ScoreboardAdapter;
 import com.solexgames.hub.util.ItemUtil;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -19,12 +18,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
+@RequiredArgsConstructor
 public class PlayerListener implements Listener {
+
+    private final HubPlugin plugin;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        final HubManager hubManager = HubPlugin.getInstance().getHubManager();
+        final HubManager hubManager = this.plugin.getHubManager();
 
         event.setJoinMessage(null);
 
@@ -34,7 +36,7 @@ public class PlayerListener implements Listener {
         player.setGameMode(GameMode.ADVENTURE);
 
         if (hubManager.isScoreboardEnabled()) {
-            new ScoreboardAdapter(player);
+            new ScoreboardAdapter(player, this.plugin);
         }
 
         if (hubManager.isHubSpeedEnabled()) {
@@ -43,21 +45,19 @@ public class PlayerListener implements Listener {
 
         player.setAllowFlight(hubManager.isDoubleJumpEnabled());
 
-        Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
+        final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
 
         location.setPitch(0);
         location.setYaw(0);
 
-        if (hubManager.isHubLocationSet()) {
-            player.teleport(location);
-        }
+        player.teleport(location);
 
         if (hubManager.isEnderButtEnabled()) {
-            player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt").getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt").getValue());
+            player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getValue());
         }
 
-        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector").getValue());
-        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector").getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector").getValue());
+        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue());
+        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue());
     }
 
     @EventHandler
@@ -68,9 +68,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerToggleFlight(PlayerToggleFlightEvent event) {
         final Player player = event.getPlayer();
-        final HubManager hubManager = HubPlugin.getInstance().getHubManager();
+        final HubManager hubManager = this.plugin.getHubManager();
 
-        if (!HubPlugin.getInstance().getPermittedBuilders().contains(player.getName())) {
+        if (!this.plugin.getPermittedBuilders().contains(player)) {
             if (player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
 
@@ -91,10 +91,10 @@ public class PlayerListener implements Listener {
         if (event.getItem() != null) {
             if (event.getItem().hasItemMeta()) {
                 if ((event.getAction().name().contains("RIGHT"))) {
-                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.server-selector").getValue().getItemMeta().getDisplayName())) {
+                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue().getItemMeta().getDisplayName())) {
                         new ServerSelectorMenu(event.getPlayer()).open(event.getPlayer());
                     }
-                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.hub-selector").getValue().getItemMeta().getDisplayName())) {
+                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue().getItemMeta().getDisplayName())) {
                         new HubSelectorMenu(event.getPlayer()).open(event.getPlayer());
                     }
                 }

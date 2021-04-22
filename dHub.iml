@@ -19,16 +19,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel:TabAPI:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:shared:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_10_R1:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_12_R1:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_14_R1:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_15_R1:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_16_R3:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_7_R4:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_8_R3:a086154966" level="project" />
-    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_9_R1:a086154966" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel:TabAPI:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:shared:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_10_R1:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_12_R1:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_14_R1:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_15_R1:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_16_R3:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_7_R4:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_8_R3:cdcecf027a" level="project" />
+    <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_9_R1:cdcecf027a" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: me.clip:placeholderapi:2.10.9">
         <CLASSES>
@@ -53,7 +53,25 @@
     <orderEntry type="module-library">
       <library name="Maven: com.solexgames.core:Scandium:1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/Scandium-BUILD-89996c5.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/Scandium.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: com.portal.queue:Portal:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/queues/Portal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: com.ajqueue.queue:AJQueuePlus:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/queues/AJQueuePlus.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

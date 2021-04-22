@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +27,11 @@ public class ExternalConfig {
     private YamlConfiguration configuration;
     private String name;
 
-    public ExternalConfig(String name) {
-        this.file = new File(HubPlugin.getInstance().getDataFolder(), name + ".yml");
+    private JavaPlugin plugin;
+
+    public ExternalConfig(String name, JavaPlugin plugin) {
+        this.plugin = plugin;
+        this.file = new File(plugin.getDataFolder(), name + ".yml");
 
         if (!this.file.getParentFile().exists()) {
             this.file.getParentFile().mkdir();
@@ -35,7 +39,8 @@ public class ExternalConfig {
 
         this.name = name + ".yml";
 
-        HubPlugin.getInstance().saveResource(name + ".yml", false);
+        plugin.saveResource(name + ".yml", false);
+
         this.configuration = YamlConfiguration.loadConfiguration(this.file);
     }
 
@@ -82,7 +87,7 @@ public class ExternalConfig {
     public void reloadConfig() {
         this.configuration = YamlConfiguration.loadConfiguration(this.getFile());
 
-        InputStream defConfigStream = HubPlugin.getInstance().getResource(this.name);
+        InputStream defConfigStream = this.plugin.getResource(this.name);
         if (defConfigStream == null) return;
 
         YamlConfiguration defConfig;
@@ -103,7 +108,7 @@ public class ExternalConfig {
             try {
                 defConfig.loadFromString(text);
             } catch (Exception e) {
-                HubPlugin.getInstance().getLogger().info("Could not reload " + name + "!");
+                this.plugin.getLogger().info("Could not reload " + name + "!");
             }
         }
 

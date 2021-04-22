@@ -3,8 +3,6 @@ package com.solexgames.hub.queue.impl;
 import com.solexgames.hub.queue.IQueue;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 public class EZQueueImpl implements IQueue {
 
     @Override
@@ -14,7 +12,7 @@ public class EZQueueImpl implements IQueue {
 
     @Override
     public String getQueueName(Player player) {
-        return null;
+        return "";
     }
 
     @Override
@@ -23,7 +21,7 @@ public class EZQueueImpl implements IQueue {
     }
 
     @Override
-    public List<Player> getQueuePlayers(Player player) {
-        return null;
+    public int getQueuePlayers(Player player) {
+        return 0;
     }
 }

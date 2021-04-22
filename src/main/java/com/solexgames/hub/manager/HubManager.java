@@ -1,6 +1,7 @@
 package com.solexgames.hub.manager;
 
 import com.cryptomorin.xseries.XSound;
+import com.solexgames.core.util.Color;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.util.LocationUtil;
 import lombok.Getter;
@@ -16,15 +17,18 @@ import java.util.List;
 @Setter
 public class HubManager {
 
-    private List<String> scoreboardLines;
+    private final HubPlugin plugin;
+
+    private List<String> scoreboardLinesNormal;
+    private List<String> scoreboardLinesQueued;
 
     private String scoreboardTitle;
+
     private String buildModePermission;
     private String setupPermission;
     private String chatPermission;
 
     private boolean isHubLocationSet;
-    private boolean isCanChatInHub;
     private boolean isScoreboardEnabled;
     private boolean isAntiListeners;
     private boolean isDoubleJumpEnabled;
@@ -43,91 +47,93 @@ public class HubManager {
 
     private int lowestYAxis;
 
-    public HubManager() {
+    public HubManager(HubPlugin plugin) {
+        this.plugin = plugin;
+
         try {
-            this.lowestYAxis = HubPlugin.getInstance().getSettings().getInt("settings.lowest-y-axis");
+            this.lowestYAxis = this.plugin.getSettings().getInt("settings.lowest-y-axis");
         } catch (Exception e) {
             this.lowestYAxis = 0;
         }
 
         try {
-            this.isScoreboardEnabled = HubPlugin.getInstance().getSettings().getBoolean("scoreboard.enabled");
+            this.isScoreboardEnabled = this.plugin.getSettings().getBoolean("scoreboard.enabled");
         } catch (Exception e) {
             this.isScoreboardEnabled = true;
         }
 
         try {
-            this.speedMultiply = (float) HubPlugin.getInstance().getSettings().getDouble("speed.multiply");
+            this.speedMultiply = (float) this.plugin.getSettings().getDouble("speed.multiply");
         } catch (Exception e) {
             this.speedMultiply = 0.5F;
         }
 
         try {
-            this.isDoubleJumpEnabled = HubPlugin.getInstance().getSettings().getBoolean("double-jump.enabled");
+            this.isDoubleJumpEnabled = this.plugin.getSettings().getBoolean("double-jump.enabled");
         } catch (Exception e) {
             this.isDoubleJumpEnabled = true;
         }
 
         try {
-            this.doubleJumpSound = Sound.valueOf(HubPlugin.getInstance().getSettings().getString("double-jump.sound.value"));
+            this.doubleJumpSound = Sound.valueOf(this.plugin.getSettings().getString("double-jump.sound.value"));
         } catch (Exception e) {
             this.doubleJumpSound = XSound.ENTITY_DRAGON_FIREBALL_EXPLODE.parseSound();
         }
 
         try {
-            this.isDoubleJumpEffectEnabled = HubPlugin.getInstance().getSettings().getBoolean("double-jump.effect.enabled");
+            this.isDoubleJumpEffectEnabled = this.plugin.getSettings().getBoolean("double-jump.effect.enabled");
         } catch (Exception e) {
             this.isDoubleJumpEffectEnabled = true;
         }
 
         try {
-            this.isDoubleJumpSoundEnabled = HubPlugin.getInstance().getSettings().getBoolean("double-jump.sound.enabled");
+            this.isDoubleJumpSoundEnabled = this.plugin.getSettings().getBoolean("double-jump.sound.enabled");
         } catch (Exception e) {
             this.isDoubleJumpSoundEnabled = true;
         }
 
         try {
-            this.doubleJumpEffect = Effect.valueOf(HubPlugin.getInstance().getSettings().getString("double-jump.effect.value"));
+            this.doubleJumpEffect = Effect.valueOf(this.plugin.getSettings().getString("double-jump.effect.value"));
         } catch (Exception e) {
             this.doubleJumpEffect = Effect.BLAZE_SHOOT;
         }
 
         try {
-            this.doubleJumpMultiply = HubPlugin.getInstance().getSettings().getDouble("double-jump.velocity");
+            this.doubleJumpMultiply = this.plugin.getSettings().getDouble("double-jump.velocity");
         } catch (Exception e) {
             this.doubleJumpMultiply = 2.5D;
         }
 
         try {
-            this.isEnderButtEnabled = HubPlugin.getInstance().getSettings().getBoolean("ender-butt.enabled");
+            this.isEnderButtEnabled = this.plugin.getSettings().getBoolean("ender-butt.enabled");
         } catch (Exception e) {
             this.isEnderButtEnabled = true;
         }
 
         try {
-            this.isAntiListeners = HubPlugin.getInstance().getSettings().getBoolean("settings.setup-anti-listeners");
+            this.isAntiListeners = this.plugin.getSettings().getBoolean("settings.setup-anti-listeners");
         } catch (Exception e) {
             this.isAntiListeners = true;
         }
 
         try {
-            this.isCanChatInHub = HubPlugin.getInstance().getSettings().getBoolean("settings.allow-chat");
+            this.scoreboardLinesNormal = Color.translate(this.plugin.getSettings().getStringList("scoreboard.type.normal"));
         } catch (Exception e) {
-            this.isCanChatInHub = true;
+            this.scoreboardLinesNormal = Collections.singletonList("&7Check Config!");
         }
 
         try {
-            this.scoreboardLines = HubPlugin.getInstance().getSettings().getStringList("scoreboard.lines");
+            this.scoreboardLinesQueued = Color.translate(this.plugin.getSettings().getStringList("scoreboard.type.queued"));
         } catch (Exception e) {
-            this.scoreboardLines = Collections.singletonList("&7Check Config!");
+            this.scoreboardLinesQueued = Collections.singletonList("&7Check Config!");
         }
 
         try {
-            this.scoreboardTitle = HubPlugin.getInstance().getSettings().getString("scoreboard.title")
-                    .replace("<vertical>", Character.toString('┃'));
+            this.scoreboardTitle = Color.translate(this.plugin.getSettings().getString("scoreboard.title")
+                    .replace("<vertical>", Character.toString('┃')));
         } catch (Exception e) {
-            this.scoreboardTitle = "&6&ldHub &7<vertical> &fHub-1"
-                    .replace("<vertical>", Character.toString('┃'));
+            this.scoreboardTitle = Color.translate("&6&lNeon &7<vertical> &fHub-1"
+                    .replace("<vertical>", Character.toString('┃')));
         }
     }
 }

@@ -8,33 +8,45 @@ import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public class ScoreboardAdapter extends ScoreBoard {
 
     private final Player player;
-    private final HubManager manager;
+    private final HubPlugin plugin;
 
-    public ScoreboardAdapter(Player player) {
+    public ScoreboardAdapter(Player player, HubPlugin plugin) {
         super(player);
 
         this.player = player;
-        this.manager = HubPlugin.getInstance().getHubManager();
+        this.plugin = plugin;
     }
 
     @Override
     public List<String> getLines() {
-        List<String> lines = manager.getScoreboardLines();
+        final boolean isInQueue = this.plugin.getQueueImpl().isInQueue(this.player);
 
-        lines = Color.translate(lines);
-        lines = PlaceholderAPI.setPlaceholders(this.player, lines);
+        if (isInQueue) {
+            final List<String> scoreboardLines = this.plugin.getHubManager().getScoreboardLinesQueued();
+            final List<String> finalLines = new ArrayList<>();
 
-        return lines;
+            for (String string : scoreboardLines) {
+                finalLines.add(string
+                        .replace("<queue_name>", this.plugin.getQueueImpl().getQueueName(this.player))
+                        .replace("<queue_position>", String.valueOf(this.plugin.getQueueImpl().getQueuePosition(this.player)))
+                        .replace("<queue_maximum>", String.valueOf(this.plugin.getQueueImpl().getQueuePlayers(this.player)))
+                );
+            }
+
+            return PlaceholderAPI.setPlaceholders(this.player, finalLines);
+        } else {
+            return PlaceholderAPI.setPlaceholders(this.player, this.plugin.getHubManager().getScoreboardLinesNormal());
+        }
     }
 
     @Override
     public String getTitle() {
-        return manager.getScoreboardTitle();
+        return this.plugin.getHubManager().getScoreboardTitle();
     }
 }
