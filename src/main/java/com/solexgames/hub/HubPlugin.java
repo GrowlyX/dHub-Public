@@ -67,7 +67,7 @@ public final class HubPlugin extends JavaPlugin {
 
         final String version = this.getServer().getVersion();
 
-        if (this.getConfig().getBoolean("tablist.enabled")) {
+        if (this.getSettings().getBoolean("tablist.enabled")) {
             final TablistAdapter adapter = new TablistAdapter(this);
 
             if (version.contains("1.7")) {
