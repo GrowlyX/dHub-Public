@@ -64,13 +64,15 @@ public final class HubPlugin extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
         }
 
-        switch (this.getSettings().getString("queue.plugin")) {
-            case "PORTAL":
-                this.queueImpl = new PortalQueueImpl();
-                break;
-            case "EZQUEUE":
-                this.queueImpl = new EZQueueImpl();
-                break;
+        if (this.getHubManager().isScoreboardEnabled()) {
+            switch (this.getSettings().getString("queue.plugin")) {
+                case "PORTAL":
+                    this.queueImpl = new PortalQueueImpl();
+                    break;
+                case "EZQUEUE":
+                    this.queueImpl = new EZQueueImpl();
+                    break;
+            }
         }
 
         final String version = this.getServer().getVersion();

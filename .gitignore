@@ -3,5 +3,4 @@
 
 # User specific
 /.idea
-/lib
-/lib/queues
+*.iml
