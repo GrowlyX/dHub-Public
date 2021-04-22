@@ -52,17 +52,7 @@ public final class HubPlugin extends JavaPlugin {
                 .getDisplayName();
 
         this.getCommand("build").setExecutor(new BuildCommand(this));
-        this.getCommand("dhub").setExecutor(new NeonCommand(this));
-
-        this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-
-        if (this.hubManager.isAntiListeners()) {
-            this.getServer().getPluginManager().registerEvents(new AntiListener(this), this);
-        }
-
-        if (this.hubManager.isEnderButtEnabled()) {
-            this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
-        }
+        this.getCommand("neon").setExecutor(new NeonCommand(this));
 
         if (this.getHubManager().isScoreboardEnabled()) {
             switch (this.getSettings().getString("queue.plugin")) {
@@ -97,6 +87,16 @@ public final class HubPlugin extends JavaPlugin {
             } else if (version.contains("1.16")) {
                 new TabHandler(new v1_16_R3TabAdapter(), adapter, this, 20L);
             }
+        }
+
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+
+        if (this.hubManager.isAntiListeners()) {
+            this.getServer().getPluginManager().registerEvents(new AntiListener(this), this);
+        }
+
+        if (this.hubManager.isEnderButtEnabled()) {
+            this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
         }
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");

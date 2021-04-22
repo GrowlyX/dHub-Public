@@ -29,15 +29,8 @@
     <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_7_R4:cdcecf027a" level="project" />
     <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_8_R3:cdcecf027a" level="project" />
     <orderEntry type="library" name="Maven: com.github.NoSequel.TabAPI:v1_9_R1:cdcecf027a" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: me.clip:placeholderapi:2.10.9">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/PlaceholderAPI-2.10.9.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="Maven: me.clip:placeholderapi:2.10.9" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:19.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
@@ -63,15 +56,6 @@
       <library name="Maven: com.portal.queue:Portal:1.0">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/queues/Portal.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: com.ajqueue.queue:AJQueuePlus:1.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/queues/AJQueuePlus.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
