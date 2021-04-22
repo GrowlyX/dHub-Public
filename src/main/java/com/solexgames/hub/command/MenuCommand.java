@@ -35,10 +35,10 @@ public class MenuCommand implements CommandExecutor {
             if (targetMenu.equals("list")) {
                 final String listString = this.plugin.getSubMenuHandler().getMenuPathList().stream()
                         .map(StringUtils::capitalize)
-                        .collect(Collectors.joining(ChatColor.WHITE + ", " + Color.SECONDARY_COLOR))
-                        + ChatColor.WHITE + ".";
+                        .collect(Collectors.joining(ChatColor.GRAY + ", " + Color.MAIN_COLOR))
+                        + ChatColor.GRAY + ".";
 
-                player.sendMessage(Color.SECONDARY_COLOR + "Available menus: " + Color.SECONDARY_COLOR + listString);
+                player.sendMessage(Color.SECONDARY_COLOR + "Available menus: " + Color.MAIN_COLOR + listString);
             } else {
                 this.plugin.getSubMenuHandler().openSubMenu(args[0], player);
             }
