@@ -17,7 +17,7 @@ public class SubMenu extends AbstractInventoryMenu {
     private final String path;
 
     public SubMenu(Player player, String path) {
-        super(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("sub-menus." + path + ".title"), HubPlugin.getPlugin(HubPlugin.class).getMenus().getInt("sub-menus." + path + "size"));
+        super(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("sub-menus." + path + ".title"), HubPlugin.getPlugin(HubPlugin.class).getMenus().getInt("sub-menus." + path + ".size"));
 
         this.player = player;
         this.path = path;

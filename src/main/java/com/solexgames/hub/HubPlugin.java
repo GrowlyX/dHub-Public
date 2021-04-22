@@ -1,5 +1,6 @@
 package com.solexgames.hub;
 
+import com.solexgames.hub.command.MenuCommand;
 import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
@@ -56,6 +57,7 @@ public final class HubPlugin extends JavaPlugin {
 
         this.getCommand("build").setExecutor(new BuildCommand(this));
         this.getCommand("neon").setExecutor(new NeonCommand(this));
+        this.getCommand("menu").setExecutor(new MenuCommand(this));
 
         if (this.getHubHandler().isScoreboardEnabled()) {
             switch (this.getSettings().getString("queue.plugin")) {

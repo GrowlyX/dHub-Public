@@ -2,7 +2,6 @@ package com.solexgames.hub.command;
 
 import com.solexgames.core.util.Color;
 import com.solexgames.hub.HubPlugin;
-import com.solexgames.hub.menu.SetupHubMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
