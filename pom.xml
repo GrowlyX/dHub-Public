@@ -141,12 +141,5 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/queues/Portal.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>com.ajqueue.queue</groupId>
-            <artifactId>AJQueuePlus</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/queues/AJQueuePlus.jar</systemPath>
-        </dependency>
     </dependencies>
 </project>
