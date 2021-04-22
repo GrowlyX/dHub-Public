@@ -22,7 +22,7 @@ public class BuildCommand implements CommandExecutor {
 
         final Player player = (Player) sender;
 
-        if (!player.hasPermission(this.plugin.getHubManager().getBuildModePermission())) {
+        if (!player.hasPermission("neon.command.build")) {
             player.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command.");
             return false;
         }

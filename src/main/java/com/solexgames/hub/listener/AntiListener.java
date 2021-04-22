@@ -139,7 +139,7 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (event.getPlayer().getLocation().getY() < this.plugin.getHubManager().getLowestYAxis()) {
+        if (event.getPlayer().getLocation().getY() < this.plugin.getHubHandler().getLowestYAxis()) {
             final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
 
             location.setPitch(0);

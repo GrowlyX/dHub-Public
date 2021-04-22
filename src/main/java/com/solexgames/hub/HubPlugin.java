@@ -1,12 +1,13 @@
 package com.solexgames.hub;
 
+import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
 import com.solexgames.hub.command.BuildCommand;
 import com.solexgames.hub.command.NeonCommand;
 import com.solexgames.hub.external.ExternalConfig;
 import com.solexgames.hub.listener.PlayerListener;
-import com.solexgames.hub.manager.HubManager;
+import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.queue.IQueue;
 import com.solexgames.hub.queue.impl.EZQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
@@ -38,7 +39,8 @@ public final class HubPlugin extends JavaPlugin {
 
     private String enderButt;
 
-    private HubManager hubManager;
+    private SubMenuHandler subMenuHandler;
+    private HubHandler hubHandler;
     private IQueue queueImpl;
 
     @Override
@@ -46,7 +48,8 @@ public final class HubPlugin extends JavaPlugin {
         this.settings = new ExternalConfig("settings", this);
         this.menus = new ExternalConfig("menus", this);
 
-        this.hubManager = new HubManager(this);
+        this.hubHandler = new HubHandler(this);
+        this.subMenuHandler = new SubMenuHandler(this);
         this.enderButt = ItemUtil.getItemFromConfig("items.enderbutt", this)
                 .getItemMeta()
                 .getDisplayName();
@@ -54,7 +57,7 @@ public final class HubPlugin extends JavaPlugin {
         this.getCommand("build").setExecutor(new BuildCommand(this));
         this.getCommand("neon").setExecutor(new NeonCommand(this));
 
-        if (this.getHubManager().isScoreboardEnabled()) {
+        if (this.getHubHandler().isScoreboardEnabled()) {
             switch (this.getSettings().getString("queue.plugin")) {
                 case "PORTAL":
                     this.queueImpl = new PortalQueueImpl();
@@ -91,11 +94,11 @@ public final class HubPlugin extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
-        if (this.hubManager.isAntiListeners()) {
+        if (this.hubHandler.isAntiListeners()) {
             this.getServer().getPluginManager().registerEvents(new AntiListener(this), this);
         }
 
-        if (this.hubManager.isEnderButtEnabled()) {
+        if (this.hubHandler.isEnderButtEnabled()) {
             this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
         }
 

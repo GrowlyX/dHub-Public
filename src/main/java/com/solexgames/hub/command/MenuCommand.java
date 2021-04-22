@@ -1,5 +1,6 @@
 package com.solexgames.hub.command;
 
+import com.solexgames.core.util.Color;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.SetupHubMenu;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
-public class NeonCommand implements CommandExecutor {
+public class MenuCommand implements CommandExecutor {
 
     private final HubPlugin plugin;
 
@@ -23,12 +24,12 @@ public class NeonCommand implements CommandExecutor {
 
         final Player player = (Player) sender;
 
-        if (!player.hasPermission("neon.command.setup")) {
-            player.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command.");
-            return false;
+        if (args.length == 0) {
+            player.sendMessage(Color.SECONDARY_COLOR + "Usage: " + Color.MAIN_COLOR + "/menu " + ChatColor.WHITE + "<name>.");
         }
-
-        new SetupHubMenu(player, this.plugin).open(player);
+        if (args.length == 1) {
+            this.plugin.getSubMenuHandler().openSubMenu(args[0], player);
+        }
 
         return false;
     }

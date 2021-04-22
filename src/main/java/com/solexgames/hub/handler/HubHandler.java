@@ -1,13 +1,11 @@
-package com.solexgames.hub.manager;
+package com.solexgames.hub.handler;
 
 import com.cryptomorin.xseries.XSound;
 import com.solexgames.core.util.Color;
 import com.solexgames.hub.HubPlugin;
-import com.solexgames.core.util.LocationUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Effect;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 
 import java.util.Collections;
@@ -15,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class HubManager {
+public class HubHandler {
 
     private final HubPlugin plugin;
 
@@ -47,7 +45,7 @@ public class HubManager {
 
     private int lowestYAxis;
 
-    public HubManager(HubPlugin plugin) {
+    public HubHandler(HubPlugin plugin) {
         this.plugin = plugin;
 
         try {

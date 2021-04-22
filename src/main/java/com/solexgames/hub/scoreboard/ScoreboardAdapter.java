@@ -2,9 +2,6 @@ package com.solexgames.hub.scoreboard;
 
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.board.ScoreBoard;
-import com.solexgames.core.util.Color;
-import com.solexgames.hub.manager.HubManager;
-import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -28,7 +25,7 @@ public class ScoreboardAdapter extends ScoreBoard {
         final boolean isInQueue = this.plugin.getQueueImpl().isInQueue(this.player);
 
         if (isInQueue) {
-            final List<String> scoreboardLines = this.plugin.getHubManager().getScoreboardLinesQueued();
+            final List<String> scoreboardLines = this.plugin.getHubHandler().getScoreboardLinesQueued();
             final List<String> finalLines = new ArrayList<>();
 
             for (String string : scoreboardLines) {
@@ -41,12 +38,12 @@ public class ScoreboardAdapter extends ScoreBoard {
 
             return PlaceholderAPI.setPlaceholders(this.player, finalLines);
         } else {
-            return PlaceholderAPI.setPlaceholders(this.player, this.plugin.getHubManager().getScoreboardLinesNormal());
+            return PlaceholderAPI.setPlaceholders(this.player, this.plugin.getHubHandler().getScoreboardLinesNormal());
         }
     }
 
     @Override
     public String getTitle() {
-        return this.plugin.getHubManager().getScoreboardTitle();
+        return this.plugin.getHubHandler().getScoreboardTitle();
     }
 }

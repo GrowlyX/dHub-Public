@@ -1,3 +1,21 @@
+sub-menus:
+  nigeria:
+    title: "Nigeria Selector"
+    size: 9
+    fill-stained-glass: false
+    items:
+      2:
+        display: "&6&lKitPvP"
+        type: "BLAZE_POWDER"
+        durability: 0
+        unbreakable: false
+        action:
+          enabled: true
+          string: "joinqueue nigeria"
+        lore:
+          enabled: true
+          strings:
+            - "&aClick to fly to ngieria!"
 hub-selector:
   title: "Hub Selector"
   fill-stained-glass: false

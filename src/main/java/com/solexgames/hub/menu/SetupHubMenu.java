@@ -4,11 +4,9 @@ import com.cryptomorin.xseries.XMaterial;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.Color;
-import com.solexgames.core.util.LocationUtil;
 import com.solexgames.core.util.builder.ItemBuilder;
-import com.solexgames.hub.manager.HubManager;
+import com.solexgames.hub.handler.HubHandler;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 public class SetupHubMenu extends AbstractInventoryMenu {
 
     private final Player player;
-    private final HubManager hubManager;
+    private final HubHandler hubHandler;
     private final HubPlugin plugin;
 
     public SetupHubMenu(Player player, HubPlugin plugin) {
@@ -27,7 +25,7 @@ public class SetupHubMenu extends AbstractInventoryMenu {
 
         this.player = player;
         this.plugin = plugin;
-        this.hubManager = this.plugin.getHubManager();
+        this.hubHandler = this.plugin.getHubHandler();
 
         this.update();
     }

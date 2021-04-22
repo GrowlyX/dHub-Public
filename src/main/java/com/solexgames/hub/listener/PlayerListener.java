@@ -1,7 +1,7 @@
 package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
-import com.solexgames.hub.manager.HubManager;
+import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.scoreboard.ScoreboardAdapter;
@@ -26,7 +26,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        final HubManager hubManager = this.plugin.getHubManager();
+        final HubHandler hubHandler = this.plugin.getHubHandler();
 
         event.setJoinMessage(null);
 
@@ -35,15 +35,15 @@ public class PlayerListener implements Listener {
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
-        if (hubManager.isScoreboardEnabled()) {
+        if (hubHandler.isScoreboardEnabled()) {
             new ScoreboardAdapter(player, this.plugin);
         }
 
-        if (hubManager.isHubSpeedEnabled()) {
+        if (hubHandler.isHubSpeedEnabled()) {
             player.setWalkSpeed(0.5F);
         }
 
-        player.setAllowFlight(hubManager.isDoubleJumpEnabled());
+        player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
 
         final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
 
@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
 
         player.teleport(location);
 
-        if (hubManager.isEnderButtEnabled()) {
+        if (hubHandler.isEnderButtEnabled()) {
             player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getValue());
         }
 
@@ -68,19 +68,19 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerToggleFlight(PlayerToggleFlightEvent event) {
         final Player player = event.getPlayer();
-        final HubManager hubManager = this.plugin.getHubManager();
+        final HubHandler hubHandler = this.plugin.getHubHandler();
 
         if (!this.plugin.getPermittedBuilders().contains(player)) {
             if (player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
 
-                player.setVelocity(player.getLocation().getDirection().multiply(hubManager.getDoubleJumpMultiply()).setY(1.1D));
+                player.setVelocity(player.getLocation().getDirection().multiply(hubHandler.getDoubleJumpMultiply()).setY(1.1D));
 
-                if (hubManager.isDoubleJumpSoundEnabled()) {
-                    player.playSound(player.getLocation(), hubManager.getDoubleJumpSound(), 1F, 1F);
+                if (hubHandler.isDoubleJumpSoundEnabled()) {
+                    player.playSound(player.getLocation(), hubHandler.getDoubleJumpSound(), 1F, 1F);
                 }
-                if (hubManager.isDoubleJumpEffectEnabled()) {
-                    player.spigot().playEffect(player.getLocation(), hubManager.getDoubleJumpEffect(), 1, 1, 1.0f, 1.0f, 1.0f, 1.0f, 1, 1);
+                if (hubHandler.isDoubleJumpEffectEnabled()) {
+                    player.spigot().playEffect(player.getLocation(), hubHandler.getDoubleJumpEffect(), 1, 1, 1.0f, 1.0f, 1.0f, 1.0f, 1, 1);
                 }
             }
         }
