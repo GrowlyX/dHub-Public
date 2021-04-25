@@ -3,7 +3,7 @@ name: Neon
 version: ${git.commit.id.abbrev}-STABLE
 main: com.solexgames.hub.HubPlugin
 
-load: STARTUP
+load: POSTWORLD
 api-version: "1.13"
 
 author: SolexGames

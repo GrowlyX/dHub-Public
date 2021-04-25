@@ -24,4 +24,9 @@ public class EZQueueImpl implements IQueue {
     public int getQueuePlayers(Player player) {
         return 0;
     }
+
+    @Override
+    public void joinQueue(Player player, String server) {
+
+    }
 }

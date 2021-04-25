@@ -49,15 +49,15 @@ public final class HubPlugin extends JavaPlugin {
         this.settings = new ExternalConfig("settings", this);
         this.menus = new ExternalConfig("menus", this);
 
+        this.getCommand("build").setExecutor(new BuildCommand(this));
+        this.getCommand("neon").setExecutor(new NeonCommand(this));
+        this.getCommand("menu").setExecutor(new MenuCommand(this));
+
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);
         this.enderButt = ItemUtil.getItemFromConfig("items.enderbutt", this)
                 .getItemMeta()
                 .getDisplayName();
-
-        this.getCommand("build").setExecutor(new BuildCommand(this));
-        this.getCommand("neon").setExecutor(new NeonCommand(this));
-        this.getCommand("menu").setExecutor(new MenuCommand(this));
 
         if (this.getHubHandler().isScoreboardEnabled()) {
             switch (this.getSettings().getString("queue.plugin")) {
@@ -73,7 +73,7 @@ public final class HubPlugin extends JavaPlugin {
         final String version = this.getServer().getVersion();
 
         if (this.getSettings().getBoolean("tablist.enabled")) {
-            final TablistAdapter adapter = new TablistAdapter(this);
+            final TablistAdapter adapter = new TablistAdapter();
 
             if (version.contains("1.7")) {
                 new TabHandler(new v1_7_R4TabAdapter(), adapter, this, 20L);

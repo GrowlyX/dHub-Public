@@ -40,7 +40,7 @@ public class MenuCommand implements CommandExecutor {
 
                 player.sendMessage(Color.SECONDARY_COLOR + "Available menus: " + Color.MAIN_COLOR + listString);
             } else {
-                this.plugin.getSubMenuHandler().openSubMenu(args[0], player);
+                this.plugin.getSubMenuHandler().openSubMenu(targetMenu, player);
             }
         }
 

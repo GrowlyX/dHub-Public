@@ -3,11 +3,10 @@ package com.solexgames.hub.menu;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
-import com.solexgames.hub.external.ExternalConfig;
+import com.solexgames.hub.menu.action.MenuAction;
 import com.solexgames.hub.util.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -50,12 +49,11 @@ public class ServerSelectorMenu extends AbstractInventoryMenu {
             event.setCancelled(true);
 
             if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
-                final String action = ItemUtil.getActionFromConfig("server-selector.items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class));
+                final MenuAction.Type action = ItemUtil.getActionFromConfig("server-selector.items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class));
+                final String value = ItemUtil.getValueFromConfig("server-selector.items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class));
 
-                if (action != null) {
-                    Bukkit.dispatchCommand(this.player, action);
-
-                    this.player.closeInventory();
+                if (action != null && value != null && ItemUtil.isEnabledAction("server-selector.items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class))) {
+                    MenuAction.completeAction(action, value, this.player);
                 }
             }
         }

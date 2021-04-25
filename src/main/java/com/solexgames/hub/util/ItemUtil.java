@@ -3,6 +3,7 @@ package com.solexgames.hub.util;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
+import com.solexgames.hub.menu.action.MenuAction;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -68,8 +69,18 @@ public final class ItemUtil {
         return itemBuilder.create();
     }
 
-    public static String getActionFromConfig(String section, HubPlugin plugin) {
+    public static String getValueFromConfig(String section, HubPlugin plugin) {
         final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
-        return configurationSection.getString("action.string");
+        return configurationSection.getString("action.value");
+    }
+
+    public static MenuAction.Type getActionFromConfig(String section, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
+        return MenuAction.Type.valueOf(configurationSection.getString("action.type"));
+    }
+
+    public static boolean isEnabledAction(String section, HubPlugin plugin) {
+        final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
+        return configurationSection.getBoolean("action.enabled");
     }
 }

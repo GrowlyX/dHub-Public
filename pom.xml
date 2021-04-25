@@ -138,7 +138,7 @@
             <artifactId>Portal</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/queues/Portal.jar</systemPath>
+            <systemPath>${basedir}/lib/queues/Portal-bukkit.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

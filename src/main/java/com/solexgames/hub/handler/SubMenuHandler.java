@@ -24,10 +24,17 @@ public class SubMenuHandler {
     public SubMenuHandler(HubPlugin plugin) {
         this.plugin = plugin;
 
-        this.plugin.getMenus().getConfiguration()
-                .getConfigurationSection("sub-menus")
-                .getKeys(false)
-                .forEach(this::registerSubMenu);
+        try {
+            this.plugin.getMenus().getConfiguration().getConfigurationSection("sub-menus").getKeys(false).forEach(this::registerSubMenu);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
+        }
     }
 
     public void registerSubMenu(String name) {

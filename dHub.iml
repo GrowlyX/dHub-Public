@@ -55,7 +55,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.portal.queue:Portal:1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/queues/Portal.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/queues/Portal-bukkit.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

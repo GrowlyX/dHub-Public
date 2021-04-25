@@ -9,15 +9,17 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-@AllArgsConstructor
+
 public class TablistAdapter implements TabElementHandler {
 
     private final HubPlugin plugin;
+    private final TabElement element;
 
-    @Override
-    public TabElement getElement(Player player) {
-        final TabElement element = new TabElement();
-        final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.left");
+    public TablistAdapter() {
+        this.plugin = HubPlugin.getPlugin(HubPlugin.class);
+        this.element = new TabElement();
+
+        /*final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.left");
 
         section.getKeys(false).forEach(s -> {
             final int slot = Integer.parseInt(s);
@@ -42,6 +44,16 @@ public class TablistAdapter implements TabElementHandler {
             final String value = PlaceholderAPI.setPlaceholders(player, Color.translate(right.getString(s)));
 
             element.add(2, slot, value);
+        });*/
+    }
+
+    @Override
+    public TabElement getElement(Player player) {
+        final TabElement element = new TabElement();
+        final ConfigurationSection section = this.plugin.getSettings().getConfiguration().getConfigurationSection("tablist.left");
+
+        element.getEntries().forEach(entry -> {
+
         });
 
         return element;
