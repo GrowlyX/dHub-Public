@@ -9,6 +9,7 @@ import com.solexgames.hub.external.ExternalConfig;
 import com.solexgames.hub.listener.PlayerListener;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.queue.IQueue;
+import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.EZQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
 import com.solexgames.hub.tablist.TablistAdapter;
@@ -57,15 +58,15 @@ public final class HubPlugin extends JavaPlugin {
                 .getItemMeta()
                 .getDisplayName();
 
-        if (this.getHubHandler().isScoreboardEnabled()) {
-            switch (this.getSettings().getString("queue.plugin")) {
-                case "PORTAL":
-                    this.queueImpl = new PortalQueueImpl();
-                    break;
-                case "EZQUEUE":
-                    this.queueImpl = new EZQueueImpl();
-                    break;
-            }
+        switch (this.getSettings().getString("queue.plugin")) {
+            case "PORTAL":
+                this.queueImpl = new PortalQueueImpl();
+                break;
+            case "EZQUEUE":
+                this.queueImpl = new EZQueueImpl();
+                break;
+            default:
+                this.queueImpl = new DefaultQueueImpl();
         }
 
         final String version = this.getServer().getVersion();
