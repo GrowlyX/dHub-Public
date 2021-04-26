@@ -8,11 +8,3 @@ api-version: "1.13"
 
 author: SolexGames
 website: https://www.solexgames.com
-
-commands:
-  neon:
-    aliases: [setup]
-  build:
-    aliases: [buildmode]
-  menu:
-    aliases: [menus]

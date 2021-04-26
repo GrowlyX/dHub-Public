@@ -1,9 +1,8 @@
 package com.solexgames.hub.listener;
 
+import com.solexgames.core.CorePlugin;
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,12 +46,9 @@ public class AntiListener implements Listener {
             final Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
-
-                location.setPitch(0);
-                location.setYaw(0);
-
-                player.teleport(location);
+                if (CorePlugin.getInstance().getServerManager().getSpawnLocation() != null) {
+                    player.teleport(CorePlugin.getInstance().getServerManager().getSpawnLocation());
+                }
             }
         }
     }
@@ -140,12 +136,9 @@ public class AntiListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         if (event.getPlayer().getLocation().getY() < this.plugin.getHubHandler().getLowestYAxis()) {
-            final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
-
-            location.setPitch(0);
-            location.setYaw(0);
-
-            event.getPlayer().teleport(location);
+            if (CorePlugin.getInstance().getServerManager().getSpawnLocation() != null) {
+                event.getPlayer().teleport(CorePlugin.getInstance().getServerManager().getSpawnLocation());
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ import com.solexgames.hub.command.MenuCommand;
 import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
-import com.solexgames.hub.command.BuildCommand;
 import com.solexgames.hub.command.NeonCommand;
 import com.solexgames.hub.external.ExternalConfig;
 import com.solexgames.hub.listener.PlayerListener;
@@ -49,9 +48,8 @@ public final class HubPlugin extends JavaPlugin {
         this.settings = new ExternalConfig("settings", this);
         this.menus = new ExternalConfig("menus", this);
 
-        this.getCommand("build").setExecutor(new BuildCommand(this));
-        this.getCommand("neon").setExecutor(new NeonCommand(this));
-        this.getCommand("menu").setExecutor(new MenuCommand(this));
+        new NeonCommand(this).registerCommand(this);
+        new MenuCommand(this).registerCommand(this);
 
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);

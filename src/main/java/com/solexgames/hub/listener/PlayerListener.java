@@ -1,15 +1,18 @@
 package com.solexgames.hub.listener;
 
+import com.solexgames.core.CorePlugin;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
+import com.solexgames.hub.menu.captcha.CaptchaMenu;
 import com.solexgames.hub.scoreboard.ScoreboardAdapter;
 import com.solexgames.hub.util.ItemUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +20,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -45,12 +50,9 @@ public class PlayerListener implements Listener {
 
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
 
-        final Location location = Bukkit.getWorlds().get(0).getSpawnLocation();
-
-        location.setPitch(0);
-        location.setYaw(0);
-
-        player.teleport(location);
+        if (CorePlugin.getInstance().getServerManager().getSpawnLocation() != null) {
+            player.teleport(CorePlugin.getInstance().getServerManager().getSpawnLocation());
+        }
 
         if (hubHandler.isEnderButtEnabled()) {
             player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getValue());
@@ -58,6 +60,8 @@ public class PlayerListener implements Listener {
 
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue());
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue());
+
+//        Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 10L);
     }
 
     @EventHandler

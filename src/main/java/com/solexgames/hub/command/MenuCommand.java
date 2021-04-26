@@ -1,5 +1,6 @@
 package com.solexgames.hub.command;
 
+import com.solexgames.core.command.EBaseCommand;
 import com.solexgames.core.util.Color;
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +11,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class MenuCommand implements CommandExecutor {
+public class MenuCommand extends EBaseCommand {
 
     private final HubPlugin plugin;
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(CommandSender sender, String s, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("die");
             return false;
@@ -45,5 +48,10 @@ public class MenuCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return new ArrayList<>();
     }
 }
