@@ -1,6 +1,7 @@
 package com.solexgames.hub.command;
 
 import com.solexgames.core.command.EBaseCommand;
+import com.solexgames.core.util.PlayerUtil;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.SetupHubMenu;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,7 @@ public class NeonCommand extends EBaseCommand {
                 case "build":
                     final boolean toggleType = !this.plugin.getPermittedBuilders().contains(player);
                     final String toggleMessage = toggleType ? ChatColor.GREEN + "You've been added to the Build Mode." : ChatColor.RED + "You've been removed from the Build Mode.";
+                    final String staffMessage = toggleType ? "enabled build mode" : "disabled build mode";
                     final GameMode toggleGameMode = toggleType ? GameMode.CREATIVE : GameMode.ADVENTURE;
 
                     if (toggleType) {
@@ -56,6 +58,8 @@ public class NeonCommand extends EBaseCommand {
 
                     player.setGameMode(toggleGameMode);
                     player.sendMessage(toggleMessage);
+
+                    PlayerUtil.sendAlert(player, staffMessage);
                     break;
                 default:
                     this.getHelpMessage(1, player,
