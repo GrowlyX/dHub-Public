@@ -32,7 +32,7 @@ public class NeonCommand extends EBaseCommand {
         }
 
         if (args.length == 0) {
-            this.getHelpMessage(0, player,
+            this.getHelpMessage(1, player,
                     "/neon setup",
                     "/neon build <boolean>",
                     "/neon captcha <boolean>"
@@ -58,7 +58,7 @@ public class NeonCommand extends EBaseCommand {
                     player.sendMessage(toggleMessage);
                     break;
                 default:
-                    this.getHelpMessage(0, player,
+                    this.getHelpMessage(1, player,
                             "/neon setup",
                             "/neon build <boolean>",
                             "/neon captcha <boolean>"

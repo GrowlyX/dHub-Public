@@ -61,7 +61,7 @@ public class PlayerListener implements Listener {
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue());
         player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue());
 
-//        Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 10L);
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 10L);
     }
 
     @EventHandler
