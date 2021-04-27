@@ -2,12 +2,13 @@
 #  dHub - by GrowlyX (SolexGames)
 #
 queue:
-  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE
+  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE, NONE
 settings:
   enable-scoreboard: true
   allow-chat: true
   setup-anti-listeners: true
   lowest-y-axis: 2
+  captcha-enabled: true
 permissions:
   build-mode: "neon.command.build"
   setup-command: "neon.command.setup"

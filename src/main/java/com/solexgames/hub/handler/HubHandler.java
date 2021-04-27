@@ -26,16 +26,15 @@ public class HubHandler {
     private String setupPermission;
     private String chatPermission;
 
-    private boolean isHubLocationSet;
     private boolean isScoreboardEnabled;
     private boolean isAntiListeners;
     private boolean isDoubleJumpEnabled;
     private boolean isDoubleJumpEffectEnabled;
     private boolean isDoubleJumpSoundEnabled;
     private boolean isEnderButtEnabled;
-    private boolean isServerSelectorEnabled;
     private boolean isHubSelectorEnabled;
     private boolean isHubSpeedEnabled;
+    private boolean isJoinCaptchaEnabled;
 
     private float speedMultiply;
     private double doubleJumpMultiply;
@@ -70,6 +69,12 @@ public class HubHandler {
             this.isDoubleJumpEnabled = this.plugin.getSettings().getBoolean("double-jump.enabled");
         } catch (Exception e) {
             this.isDoubleJumpEnabled = true;
+        }
+
+        try {
+            this.isJoinCaptchaEnabled = this.plugin.getSettings().getBoolean("settings.captcha-enabled");
+        } catch (Exception e) {
+            this.isJoinCaptchaEnabled = true;
         }
 
         try {

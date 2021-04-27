@@ -74,7 +74,7 @@ public final class HubPlugin extends JavaPlugin {
         if (this.getSettings().getBoolean("tablist.enabled")) {
             final TablistAdapter adapter = new TablistAdapter();
 
-            if (version.contains("1.7")) {
+            /*if (version.contains("1.7")) {
                 new TabHandler(new v1_7_R4TabAdapter(), adapter, this, 20L);
             } else if (version.contains("1.8")) {
                 new TabHandler(new v1_8_R3TabAdapter(), adapter, this, 20L);
@@ -90,7 +90,7 @@ public final class HubPlugin extends JavaPlugin {
                 new TabHandler(new v1_15_R1TabAdapter(), adapter, this, 20L);
             } else if (version.contains("1.16")) {
                 new TabHandler(new v1_16_R3TabAdapter(), adapter, this, 20L);
-            }
+            }*/
         }
 
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
