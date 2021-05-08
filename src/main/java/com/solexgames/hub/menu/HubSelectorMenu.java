@@ -27,11 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HubSelectorMenu extends AbstractInventoryMenu {
 
     private Player player;
+    private HubPlugin hubPlugin;
 
-    public HubSelectorMenu(Player player) {
-        super(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("hub-selector.title"), 27);
+    public HubSelectorMenu(Player player, HubPlugin hubPlugin) {
+        super(hubPlugin.getMenus().getString("hub-selector.title"), 27);
 
         this.player = player;
+        this.hubPlugin = hubPlugin;
 
         this.update();
     }
@@ -50,7 +52,7 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                 .filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB))
                 .forEach(networkServer -> {
                     if (atomicInteger.get() < 16) {
-                        List<String> list = HubPlugin.getPlugin(HubPlugin.class).getMenus().getStringList("hub-selector.item.lore");
+                        List<String> list = this.hubPlugin.getMenus().getStringList("hub-selector.item.lore");
                         list = PlaceholderAPI.setPlaceholders(player, list);
 
                         List<String> finalList = new ArrayList<>();

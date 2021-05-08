@@ -1,6 +1,5 @@
 package com.solexgames.hub.listener;
 
-import com.solexgames.core.CorePlugin;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
@@ -11,7 +10,6 @@ import com.solexgames.hub.util.ItemUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,8 +18,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-
-import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -49,10 +45,7 @@ public class PlayerListener implements Listener {
         }
 
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
-
-        if (CorePlugin.getInstance().getServerManager().getSpawnLocation() != null) {
-            player.teleport(CorePlugin.getInstance().getServerManager().getSpawnLocation());
-        }
+        player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 
         if (hubHandler.isEnderButtEnabled()) {
             player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getValue());
@@ -101,7 +94,7 @@ public class PlayerListener implements Listener {
                         new ServerSelectorMenu(event.getPlayer()).open(event.getPlayer());
                     }
                     if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue().getItemMeta().getDisplayName())) {
-                        new HubSelectorMenu(event.getPlayer()).open(event.getPlayer());
+                        new HubSelectorMenu(event.getPlayer(), this.plugin).open(event.getPlayer());
                     }
                 }
             }

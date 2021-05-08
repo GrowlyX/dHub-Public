@@ -1,5 +1,6 @@
 package com.solexgames.hub;
 
+import com.solexgames.hub.command.HeadCommand;
 import com.solexgames.hub.command.MenuCommand;
 import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
@@ -51,6 +52,7 @@ public final class HubPlugin extends JavaPlugin {
 
         new NeonCommand(this).registerCommand(this);
         new MenuCommand(this).registerCommand(this);
+        new HeadCommand(this).registerCommand(this);
 
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);
