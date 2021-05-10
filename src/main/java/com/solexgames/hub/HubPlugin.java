@@ -2,6 +2,7 @@ package com.solexgames.hub;
 
 import com.solexgames.hub.command.HeadCommand;
 import com.solexgames.hub.command.MenuCommand;
+import com.solexgames.hub.handler.CosmeticHandler;
 import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
@@ -26,21 +27,21 @@ import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import io.github.nosequel.tab.v1_9_r1.v1_9_R1TabAdapter;
 import lombok.Getter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 public final class HubPlugin extends JavaPlugin {
 
     private final List<Player> permittedBuilders = new ArrayList<>();
+    private final Map<String, AbstractMap.SimpleEntry<Integer, ItemStack>> itemCache = new HashMap<>();
 
     private ExternalConfig settings;
     private ExternalConfig menus;
 
-    private String enderButt;
-
+    private CosmeticHandler cosmeticHandler;
     private SubMenuHandler subMenuHandler;
     private HubHandler hubHandler;
     private IQueue queueImpl;
@@ -54,11 +55,16 @@ public final class HubPlugin extends JavaPlugin {
         new MenuCommand(this).registerCommand(this);
         new HeadCommand(this).registerCommand(this);
 
+        this.cosmeticHandler = new CosmeticHandler();
+        this.cosmeticHandler.loadArmorCosmetics();
+
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);
-        this.enderButt = ItemUtil.getItemFromConfig("items.enderbutt", this)
-                .getItemMeta()
-                .getDisplayName();
+
+        this.itemCache.put("enderbutt", ItemUtil.getInventoryItemFromConfig("items.enderbutt", this));
+        this.itemCache.put("hub-selector", ItemUtil.getInventoryItemFromConfig("items.hub-selector", this));
+        this.itemCache.put("cosmetics", ItemUtil.getInventoryItemFromConfig("items.cosmetics", this));
+        this.itemCache.put("server-selector", ItemUtil.getInventoryItemFromConfig("items.server-selector", this));
 
         switch (this.getSettings().getString("queue.plugin")) {
             case "PORTAL":

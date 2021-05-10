@@ -5,6 +5,7 @@ import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.menu.captcha.CaptchaMenu;
+import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.hub.scoreboard.ScoreboardAdapter;
 import com.solexgames.hub.util.ItemUtil;
 import lombok.RequiredArgsConstructor;
@@ -40,19 +41,18 @@ public class PlayerListener implements Listener {
             new ScoreboardAdapter(player, this.plugin);
         }
 
-        if (hubHandler.isHubSpeedEnabled()) {
-            player.setWalkSpeed(0.5F);
-        }
-
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
         player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 
         if (hubHandler.isEnderButtEnabled()) {
-            player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.enderbutt", this.plugin).getValue());
+            player.getInventory().setItem(this.plugin.getItemCache().get("enderbutt").getKey(), this.plugin.getItemCache().get("enderbutt").getValue());
         }
 
-        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue());
-        player.getInventory().setItem(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getKey(), ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue());
+        player.getInventory().setItem(this.plugin.getItemCache().get("server-selector").getKey(), this.plugin.getItemCache().get("server-selector").getValue());
+        player.getInventory().setItem(this.plugin.getItemCache().get("hub-selector").getKey(), this.plugin.getItemCache().get("hub-selector").getValue());
+        player.getInventory().setItem(this.plugin.getItemCache().get("cosmetics").getKey(), this.plugin.getItemCache().get("cosmetics").getValue());
+
+        player.updateInventory();
 
         if (hubHandler.isJoinCaptchaEnabled()) {
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 10L);
@@ -87,16 +87,17 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getItem() != null) {
-            if (event.getItem().hasItemMeta()) {
-                if ((event.getAction().name().contains("RIGHT"))) {
-                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.server-selector", this.plugin).getValue().getItemMeta().getDisplayName())) {
-                        new ServerSelectorMenu(event.getPlayer()).open(event.getPlayer());
-                    }
-                    if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(ItemUtil.getInventoryItemFromConfig("items.hub-selector", this.plugin).getValue().getItemMeta().getDisplayName())) {
-                        new HubSelectorMenu(event.getPlayer(), this.plugin).open(event.getPlayer());
-                    }
-                }
+        final Player player = event.getPlayer();
+
+        if (event.getAction().name().contains("RIGHT") && event.getItem() != null && event.getItem().hasItemMeta()) {
+            if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("server-selector").getValue().getItemMeta().getDisplayName())) {
+                new ServerSelectorMenu(player).open(player);
+            }
+            if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("hub-selector").getValue().getItemMeta().getDisplayName())) {
+                new HubSelectorMenu(player, this.plugin).open(player);
+            }
+            if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("cosmetics").getValue().getItemMeta().getDisplayName())) {
+                new CosmeticMainMenu(this.plugin).openMenu(player);
             }
         }
     }

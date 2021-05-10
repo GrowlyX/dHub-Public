@@ -17,11 +17,12 @@ public class EnderbuttListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        final String display = this.plugin.getItemCache().get("enderbutt").getValue().getItemMeta().getDisplayName();
 
         if ((event.hasItem() && event.getAction().name().contains("RIGHT") && event.getItem().hasItemMeta())) {
             final String displayName = event.getItem().getItemMeta().getDisplayName();
 
-            if (displayName.equalsIgnoreCase(this.plugin.getEnderButt())) {
+            if (displayName.equalsIgnoreCase(display)) {
                 player.setVelocity(player.getLocation().getDirection().multiply(2.5F));
                 player.playSound(player.getLocation(), XSound.ENTITY_EXPERIENCE_ORB_PICKUP.parseSound(), 1.0F, 1.0F);
 
