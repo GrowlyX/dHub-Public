@@ -1,5 +1,8 @@
 package com.solexgames.hub.listener;
 
+import com.solexgames.core.CorePlugin;
+import com.solexgames.core.player.PotPlayer;
+import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;

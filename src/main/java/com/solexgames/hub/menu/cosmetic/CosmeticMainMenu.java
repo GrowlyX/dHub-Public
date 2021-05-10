@@ -22,7 +22,7 @@ public class CosmeticMainMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "Cosmetics";
+        return "Cosmetics » Main";
     }
 
     @Override

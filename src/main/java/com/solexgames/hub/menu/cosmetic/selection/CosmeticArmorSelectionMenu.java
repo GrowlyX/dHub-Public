@@ -2,6 +2,7 @@ package com.solexgames.hub.menu.cosmetic.selection;
 
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.PotPlayer;
+import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
@@ -15,9 +16,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
@@ -78,7 +82,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                             armorCosmetic.applyTo(player, armorCosmetic.getRank());
 
                             player.closeInventory();
-                            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + armorCosmetic.getName() + Color.SECONDARY_COLOR + " cosmetic!");
+                            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + armorCosmetic.getRank().getColor() + armorCosmetic.getRank().getName() + Color.SECONDARY_COLOR + " cosmetic!");
                         })));
 
         return buttonMap;
@@ -86,6 +90,6 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
     @Override
     public String getPrePaginatedTitle(Player player) {
-        return "Armor Cosmetics";
+        return "Cosmetics » Armor";
     }
 }
