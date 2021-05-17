@@ -60,6 +60,7 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                                 .replace("<online>", String.valueOf(networkServer.getOnlinePlayers()))
                                 .replace("<max>", String.valueOf(networkServer.getMaxPlayerLimit()))
                                 .replace("<status>", (CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName()) ? "&cAlready Connected!" : networkServer.getServerStatus().getServerStatusFancyString()))
+                                .replace("<joinstatus>", (CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName()) ? "&c[Currently connected]" : networkServer.getServerStatus().getServerStatusFancyString()))
                         ));
 
                         this.inventory.setItem(atomicInteger.get(), new ItemBuilder(Material.valueOf(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("hub-selector.item.item")))
@@ -99,6 +100,19 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                     this.player.closeInventory();
                 }
             }
+        }
+    }
+
+    private String getStatusJoin(NetworkServer networkServer) {
+        switch (networkServer.getServerStatus()) {
+            case WHITELISTED:
+                return ChatColor.YELLOW + "[Currently whitelisted]";
+            case ONLINE:
+                return ChatColor.YELLOW + "[Click to connect to " + networkServer.getServerName() + "]";
+            case BOOTING:
+                return ChatColor.GOLD + "[Currently booting]";
+            default:
+                return ChatColor.RED + "[Currently offline]";
         }
     }
 }

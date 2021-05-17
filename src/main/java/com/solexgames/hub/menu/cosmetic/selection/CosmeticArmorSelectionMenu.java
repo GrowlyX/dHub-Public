@@ -2,26 +2,20 @@ package com.solexgames.hub.menu.cosmetic.selection;
 
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.PotPlayer;
-import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.hub.HubPlugin;
-import com.solexgames.hub.cosmetic.Cosmetic;
 import com.solexgames.hub.cosmetic.CosmeticType;
-import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
@@ -64,9 +58,8 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
         final AtomicInteger atomicInteger = new AtomicInteger();
         final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
 
-        this.plugin.getCosmeticHandler().getCosmeticList().stream()
-                .filter(cosmetic -> cosmetic.getCosmeticType().equals(CosmeticType.ARMOR))
-                .map(cosmetic -> (ArmorCosmetic) cosmetic)
+        this.plugin.getCosmeticHandler().getArmorCosmeticMap().values().stream()
+                .filter(cosmetic -> cosmetic.getCosmeticType().equals(CosmeticType.ARMOR) && cosmetic.getRank() != null && !cosmetic.getRank().isHidden())
                 .forEach(armorCosmetic -> buttonMap.put(atomicInteger.getAndIncrement(), armorCosmetic.getMenuItemBuilder()
                         .addLore(
                                 "&7Required Rank: " + armorCosmetic.getRank().getColor() + armorCosmetic.getRank().getName(),

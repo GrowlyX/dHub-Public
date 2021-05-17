@@ -2,7 +2,7 @@
 #  dHub - by GrowlyX (SolexGames)
 #
 queue:
-  plugin: "PORTAL" # Available Queues: PORTAL, EZQUEUE, NONE
+  plugin: "NONE" # Available Queues: PORTAL, EZQUEUE, NONE
 settings:
   enable-scoreboard: true
   allow-chat: true
@@ -56,7 +56,7 @@ items:
     type: "ENDER_PEARL"
     durability: 0
     unbreakable: false
-    slot: 3
+    slot: 2
     lore:
       enabled: true
       strings:
@@ -66,7 +66,7 @@ items:
     type: "COMPASS"
     durability: 0
     unbreakable: false
-    slot: 5
+    slot: 4
     lore:
       enabled: true
       strings:
@@ -76,7 +76,7 @@ items:
     type: "NETHER_STAR"
     durability: 0
     unbreakable: false
-    slot: 7
+    slot: 6
     lore:
       enabled: true
       strings:
@@ -86,7 +86,7 @@ items:
     type: "ENDER_CHEST"
     durability: 0
     unbreakable: false
-    slot: 7
+    slot: 8
     lore:
       enabled: true
       strings:

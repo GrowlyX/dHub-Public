@@ -37,19 +37,19 @@ public class PortalQueueImpl implements IQueue {
         Queue queue = Queue.getByPlayer(player.getUniqueId());
 
         if (queue != null) {
-            player.sendMessage(ChatColor.RED + "You are already in a queue.");
+            player.sendMessage(ChatColor.RED + "Error: You are already in the " + ChatColor.YELLOW + queue.getName() + ChatColor.RED + " queue.");
             return;
         }
 
         queue = Queue.getByName(server);
 
         if (queue == null) {
-            player.sendMessage(ChatColor.RED + "That queue does not exist or is offline.");
+            player.sendMessage(ChatColor.RED + "Error: The queue with the name " + ChatColor.YELLOW + server + ChatColor.RED + " does not exist.");
             return;
         }
 
         if (queue.getServerData() == null || !queue.getServerData().isOnline()) {
-            player.sendMessage(ChatColor.RED + "That queue is offline.");
+            player.sendMessage(ChatColor.RED + "Error: The queue with the name " + ChatColor.YELLOW + queue.getName() + ChatColor.RED + " is offline.");
             return;
         }
 

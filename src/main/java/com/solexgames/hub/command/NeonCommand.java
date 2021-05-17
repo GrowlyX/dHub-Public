@@ -36,13 +36,22 @@ public class NeonCommand extends EBaseCommand {
             this.getHelpMessage(1, player,
                     "/neon setup",
                     "/neon build <boolean>",
-                    "/neon captcha <boolean>"
+                    "/neon captcha <boolean>",
+                    "/neon reloadcosmetics"
             );
         }
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "setup":
                     new SetupHubMenu(player, this.plugin).open(player);
+                    break;
+                case "reloadcosmetics":
+                    this.plugin.getCosmeticHandler().clearCosmetics();
+
+                    this.plugin.getCosmeticHandler().loadArmorCosmetics();
+                    this.plugin.getCosmeticHandler().loadParticleCosmetics();
+
+                    player.sendMessage(ChatColor.GREEN + "You've reloaded all cosmetics!");
                     break;
                 case "build":
                     final boolean toggleType = !this.plugin.getPermittedBuilders().contains(player);

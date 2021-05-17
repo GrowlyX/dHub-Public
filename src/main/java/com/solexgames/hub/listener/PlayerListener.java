@@ -44,6 +44,7 @@ public class PlayerListener implements Listener {
             new ScoreboardAdapter(player, this.plugin);
         }
 
+        player.setWalkSpeed(0.3F);
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
         player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 

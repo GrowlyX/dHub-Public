@@ -1,5 +1,7 @@
 package com.solexgames.hub;
 
+import com.solexgames.core.CorePlugin;
+import com.solexgames.core.enums.ServerType;
 import com.solexgames.hub.command.HeadCommand;
 import com.solexgames.hub.command.MenuCommand;
 import com.solexgames.hub.handler.CosmeticHandler;
@@ -55,8 +57,9 @@ public final class HubPlugin extends JavaPlugin {
         new MenuCommand(this).registerCommand(this);
         new HeadCommand(this).registerCommand(this);
 
-        this.cosmeticHandler = new CosmeticHandler();
+        this.cosmeticHandler = new CosmeticHandler(this);
         this.cosmeticHandler.loadArmorCosmetics();
+        this.cosmeticHandler.loadParticleCosmetics();
 
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);
@@ -77,12 +80,12 @@ public final class HubPlugin extends JavaPlugin {
                 this.queueImpl = new DefaultQueueImpl();
         }
 
-        final String version = this.getServer().getVersion();
+        /*final String version = this.getServer().getVersion();
 
-        if (this.getSettings().getBoolean("tablist.enabled")) {
+        if (this.getSettings().getBoolean("tablist.enabled") && CorePlugin.getInstance().getServerManager().getNetwork().equals(ServerType.PVPBAR)) {
             final TablistAdapter adapter = new TablistAdapter();
 
-            /*if (version.contains("1.7")) {
+            if (version.contains("1.7")) {
                 new TabHandler(new v1_7_R4TabAdapter(), adapter, this, 20L);
             } else if (version.contains("1.8")) {
                 new TabHandler(new v1_8_R3TabAdapter(), adapter, this, 20L);
@@ -98,8 +101,8 @@ public final class HubPlugin extends JavaPlugin {
                 new TabHandler(new v1_15_R1TabAdapter(), adapter, this, 20L);
             } else if (version.contains("1.16")) {
                 new TabHandler(new v1_16_R3TabAdapter(), adapter, this, 20L);
-            }*/
-        }
+            }
+        }*/
 
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 

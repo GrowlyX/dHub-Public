@@ -131,6 +131,11 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/Scandium.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.5.1</version>
+        </dependency>
 
         <!-- Queue Implementation Dependencies !-->
         <dependency>

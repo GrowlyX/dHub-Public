@@ -5,6 +5,7 @@ import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.Menu;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.cosmetic.selection.CosmeticArmorSelectionMenu;
+import com.solexgames.hub.menu.cosmetic.selection.CosmeticParticleSelectionMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -37,13 +38,9 @@ public class CosmeticMainMenu extends Menu {
                         "&7Click to view all available",
                         "&7armor cosmetics!",
                         "",
-                        "&e[Click to view cosmetics]"
+                        "&e[Click to view armor types]"
                 )
-                .toButton((player1, clickType) -> {
-                    player1.closeInventory();
-
-                    new CosmeticArmorSelectionMenu(this.plugin).openMenu(player);
-                })
+                .toButton((player1, clickType) -> new CosmeticArmorSelectionMenu(this.plugin).openMenu(player))
         );
 
         buttonMap.put(5, new ItemBuilder(Material.BLAZE_POWDER)
@@ -52,12 +49,9 @@ public class CosmeticMainMenu extends Menu {
                         "&7Click to view all available",
                         "&7particle cosmetics!",
                         "",
-                        "&c[Currently unavailable]"
+                        "&e[Click to view particle types]"
                 )
-                .toButton((player1, clickType) -> {
-                    player1.closeInventory();
-                    player1.sendMessage(ChatColor.RED + "I'm sorry, but you cannot open this menu right now.");
-                })
+                .toButton((player1, clickType) -> new CosmeticParticleSelectionMenu(this.plugin).openMenu(player))
         );
 
         return buttonMap;

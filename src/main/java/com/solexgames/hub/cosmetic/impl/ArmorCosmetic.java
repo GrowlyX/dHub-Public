@@ -18,7 +18,6 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
 
     private final Rank rank;
     private final String name;
-    private final String permission;
 
     @Override
     public String getName() {
@@ -27,7 +26,7 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
 
     @Override
     public String getPermission() {
-        return this.permission;
+        return "neon.cosmetic.armor." + this.rank.getName().toLowerCase();
     }
 
     @Override
@@ -70,7 +69,10 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
     public Color getByChatColor(ChatColor color) {
         switch (color) {
             case BLUE: case DARK_BLUE: return Color.BLUE;
-            case DARK_GREEN: case GREEN: return Color.GREEN;
+            case DARK_GREEN:
+                return Color.GREEN;
+            case GREEN:
+                return Color.fromRGB(0, 255, 0);
             case DARK_AQUA: case AQUA: return Color.AQUA;
             case DARK_RED: case RED: return Color.RED;
             case DARK_PURPLE: case LIGHT_PURPLE: return Color.FUCHSIA;
