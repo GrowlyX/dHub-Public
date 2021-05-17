@@ -40,7 +40,7 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
 
     @Override
     public void update() {
-        if (HubPlugin.getPlugin(HubPlugin.class).getMenus().getBoolean("server-selector.fill-stained-glass")) {
+        if (this.hubPlugin.getMenus().getBoolean("server-selector.fill-stained-glass")) {
             while (this.inventory.firstEmpty() != -1) {
                 this.inventory.setItem(this.inventory.firstEmpty(), new ItemBuilder(Material.STAINED_GLASS_PANE, 7).setDisplayName(" ").create());
             }
@@ -63,10 +63,10 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                                 .replace("<joinstatus>", (CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName()) ? "&c[Currently connected]" : networkServer.getServerStatus().getServerStatusFancyString()))
                         ));
 
-                        this.inventory.setItem(atomicInteger.get(), new ItemBuilder(Material.valueOf(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("hub-selector.item.item")))
-                                .setDurability(HubPlugin.getPlugin(HubPlugin.class).getMenus().getInt("hub-selector.item.durability"))
+                        this.inventory.setItem(atomicInteger.get(), new ItemBuilder(Material.valueOf(this.hubPlugin.getMenus().getString("hub-selector.item.item")))
+                                .setDurability(this.hubPlugin.getMenus().getInt("hub-selector.item.durability"))
                                 .addLore(finalList)
-                                .setDisplayName(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("hub-selector.item.display")
+                                .setDisplayName(this.hubPlugin.getMenus().getString("hub-selector.item.display")
                                         .replace("<server-name>", networkServer.getServerName())
                                 )
                                 .create()
@@ -91,28 +91,16 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
 
                 if (networkServer != null) {
                     if (!CorePlugin.getInstance().getServerName().equals(networkServer.getServerName())) {
-                        this.player.sendMessage(Color.translate("&aSending you to " + networkServer.getServerName() + "..."));
+                        this.player.sendMessage(Color.SECONDARY_COLOR + "You're now being connected to " + Color.MAIN_COLOR + networkServer.getServerName() + Color.SECONDARY_COLOR + "...");
 
-                        BungeeUtil.sendToServer(this.player, networkServer.getServerName(), HubPlugin.getPlugin(HubPlugin.class));
+                        BungeeUtil.sendToServer(this.player, networkServer.getServerName(), this.hubPlugin);
                     } else {
-                        this.player.sendMessage(Color.translate("&cYou are already on " + networkServer.getServerName() + "!"));
+                        this.player.sendMessage(Color.translate("&cYou are already connected to " + networkServer.getServerName() + "!"));
                     }
+
                     this.player.closeInventory();
                 }
             }
-        }
-    }
-
-    private String getStatusJoin(NetworkServer networkServer) {
-        switch (networkServer.getServerStatus()) {
-            case WHITELISTED:
-                return ChatColor.YELLOW + "[Currently whitelisted]";
-            case ONLINE:
-                return ChatColor.YELLOW + "[Click to connect to " + networkServer.getServerName() + "]";
-            case BOOTING:
-                return ChatColor.GOLD + "[Currently booting]";
-            default:
-                return ChatColor.RED + "[Currently offline]";
         }
     }
 }

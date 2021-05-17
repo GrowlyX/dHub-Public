@@ -3,6 +3,7 @@ package com.solexgames.hub.handler;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.submenu.SubMenu;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -15,26 +16,15 @@ import java.util.List;
  */
 
 @Getter
+@RequiredArgsConstructor
 public class SubMenuHandler {
 
     private final List<String> menuPathList = new ArrayList<>();
 
     private final HubPlugin plugin;
 
-    public SubMenuHandler(HubPlugin plugin) {
-        this.plugin = plugin;
-
-        try {
-            this.plugin.getMenus().getConfiguration().getConfigurationSection("sub-menus").getKeys(false).forEach(this::registerSubMenu);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-        }
+    public void registerSubMenusFromConfig() {
+        this.plugin.getMenus().getConfiguration().getConfigurationSection("sub-menus").getKeys(false).forEach(this::registerSubMenu);
     }
 
     public void registerSubMenu(String name) {
@@ -47,7 +37,7 @@ public class SubMenuHandler {
         final boolean pathExists = this.menuPathList.contains(menuName.toLowerCase());
 
         if (pathExists) {
-            final SubMenu subMenu = new SubMenu(player, menuName.toLowerCase());
+            final SubMenu subMenu = new SubMenu(player, menuName.toLowerCase(), this.plugin);
 
             player.openInventory(subMenu.getInventory());
         } else {

@@ -104,7 +104,7 @@ public class PlayerListener implements Listener {
 
         if (event.getAction().name().contains("RIGHT") && event.getItem() != null && event.getItem().hasItemMeta()) {
             if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("server-selector").getValue().getItemMeta().getDisplayName())) {
-                new ServerSelectorMenu(player).open(player);
+                new ServerSelectorMenu(player, this.plugin).open(player);
             }
             if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("hub-selector").getValue().getItemMeta().getDisplayName())) {
                 new HubSelectorMenu(player, this.plugin).open(player);

@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author GrowlyX
+ * @since 5/1/2021
+ */
+
 @RequiredArgsConstructor
 public class MenuCommand extends EBaseCommand {
 
@@ -38,8 +43,7 @@ public class MenuCommand extends EBaseCommand {
             if (targetMenu.equals("list")) {
                 final String listString = this.plugin.getSubMenuHandler().getMenuPathList().stream()
                         .map(StringUtils::capitalize)
-                        .collect(Collectors.joining(ChatColor.GRAY + ", " + Color.MAIN_COLOR))
-                        + ChatColor.GRAY + ".";
+                        .collect(Collectors.joining(ChatColor.GRAY + ", " + Color.MAIN_COLOR)) + ChatColor.GRAY + ".";
 
                 player.sendMessage(Color.SECONDARY_COLOR + "Available menus: " + Color.MAIN_COLOR + listString);
             } else {

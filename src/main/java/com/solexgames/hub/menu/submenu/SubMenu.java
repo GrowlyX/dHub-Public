@@ -15,28 +15,30 @@ public class SubMenu extends AbstractInventoryMenu {
 
     private final Player player;
     private final String path;
+    private final HubPlugin plugin;
 
-    public SubMenu(Player player, String path) {
-        super(HubPlugin.getPlugin(HubPlugin.class).getMenus().getString("sub-menus." + path + ".title"), HubPlugin.getPlugin(HubPlugin.class).getMenus().getInt("sub-menus." + path + ".size"));
+    public SubMenu(Player player, String path, HubPlugin plugin) {
+        super(plugin.getMenus().getString("sub-menus." + path + ".title"), plugin.getMenus().getInt("sub-menus." + path + ".size"));
 
         this.player = player;
         this.path = path;
+        this.plugin = plugin;
 
         this.update();
     }
 
     @Override
     public void update() {
-        if (HubPlugin.getPlugin(HubPlugin.class).getMenus().getBoolean("sub-menus." + this.path + ".fill-stained-glass")) {
+        if (this.plugin.getMenus().getBoolean("sub-menus." + this.path + ".fill-stained-glass")) {
             while(this.inventory.firstEmpty() != -1) {
                 this.inventory.setItem(this.inventory.firstEmpty(), new ItemBuilder(Material.STAINED_GLASS_PANE, 7).setDisplayName(" ").create());
             }
         }
 
-        final ConfigurationSection configurationSection = HubPlugin.getPlugin(HubPlugin.class).getMenus().getConfiguration().getConfigurationSection("sub-menus." + this.path + ".items");
+        final ConfigurationSection configurationSection = this.plugin.getMenus().getConfiguration().getConfigurationSection("sub-menus." + this.path + ".items");
         configurationSection.getKeys(false).forEach(itemSection -> {
             final int slot = Integer.parseInt(itemSection);
-            this.inventory.setItem(slot, ItemUtil.getMenuItem("sub-menus." + this.path + ".items." + itemSection, this.player, HubPlugin.getPlugin(HubPlugin.class)));
+            this.inventory.setItem(slot, ItemUtil.getMenuItem("sub-menus." + this.path + ".items." + itemSection, this.player, this.plugin));
         });
     }
 
@@ -50,11 +52,11 @@ public class SubMenu extends AbstractInventoryMenu {
             event.setCancelled(true);
 
             if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
-                final MenuAction.Type action = ItemUtil.getActionFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class));
-                final String value = ItemUtil.getValueFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class));
+                final MenuAction.Type action = ItemUtil.getActionFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), this.plugin);
+                final String value = ItemUtil.getValueFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), this.plugin);
 
-                if (action != null && value != null && ItemUtil.isEnabledAction("sub-menus." + this.path + ".items." + event.getRawSlot(), HubPlugin.getPlugin(HubPlugin.class))) {
-                    MenuAction.completeAction(action, value, this.player);
+                if (action != null && value != null && ItemUtil.isEnabledAction("sub-menus." + this.path + ".items." + event.getRawSlot(), this.plugin)) {
+                    MenuAction.completeAction(action, value, this.player, this.plugin);
                 }
             }
         }

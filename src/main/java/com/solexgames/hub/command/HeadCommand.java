@@ -13,6 +13,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author GrowlyX
+ * @since 5/1/2021
+ */
+
 @RequiredArgsConstructor
 public class HeadCommand extends EBaseCommand {
 
@@ -28,11 +33,9 @@ public class HeadCommand extends EBaseCommand {
         final Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(Color.SECONDARY_COLOR + "Usage: " + Color.MAIN_COLOR + "/menu " + ChatColor.WHITE + "<name|list>.");
+            player.sendMessage(Color.SECONDARY_COLOR + "Usage: " + Color.MAIN_COLOR + "/head " + ChatColor.WHITE + "<name>.");
         }
         if (args.length == 1) {
-            final String targetMenu = args[0].toLowerCase();
-
             player.setItemInHand(new ItemBuilder(Material.SKULL_ITEM)
                     .setDurability(3)
                     .setDisplayName(Color.MAIN_COLOR + args[0] + "'s " + Color.SECONDARY_COLOR + "Head")

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class MenuAction {
 
-    public static void completeAction(Type type, String value, Player player) {
+    public static void completeAction(Type type, String value, Player player, HubPlugin plugin) {
         player.closeInventory();
 
         final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
@@ -24,7 +24,7 @@ public class MenuAction {
                     return;
                 }
 
-                BungeeUtil.sendToServer(player, value, HubPlugin.getPlugin(HubPlugin.class));
+                BungeeUtil.sendToServer(player, value, plugin);
                 break;
             case JOIN_QUEUE:
                 if (potPlayer.isCurrentlyRestricted()) {
@@ -32,7 +32,7 @@ public class MenuAction {
                     return;
                 }
 
-                HubPlugin.getPlugin(HubPlugin.class).getQueueImpl().joinQueue(player, value);
+                plugin.getQueueImpl().joinQueue(player, value);
                 break;
         }
     }

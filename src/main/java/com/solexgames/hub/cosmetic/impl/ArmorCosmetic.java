@@ -12,6 +12,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author GrowlyX
+ * @since 5/1/2021
+ */
+
 @Getter
 @RequiredArgsConstructor
 public class ArmorCosmetic extends Cosmetic<Rank> {

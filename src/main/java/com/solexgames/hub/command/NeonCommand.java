@@ -13,6 +13,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author GrowlyX
+ * @since 5/1/2021
+ */
+
 @RequiredArgsConstructor
 public class NeonCommand extends EBaseCommand {
 

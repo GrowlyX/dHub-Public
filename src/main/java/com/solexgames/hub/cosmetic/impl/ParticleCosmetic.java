@@ -13,6 +13,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.xenondevs.particle.ParticleEffect;
 
+/**
+ * @author GrowlyX
+ * @since 5/16/2021
+ */
+
 @Getter
 @RequiredArgsConstructor
 public class ParticleCosmetic extends Cosmetic<ParticleEffect> {

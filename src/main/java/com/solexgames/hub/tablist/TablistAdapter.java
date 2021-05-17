@@ -15,6 +15,8 @@ public class TablistAdapter implements TabElementHandler {
         final TabElement element = new TabElement();
         final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
 
+        // dont use unless you want lag x50k
+
         // Social Media
         element.add(0, 3, ChatColor.GOLD + ChatColor.BOLD.toString() + "Store");
         element.add(0, 4, ChatColor.GRAY + "store.pvp.bar");

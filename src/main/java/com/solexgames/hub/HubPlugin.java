@@ -1,32 +1,20 @@
 package com.solexgames.hub;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.enums.ServerType;
 import com.solexgames.hub.command.HeadCommand;
 import com.solexgames.hub.command.MenuCommand;
+import com.solexgames.hub.command.NeonCommand;
+import com.solexgames.hub.external.ExternalConfig;
 import com.solexgames.hub.handler.CosmeticHandler;
+import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
-import com.solexgames.hub.command.NeonCommand;
-import com.solexgames.hub.external.ExternalConfig;
 import com.solexgames.hub.listener.PlayerListener;
-import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.queue.IQueue;
 import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.EZQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
-import com.solexgames.hub.tablist.TablistAdapter;
 import com.solexgames.hub.util.ItemUtil;
-import io.github.nosequel.tab.shared.TabHandler;
-import io.github.nosequel.tab.v1_10_r1.v1_10_R1TabAdapter;
-import io.github.nosequel.tab.v1_12_r1.v1_12_R1TabAdapter;
-import io.github.nosequel.tab.v1_14_r1.v1_14_R1TabAdapter;
-import io.github.nosequel.tab.v1_15_r1.v1_15_R1TabAdapter;
-import io.github.nosequel.tab.v1_16_r3.v1_16_R3TabAdapter;
-import io.github.nosequel.tab.v1_7_r4.v1_7_R4TabAdapter;
-import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
-import io.github.nosequel.tab.v1_9_r1.v1_9_R1TabAdapter;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -63,6 +51,7 @@ public final class HubPlugin extends JavaPlugin {
 
         this.hubHandler = new HubHandler(this);
         this.subMenuHandler = new SubMenuHandler(this);
+        this.subMenuHandler.registerSubMenusFromConfig();
 
         this.itemCache.put("enderbutt", ItemUtil.getInventoryItemFromConfig("items.enderbutt", this));
         this.itemCache.put("hub-selector", ItemUtil.getInventoryItemFromConfig("items.hub-selector", this));
