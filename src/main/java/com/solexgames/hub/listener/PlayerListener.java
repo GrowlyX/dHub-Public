@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -65,6 +66,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
+        final BukkitRunnable bukkitRunnable = this.plugin.getCosmeticHandler().getRunnableHashMap().get(event.getPlayer());
+
+        if (bukkitRunnable != null) {
+            bukkitRunnable.cancel();
+
+            this.plugin.getCosmeticHandler().getRunnableHashMap().remove(event.getPlayer());
+        }
+
         event.setQuitMessage(null);
     }
 
