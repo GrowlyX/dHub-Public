@@ -1,16 +1,11 @@
 package com.solexgames.hub.listener;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.player.PotPlayer;
-import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.menu.captcha.CaptchaMenu;
 import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
-import com.solexgames.hub.scoreboard.ScoreboardAdapter;
-import com.solexgames.hub.util.ItemUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -41,21 +36,21 @@ public class PlayerListener implements Listener {
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
-        if (hubHandler.isScoreboardEnabled()) {
-            new ScoreboardAdapter(player, this.plugin);
-        }
-
         player.setWalkSpeed(0.3F);
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
-        player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+        player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation().add(0.0D, 2.0D, 0.0D));
 
         if (hubHandler.isEnderButtEnabled()) {
             player.getInventory().setItem(this.plugin.getItemCache().get("enderbutt").getKey(), this.plugin.getItemCache().get("enderbutt").getValue());
         }
 
-        player.getInventory().setItem(this.plugin.getItemCache().get("server-selector").getKey(), this.plugin.getItemCache().get("server-selector").getValue());
+        final int serverSelectorSlot = this.plugin.getItemCache().get("server-selector").getKey();
+
+        player.getInventory().setItem(serverSelectorSlot, this.plugin.getItemCache().get("server-selector").getValue());
         player.getInventory().setItem(this.plugin.getItemCache().get("hub-selector").getKey(), this.plugin.getItemCache().get("hub-selector").getValue());
         player.getInventory().setItem(this.plugin.getItemCache().get("cosmetics").getKey(), this.plugin.getItemCache().get("cosmetics").getValue());
+
+        player.getInventory().setHeldItemSlot(serverSelectorSlot > 8 ? 0 : serverSelectorSlot);
 
         player.updateInventory();
 

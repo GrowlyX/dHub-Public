@@ -41,7 +41,7 @@ public class SubMenuHandler {
 
             player.openInventory(subMenu.getInventory());
         } else {
-            player.sendMessage(ChatColor.RED + "Error: No menu with the name '" + ChatColor.YELLOW + menuName + ChatColor.RED + "' exists.");
+            player.sendMessage(ChatColor.RED + "Error: No menu by the name " + ChatColor.YELLOW + menuName + ChatColor.RED + " exists.");
         }
     }
 }

@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -135,6 +135,17 @@
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.vaperion</groupId>
+            <artifactId>blade</artifactId>
+            <version>1.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.NoSequel</groupId>
+            <artifactId>ScoreboardAPI</artifactId>
+            <version>d86c2c6d87</version>
         </dependency>
 
         <!-- Queue Implementation Dependencies !-->

@@ -1,5 +1,6 @@
 package com.solexgames.hub;
 
+import com.solexgames.hub.board.BoardAdapter;
 import com.solexgames.hub.command.HeadCommand;
 import com.solexgames.hub.command.MenuCommand;
 import com.solexgames.hub.command.NeonCommand;
@@ -10,15 +11,29 @@ import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
 import com.solexgames.hub.listener.PlayerListener;
+import com.solexgames.hub.menu.submenu.SubMenu;
 import com.solexgames.hub.queue.IQueue;
 import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.EZQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
+import com.solexgames.hub.task.GlobalStatusUpdateTask;
 import com.solexgames.hub.util.ItemUtil;
+import io.github.nosequel.scoreboard.ScoreboardAdapter;
+import io.github.nosequel.scoreboard.ScoreboardHandler;
 import lombok.Getter;
+import me.vaperion.blade.Blade;
+import me.vaperion.blade.command.argument.BladeProvider;
+import me.vaperion.blade.command.bindings.impl.BukkitBindings;
+import me.vaperion.blade.command.container.BladeParameter;
+import me.vaperion.blade.command.container.impl.BukkitCommandContainer;
+import me.vaperion.blade.command.context.BladeContext;
+import me.vaperion.blade.command.exception.BladeExitMessage;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -41,9 +56,23 @@ public final class HubPlugin extends JavaPlugin {
         this.settings = new ExternalConfig("settings", this);
         this.menus = new ExternalConfig("menus", this);
 
+        final Blade blade = Blade.of()
+                .fallbackPrefix("Command")
+                .bind(SubMenu.class, (bladeContext, bladeParameter, s) -> {
+                    if (!HubPlugin.this.subMenuHandler.getMenuPathList().contains(s)) {
+                        throw new BladeExitMessage(ChatColor.RED + "Error: No menu with the name matching " + ChatColor.YELLOW + s + ChatColor.RED + " was found.");
+                    }
+
+                    return new SubMenu((Player) bladeContext.sender().getBackingSender(), s, this);
+                })
+                .containerCreator(BukkitCommandContainer.CREATOR)
+                .binding(new BukkitBindings())
+                .build();
+
+        blade.register(MenuCommand.class);
+        blade.register(HeadCommand.class);
+
         new NeonCommand(this).registerCommand(this);
-        new MenuCommand(this).registerCommand(this);
-        new HeadCommand(this).registerCommand(this);
 
         this.cosmeticHandler = new CosmeticHandler(this);
         this.cosmeticHandler.loadArmorCosmetics();
@@ -102,6 +131,12 @@ public final class HubPlugin extends JavaPlugin {
         if (this.hubHandler.isEnderButtEnabled()) {
             this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
         }
+
+        if (this.hubHandler.isScoreboardEnabled()) {
+            new ScoreboardHandler(this, new BoardAdapter(this), 20L);
+        }
+
+        new GlobalStatusUpdateTask().runTaskTimerAsynchronously(this, 20L, 100L);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }

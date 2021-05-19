@@ -19,7 +19,7 @@ scoreboard:
     normal:
       - "&7&m-------------------"
       - "&6Online:"
-      - "&e%bungee_total%"
+      - "&e<global_online>"
       - " "
       - "&6Rank:"
       - "%scandium_rankcolor%%scandium_rankname%"
@@ -29,7 +29,7 @@ scoreboard:
     queued:
       - "&7&m-------------------"
       - "&6Online:"
-      - "&e%bungee_total%"
+      - "&e<global_online>"
       - " "
       - "&6Queued:"
       - "&e<queue_name> &7(#<queue_position/<queue_maximum>)"
