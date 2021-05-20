@@ -53,6 +53,8 @@ public final class HubPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
+
         this.settings = new ExternalConfig("settings", this);
         this.menus = new ExternalConfig("menus", this);
 
@@ -86,6 +88,7 @@ public final class HubPlugin extends JavaPlugin {
         this.itemCache.put("hub-selector", ItemUtil.getInventoryItemFromConfig("items.hub-selector", this));
         this.itemCache.put("cosmetics", ItemUtil.getInventoryItemFromConfig("items.cosmetics", this));
         this.itemCache.put("server-selector", ItemUtil.getInventoryItemFromConfig("items.server-selector", this));
+        this.itemCache.put("profile", ItemUtil.getInventoryItemFromConfig("items.profile", this));
 
         switch (this.getSettings().getString("queue.plugin")) {
             case "PORTAL":

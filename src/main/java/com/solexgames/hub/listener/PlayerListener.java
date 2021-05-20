@@ -1,5 +1,7 @@
 package com.solexgames.hub.listener;
 
+import com.solexgames.core.menu.impl.player.PlayerInfoMenu;
+import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
@@ -9,15 +11,18 @@ import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import xyz.xenondevs.particle.ParticleEffect;
+
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -36,19 +41,22 @@ public class PlayerListener implements Listener {
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
-        player.setWalkSpeed(0.3F);
+        player.setWalkSpeed(0.4F);
         player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
-        player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation().add(0.0D, 2.0D, 0.0D));
+        player.teleport(hubHandler.getSpawn() == null ? Bukkit.getWorlds().get(0).getSpawnLocation().clone() : hubHandler.getSpawn());
 
         if (hubHandler.isEnderButtEnabled()) {
             player.getInventory().setItem(this.plugin.getItemCache().get("enderbutt").getKey(), this.plugin.getItemCache().get("enderbutt").getValue());
         }
 
         final int serverSelectorSlot = this.plugin.getItemCache().get("server-selector").getKey();
-
         player.getInventory().setItem(serverSelectorSlot, this.plugin.getItemCache().get("server-selector").getValue());
+
         player.getInventory().setItem(this.plugin.getItemCache().get("hub-selector").getKey(), this.plugin.getItemCache().get("hub-selector").getValue());
         player.getInventory().setItem(this.plugin.getItemCache().get("cosmetics").getKey(), this.plugin.getItemCache().get("cosmetics").getValue());
+        player.getInventory().setItem(this.plugin.getItemCache().get("profile").getKey(), new ItemBuilder(this.plugin.getItemCache().get("profile").getValue())
+                .setOwner(player.getName())
+                .create());
 
         player.getInventory().setHeldItemSlot(serverSelectorSlot > 8 ? 0 : serverSelectorSlot);
 
@@ -81,15 +89,27 @@ public class PlayerListener implements Listener {
             if (player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
 
-                player.setVelocity(player.getLocation().getDirection().multiply(hubHandler.getDoubleJumpMultiply()).setY(1.1D));
+                final Vector finalLoc = player.getLocation().getDirection().multiply(hubHandler.getDoubleJumpMultiply()).setY(1.1D);
+
+                player.setVelocity(finalLoc);
 
                 if (hubHandler.isDoubleJumpSoundEnabled()) {
                     player.playSound(player.getLocation(), hubHandler.getDoubleJumpSound(), 1F, 1F);
                 }
-                if (hubHandler.isDoubleJumpEffectEnabled()) {
-                    player.spigot().playEffect(player.getLocation(), hubHandler.getDoubleJumpEffect(), 1, 1, 1.0f, 1.0f, 1.0f, 1.0f, 1, 1);
-                }
+
+                ParticleEffect.EXPLOSION_LARGE.display(player.getLocation());
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractAtEntityEvent event) {
+        final Entity entity = event.getRightClicked();
+
+        if (entity instanceof Player && !entity.hasMetadata("NPC")) {
+            final Player player = (Player) entity;
+
+            new PlayerInfoMenu(player).open(event.getPlayer());
         }
     }
 
@@ -100,11 +120,11 @@ public class PlayerListener implements Listener {
         if (event.getAction().name().contains("RIGHT") && event.getItem() != null && event.getItem().hasItemMeta()) {
             if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("server-selector").getValue().getItemMeta().getDisplayName())) {
                 new ServerSelectorMenu(player, this.plugin).open(player);
-            }
-            if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("hub-selector").getValue().getItemMeta().getDisplayName())) {
+            } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("hub-selector").getValue().getItemMeta().getDisplayName())) {
                 new HubSelectorMenu(player, this.plugin).open(player);
-            }
-            if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("cosmetics").getValue().getItemMeta().getDisplayName())) {
+            } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("profile").getValue().getItemMeta().getDisplayName())) {
+                new PlayerInfoMenu(player).open(player);
+            } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("cosmetics").getValue().getItemMeta().getDisplayName())) {
                 new CosmeticMainMenu(this.plugin).openMenu(player);
             }
         }

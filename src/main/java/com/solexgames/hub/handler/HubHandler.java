@@ -2,10 +2,12 @@ package com.solexgames.hub.handler;
 
 import com.cryptomorin.xseries.XSound;
 import com.solexgames.core.util.Color;
+import com.solexgames.core.util.LocationUtil;
 import com.solexgames.hub.HubPlugin;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 
 import java.util.Collections;
@@ -41,12 +43,15 @@ public class HubHandler {
 
     private Sound doubleJumpSound;
     private Effect doubleJumpEffect;
+    private Location spawn;
 
     private int lowestYAxis;
 
     public HubHandler(HubPlugin plugin) {
         this.plugin = plugin;
 
+
+        this.spawn = LocationUtil.getLocationFromString(this.plugin.getConfig().getString("spawn")).orElse(null);
         try {
             this.lowestYAxis = this.plugin.getSettings().getInt("settings.lowest-y-axis");
         } catch (Exception e) {
