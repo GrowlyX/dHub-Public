@@ -34,6 +34,11 @@ public class MenuAction {
                     return;
                 }
 
+                if (potPlayer.isCurrentlyBlacklisted()) {
+                    player.sendMessage(ChatColor.RED + "You cannot join servers right now since you are blacklisted.");
+                    return;
+                }
+
                 BungeeUtil.sendToServer(player, value, plugin);
                 break;
             case JOIN_QUEUE:
@@ -44,6 +49,11 @@ public class MenuAction {
 
                 if (potPlayer.isCurrentlyRestricted()) {
                     player.sendMessage(ChatColor.RED + "You cannot join queues right now since you are restricted.");
+                    return;
+                }
+
+                if (potPlayer.isCurrentlyBlacklisted()) {
+                    player.sendMessage(ChatColor.RED + "You cannot join queues right now since you are blacklisted.");
                     return;
                 }
 
