@@ -4,6 +4,7 @@ import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.PotPlayer;
 import com.solexgames.core.util.BungeeUtil;
 import com.solexgames.core.util.Color;
+import com.solexgames.core.util.LockedState;
 import com.solexgames.hub.HubPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,6 +24,11 @@ public class MenuAction {
                 plugin.getSubMenuHandler().openSubMenu(value, player);
                 break;
             case SERVER_SEND:
+                if (LockedState.isLocked(player)) {
+                    player.sendMessage(ChatColor.RED + "You cannot join servers right now since you haven't authenticated.");
+                    return;
+                }
+
                 if (potPlayer.isCurrentlyRestricted()) {
                     player.sendMessage(ChatColor.RED + "You cannot join servers right now since you are restricted.");
                     return;
@@ -31,6 +37,11 @@ public class MenuAction {
                 BungeeUtil.sendToServer(player, value, plugin);
                 break;
             case JOIN_QUEUE:
+                if (LockedState.isLocked(player)) {
+                    player.sendMessage(ChatColor.RED + "You cannot join queues right now since you haven't authenticated.");
+                    return;
+                }
+
                 if (potPlayer.isCurrentlyRestricted()) {
                     player.sendMessage(ChatColor.RED + "You cannot join queues right now since you are restricted.");
                     return;
