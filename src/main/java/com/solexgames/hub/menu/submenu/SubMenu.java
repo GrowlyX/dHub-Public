@@ -1,5 +1,6 @@
 package com.solexgames.hub.menu.submenu;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
@@ -51,7 +52,7 @@ public class SubMenu extends AbstractInventoryMenu {
         if (topInventory.equals(clickedInventory)) {
             event.setCancelled(true);
 
-            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
+            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() &&  !event.getCurrentItem().getType().equals(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial())) {
                 final MenuAction.Type action = ItemUtil.getActionFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), this.plugin);
                 final String value = ItemUtil.getValueFromConfig("sub-menus." + this.path + ".items." + event.getRawSlot(), this.plugin);
 
