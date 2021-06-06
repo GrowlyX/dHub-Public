@@ -1,6 +1,7 @@
 package com.solexgames.hub.menu;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.solexgames.core.CorePlugin;
+import com.solexgames.core.enums.ServerType;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
@@ -51,7 +52,14 @@ public class ServerSelectorMenu extends AbstractInventoryMenu {
         if (topInventory.equals(clickedInventory)) {
             event.setCancelled(true);
 
-            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && !event.getCurrentItem().getType().equals(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial())) {
+            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && !event.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE)) {
+                if (CorePlugin.getInstance().getServerManager().getNetwork().equals(ServerType.PVPBAR)) {
+                    if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Meetup")) {
+                        this.player.performCommand("meetup");
+                        return;
+                    }
+                }
+
                 final MenuAction.Type action = ItemUtil.getActionFromConfig("server-selector.items." + event.getRawSlot(), this.plugin);
                 final String value = ItemUtil.getValueFromConfig("server-selector.items." + event.getRawSlot(), this.plugin);
 

@@ -1,6 +1,5 @@
 package com.solexgames.hub.menu;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.solexgames.core.util.LocationUtil;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.menu.AbstractInventoryMenu;
@@ -33,13 +32,13 @@ public class SetupHubMenu extends AbstractInventoryMenu {
 
     @Override
     public void update() {
-        this.inventory.setItem(3, new ItemBuilder(XMaterial.LIME_DYE.parseMaterial(), 6)
+        this.inventory.setItem(3, new ItemBuilder(Material.INK_SACK, 6)
                 .setDisplayName("&aReload Neon")
                 .addLore(
                         "&7Click this item to reload",
                         "&7configuration files!"
                 ).create());
-        this.inventory.setItem(5, new ItemBuilder(XMaterial.LIME_DYE.parseMaterial(), 8)
+        this.inventory.setItem(5, new ItemBuilder(Material.INK_SACK, 8)
                 .setDisplayName("&aSet Spawn")
                 .addLore(
                         "&7Click this item to set",

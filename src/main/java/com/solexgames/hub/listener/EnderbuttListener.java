@@ -1,6 +1,5 @@
 package com.solexgames.hub.listener;
 
-import com.cryptomorin.xseries.XSound;
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -24,7 +23,6 @@ public class EnderbuttListener implements Listener {
 
             if (displayName.equalsIgnoreCase(display)) {
                 player.setVelocity(player.getLocation().getDirection().multiply(2.5F));
-                player.playSound(player.getLocation(), XSound.ENTITY_EXPERIENCE_ORB_PICKUP.parseSound(), 1.0F, 1.0F);
 
                 event.setCancelled(true);
                 event.setUseItemInHand(Event.Result.DENY);

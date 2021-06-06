@@ -44,12 +44,12 @@ public class CosmeticMainMenu extends Menu {
         );
 
         buttonMap.put(5, new ItemBuilder(Material.BLAZE_POWDER)
-                .setDisplayName(ChatColor.YELLOW + ChatColor.BOLD.toString() + "Particles")
+                .setDisplayName(ChatColor.YELLOW + ChatColor.BOLD.toString() + "Trails")
                 .addLore(
                         "&7Click to view all available",
-                        "&7particle cosmetics!",
+                        "&7trail cosmetics!",
                         "",
-                        "&e[Click to view particle types]"
+                        "&e[Click to view trail types]"
                 )
                 .toButton((player1, clickType) -> new CosmeticParticleSelectionMenu(this.plugin).openMenu(player))
         );

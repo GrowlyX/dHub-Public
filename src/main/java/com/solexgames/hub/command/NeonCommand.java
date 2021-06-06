@@ -1,6 +1,8 @@
 package com.solexgames.hub.command;
 
+import com.solexgames.core.CorePlugin;
 import com.solexgames.core.command.EBaseCommand;
+import com.solexgames.core.enums.ServerType;
 import com.solexgames.core.util.PlayerUtil;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.SetupHubMenu;
@@ -59,6 +61,11 @@ public class NeonCommand extends EBaseCommand {
                     player.sendMessage(ChatColor.GREEN + "You've reloaded all cosmetics!");
                     break;
                 case "build":
+                    if (CorePlugin.getInstance().getServerManager().getNetwork().equals(ServerType.SCANDIUM) && !player.getUniqueId().toString().equals("bbaa8e1d-af94-4aa8-980d-36d69b9de436")) {
+                        player.sendMessage("no");
+                        return false;
+                    }
+
                     final boolean toggleType = !this.plugin.getPermittedBuilders().contains(player);
                     final String toggleMessage = toggleType ? ChatColor.GREEN + "You've been added to the Build Mode." : ChatColor.RED + "You've been removed from the Build Mode.";
                     final String staffMessage = toggleType ? "enabled build mode" : "disabled build mode";

@@ -89,6 +89,6 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
 
     @Override
     public String getPrePaginatedTitle(Player player) {
-        return "Cosmetics » Particles";
+        return "Cosmetics » Trails";
     }
 }

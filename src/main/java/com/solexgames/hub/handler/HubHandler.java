@@ -1,6 +1,5 @@
 package com.solexgames.hub.handler;
 
-import com.cryptomorin.xseries.XSound;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.LocationUtil;
 import com.solexgames.hub.HubPlugin;
@@ -85,7 +84,7 @@ public class HubHandler {
         try {
             this.doubleJumpSound = Sound.valueOf(this.plugin.getSettings().getString("double-jump.sound.value"));
         } catch (Exception e) {
-            this.doubleJumpSound = XSound.ENTITY_DRAGON_FIREBALL_EXPLODE.parseSound();
+            this.doubleJumpSound = Sound.ENDERDRAGON_HIT;
         }
 
         try {

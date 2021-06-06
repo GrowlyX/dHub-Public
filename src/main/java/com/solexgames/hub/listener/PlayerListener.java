@@ -1,6 +1,5 @@
 package com.solexgames.hub.listener;
 
-import com.cryptomorin.xseries.XSound;
 import com.solexgames.core.menu.impl.player.PlayerInfoMenu;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
@@ -94,8 +93,7 @@ public class PlayerListener implements Listener {
 
                 player.setVelocity(finalLoc);
 
-                ParticleEffect.EXPLOSION_LARGE.display(player.getEyeLocation());
-                XSound.ENTITY_DRAGON_FIREBALL_EXPLODE.play(player.getLocation());
+                ParticleEffect.EXPLOSION_LARGE.display(player.getLocation());
             }
         }
     }

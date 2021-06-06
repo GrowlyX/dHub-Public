@@ -8,9 +8,11 @@ import com.solexgames.hub.cosmetic.CosmeticType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import xyz.xenondevs.particle.ParticleEffect;
 
 /**
@@ -43,7 +45,7 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
     @Override
     public void applyTo(Player player, ParticleEffect particleEffect) {
         final BukkitRunnable bukkitRunnable = new ParticleUpdaterRunnable(player, particleEffect);
-        bukkitRunnable.runTaskTimer(this.hubPlugin, 5L, 5L);
+        bukkitRunnable.runTaskTimer(this.hubPlugin, 2L, 2L);
 
         this.hubPlugin.getCosmeticHandler().getRunnableHashMap().put(player, bukkitRunnable);
     }
@@ -55,7 +57,7 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
 
     public ItemBuilder getMenuItemBuilder() {
         return new ItemBuilder(Material.BLAZE_ROD)
-                .setDisplayName(Color.MAIN_COLOR + this.getName() + " Cosmetic");
+                .setDisplayName(Color.MAIN_COLOR + this.getName() + " Trail");
     }
 
     @Getter
@@ -67,7 +69,12 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
 
         @Override
         public void run() {
-            this.particleEffect.display(this.player.getLocation().add(0.0D, 2.2D, 0.0D));
+            final Vector vector = this.player.getLocation().toVector()
+                    .normalize().multiply(-1);
+            final Location location = this.player.getLocation().clone()
+                    .add(0.0D, 2.2D, 0.0D).add(vector);
+
+            this.particleEffect.display(location);
         }
     }
 }

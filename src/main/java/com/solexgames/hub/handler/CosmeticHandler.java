@@ -1,5 +1,6 @@
 package com.solexgames.hub.handler;
 
+import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.cosmetic.Cosmetic;
@@ -33,7 +34,7 @@ public class CosmeticHandler {
     }
 
     public void loadArmorCosmetics() {
-        Rank.getRanks().stream()
+        CorePlugin.getInstance().getRankManager().getRanks().stream()
                 .sorted(Comparator.comparingInt(Rank::getWeight).reversed())
                 .collect(Collectors.toList())
                 .forEach(rank -> {
@@ -45,8 +46,13 @@ public class CosmeticHandler {
     }
 
     public void loadParticleCosmetics() {
-        Arrays.stream(ParticleEffect.values())
-                .filter(particleEffect -> !particleEffect.getFieldName().equals("NONE"))
-                .forEachOrdered(particleEffect -> this.particleCosmeticMap.put(particleEffect, new ParticleCosmetic(particleEffect, this.plugin)));
+        this.particleCosmeticMap.put(ParticleEffect.HEART, new ParticleCosmetic(ParticleEffect.HEART, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.NOTE, new ParticleCosmetic(ParticleEffect.NOTE, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.FIREWORKS_SPARK, new ParticleCosmetic(ParticleEffect.FIREWORKS_SPARK, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.SLIME, new ParticleCosmetic(ParticleEffect.SLIME, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.WATER_SPLASH, new ParticleCosmetic(ParticleEffect.WATER_SPLASH, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.FLAME, new ParticleCosmetic(ParticleEffect.FLAME, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.CLOUD, new ParticleCosmetic(ParticleEffect.CLOUD, this.plugin));
+        this.particleCosmeticMap.put(ParticleEffect.SMOKE_NORMAL, new ParticleCosmetic(ParticleEffect.SMOKE_NORMAL, this.plugin));
     }
 }
