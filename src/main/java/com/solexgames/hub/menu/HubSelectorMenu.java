@@ -1,6 +1,7 @@
 package com.solexgames.hub.menu;
 
 import com.solexgames.core.CorePlugin;
+import com.solexgames.core.enums.NetworkServerStatusType;
 import com.solexgames.core.enums.NetworkServerType;
 import com.solexgames.core.menu.AbstractInventoryMenu;
 import com.solexgames.core.server.NetworkServer;
@@ -47,6 +48,7 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
         }
 
         final AtomicInteger atomicInteger = new AtomicInteger(10);
+
         CorePlugin.getInstance().getServerManager().getNetworkServers().stream()
                 .filter(Objects::nonNull)
                 .filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB))
@@ -55,12 +57,14 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                         List<String> list = this.hubPlugin.getMenus().getStringList("hub-selector.item.lore");
                         list = PlaceholderAPI.setPlaceholders(player, list);
 
-                        List<String> finalList = new ArrayList<>();
+                        final List<String> finalList = new ArrayList<>();
+                        final boolean thisServer = CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName());
+
                         list.forEach(s -> finalList.add(s
                                 .replace("<online>", String.valueOf(networkServer.getOnlinePlayers()))
                                 .replace("<max>", String.valueOf(networkServer.getMaxPlayerLimit()))
-                                .replace("<status>", (CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName()) ? "&cAlready Connected!" : networkServer.getServerStatus().getServerStatusFancyString()))
-                                .replace("<joinstatus>", (CorePlugin.getInstance().getServerName().equalsIgnoreCase(networkServer.getServerName()) ? "&c[Currently connected]" : networkServer.getServerStatus().getServerStatusFancyString()))
+                                .replace("<status>", (thisServer ? "&cAlready Connected!" : networkServer.getServerStatus().getServerStatusFancyString()))
+                                .replace("<joinstatus>", (thisServer ? "&c[Currently already connected]" : this.getByStatus(networkServer.getServerStatus())))
                         ));
 
                         this.inventory.setItem(atomicInteger.get(), new ItemBuilder(Material.valueOf(this.hubPlugin.getMenus().getString("hub-selector.item.item")))
@@ -101,6 +105,17 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                     this.player.closeInventory();
                 }
             }
+        }
+    }
+
+    public String getByStatus(NetworkServerStatusType statusType) {
+        switch (statusType) {
+            case ONLINE:
+                return "&e[Click to connect]";
+            case BOOTING:
+                return "&6[Currently booting]";
+            default:
+                return "&c[Currently cannot join]";
         }
     }
 }

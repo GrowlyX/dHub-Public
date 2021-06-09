@@ -6,6 +6,7 @@ import com.solexgames.core.enums.ServerType;
 import com.solexgames.core.util.PlayerUtil;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.menu.SetupHubMenu;
+import com.solexgames.hub.menu.captcha.CaptchaMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -51,6 +52,9 @@ public class NeonCommand extends EBaseCommand {
             switch (args[0].toLowerCase()) {
                 case "setup":
                     new SetupHubMenu(player, this.plugin).open(player);
+                    break;
+                case "captcha":
+//                    new CaptchaMenu()
                     break;
                 case "reloadcosmetics":
                     this.plugin.getCosmeticHandler().clearCosmetics();
