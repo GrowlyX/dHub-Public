@@ -2,20 +2,23 @@ package com.solexgames.hub.menu.cosmetic.selection;
 
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.PotPlayer;
+import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.cosmetic.CosmeticType;
+import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
+import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CosmeticArmorSelectionMenu extends PaginatedMenu {
@@ -32,7 +35,9 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
     public Map<Integer, Button> getGlobalButtons(Player player) {
         final Map<Integer, Button> buttonMap = new HashMap<>();
 
-        buttonMap.put(4, new ItemBuilder(Material.BED)
+        buttonMap.put(3, new ArmorCosmeticButton(null, ));
+
+        buttonMap.put(5, new ItemBuilder(Material.BED)
                 .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Reset Cosmetic")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .addLore(
@@ -62,23 +67,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
         this.plugin.getCosmeticHandler().getArmorCosmeticMap().values().stream()
                 .filter(cosmetic -> cosmetic.getCosmeticType().equals(CosmeticType.ARMOR) && cosmetic.getRank() != null && !cosmetic.getRank().isHidden())
                 .sorted(Comparator.comparingInt(cosmetic -> -cosmetic.getRank().getWeight()))
-                .forEach(armorCosmetic -> buttonMap.put(atomicInteger.getAndIncrement(), armorCosmetic.getMenuItemBuilder()
-                        .addLore(
-                                "&7Required Rank: " + armorCosmetic.getRank().getColor() + armorCosmetic.getRank().getName(),
-                                "",
-                                "&e[Click to apply this cosmetic]"
-                        )
-                        .toButton((player1, clickType) -> {
-                            if (!potPlayer.getActiveGrant().getRank().equals(armorCosmetic.getRank())) {
-                                player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
-                                return;
-                            }
-
-                            armorCosmetic.applyTo(player, armorCosmetic.getRank());
-
-                            player.closeInventory();
-                            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + armorCosmetic.getRank().getColor() + armorCosmetic.getRank().getName() + Color.SECONDARY_COLOR + " cosmetic!");
-                        })));
+                .forEach(armorCosmetic -> buttonMap.put(atomicInteger.getAndIncrement(), new ArmorCosmeticButton(potPlayer, armorCosmetic)));
 
         return buttonMap;
     }
@@ -86,5 +75,53 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
     @Override
     public String getPrePaginatedTitle(Player player) {
         return "Cosmetics » Armor";
+    }
+
+    @AllArgsConstructor
+    public static class ArmorCosmeticButton extends Button {
+
+        private final PotPlayer potPlayer;
+        private final ArmorCosmetic cosmetic;
+
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            final Rank rank = this.potPlayer.getActiveGrant().getRank();
+
+            final boolean canUse = rank != null ? rank.equals(this.cosmetic.getRank()) : this.potPlayer.getUserPermissions().contains(this.cosmetic.getPermission());
+
+            final List<String> lore = new ArrayList<>();
+            lore.add("");
+
+            if (canUse) {
+                lore.add("&e[Click to apply this armor]");
+            } else {
+                lore.add("&c[You cannot apply this armor]");
+            }
+
+            return this.cosmetic.getMenuItemBuilder()
+                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                    .addLore(
+                            (this.cosmetic.getRank() != null ? "&7Required Rank: " + this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() : ""),
+                            "",
+                            "&e[Click to apply this cosmetic]"
+                    ).create();
+        }
+
+        @Override
+        public void clicked(Player player, ClickType clickType) {
+            if (this.cosmetic.getRank() == null) {
+
+            }
+
+            if (this.playerRank != null && !this.playerRank.equals(this.cosmetic.getRank())) {
+                player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
+                return;
+            }
+
+            this.cosmetic.applyTo(player, this.cosmetic.getRank());
+
+            player.closeInventory();
+            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() + Color.SECONDARY_COLOR + " cosmetic!");
+        }
     }
 }

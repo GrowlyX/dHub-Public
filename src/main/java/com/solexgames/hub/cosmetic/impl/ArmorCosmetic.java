@@ -31,7 +31,7 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
 
     @Override
     public String getPermission() {
-        return "neon.cosmetic.armor." + this.rank.getName().toLowerCase();
+        return "neon.cosmetic.armor." + (this.rank != null ? this.rank.getName().toLowerCase() : this.name.toLowerCase());
     }
 
     @Override
@@ -41,9 +41,9 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
 
     @Override
     public void applyTo(Player player, Rank rank) {
-        final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(rank.getColor()).replace("&", "").replace("§", ""));
+        final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(rank != null ? rank.getColor() : "&r").replace("&", "").replace("§", ""));
         final Color color = this.getByChatColor(chatColor);
-        final String rankFancy = chatColor + ChatColor.BOLD.toString() + rank.getName();
+        final String rankFancy = chatColor + ChatColor.BOLD.toString() + (rank != null ? rank.getName() : this.name);
 
         player.getInventory().setArmorContents(new ItemStack[]{
                 new ItemBuilder(Material.LEATHER_HELMET).setDisplayName(rankFancy + " Helmet").setColor(color).create(),
@@ -62,12 +62,12 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
     }
 
     public ItemBuilder getMenuItemBuilder() {
-        final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(rank.getColor()).replace("&", "").replace("§", ""));
+        final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(this.rank != null ? this.rank.getColor() : "&r").replace("&", "").replace("§", ""));
         final Color color = this.getByChatColor(chatColor);
-        final String rankFancy = chatColor + ChatColor.BOLD.toString() + rank.getName();
+        final String rankFancy = chatColor + ChatColor.BOLD.toString() + (this.rank != null ? this.rank.getName() : this.name);
 
         return new ItemBuilder(Material.LEATHER_CHESTPLATE)
-                .setDisplayName(rankFancy + " Cosmetic")
+                .setDisplayName(rankFancy + " Armor")
                 .setColor(color);
     }
 
@@ -85,7 +85,13 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
             case GRAY: case DARK_GRAY: return Color.GRAY;
             case YELLOW: return Color.YELLOW;
             case WHITE: return Color.WHITE;
+            case RESET: return this.getChroma(3000f);
             default: return Color.BLACK;
         }
+    }
+
+    public Color getChroma(float speed) {
+        final java.awt.Color c = new java.awt.Color(java.awt.Color.HSBtoRGB(System.currentTimeMillis() % speed / 3000.0F, 0.8f, 0.8f));
+        return Color.fromRGB(c.getRed(), c.getGreen(), c.getBlue());
     }
 }

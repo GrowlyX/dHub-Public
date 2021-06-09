@@ -36,15 +36,15 @@ public class CosmeticHandler {
     }
 
     public void loadArmorCosmetics() {
-        CorePlugin.getInstance().getRankManager().getRanks().stream()
-                .sorted(Comparator.comparingInt(Rank::getWeight).reversed())
-                .collect(Collectors.toList())
+        CorePlugin.getInstance().getRankManager().getRanks()
                 .forEach(rank -> {
                     final ArmorCosmetic cosmetic = new ArmorCosmetic(rank, rank.getName());
 
                     this.cosmeticList.add(cosmetic);
                     this.armorCosmeticMap.put(rank, cosmetic);
                 });
+
+        this.armorCosmeticMap.put(null, new ArmorCosmetic(null, "Chroma"));
     }
 
     public void loadParticleCosmetics() {
