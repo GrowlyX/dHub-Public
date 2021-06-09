@@ -38,18 +38,18 @@ public class CosmeticMainMenu extends Menu {
                         "&7Click to view all available",
                         "&7armor cosmetics!",
                         "",
-                        "&e[Click to view armor types]"
+                        "&e[Click to view armor]"
                 )
                 .toButton((player1, clickType) -> new CosmeticArmorSelectionMenu(this.plugin).openMenu(player))
         );
 
         buttonMap.put(5, new ItemBuilder(Material.BLAZE_POWDER)
-                .setDisplayName(ChatColor.YELLOW + ChatColor.BOLD.toString() + "Trails")
+                .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Trails")
                 .addLore(
                         "&7Click to view all available",
                         "&7trail cosmetics!",
                         "",
-                        "&e[Click to view trail types]"
+                        "&e[Click to view trails]"
                 )
                 .toButton((player1, clickType) -> new CosmeticParticleSelectionMenu(this.plugin).openMenu(player))
         );

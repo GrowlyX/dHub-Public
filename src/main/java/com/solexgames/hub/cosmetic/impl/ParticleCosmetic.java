@@ -8,6 +8,7 @@ import com.solexgames.hub.cosmetic.CosmeticType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import xyz.xenondevs.particle.ParticleEffect;
 public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
 
     private final ParticleEffect particleEffect;
+    private final Material displayMaterial;
     private final HubPlugin hubPlugin;
 
     @Override
@@ -34,7 +36,7 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
 
     @Override
     public String getPermission() {
-        return "neon.cosmetic.particle." + this.particleEffect.name().replace("_", "-").toLowerCase();
+        return "neon.cosmetic.trail." + this.particleEffect.name().replace("_", "-").toLowerCase();
     }
 
     @Override
@@ -56,8 +58,9 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
     }
 
     public ItemBuilder getMenuItemBuilder() {
-        return new ItemBuilder(Material.BLAZE_ROD)
-                .setDisplayName(Color.MAIN_COLOR + this.getName() + " Trail");
+        return new ItemBuilder(this.displayMaterial)
+                .setDurability(this.displayMaterial == Material.INK_SACK ? 15 : 0)
+                .setDisplayName(Color.MAIN_COLOR + ChatColor.BOLD + this.getName() + " Trail");
     }
 
     @Getter

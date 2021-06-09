@@ -69,7 +69,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                                 "&e[Click to apply this cosmetic]"
                         )
                         .toButton((player1, clickType) -> {
-                            if (!player.hasPermission(armorCosmetic.getPermission()) || !potPlayer.getActiveGrant().getRank().equals(armorCosmetic.getRank())) {
+                            if (!potPlayer.getActiveGrant().getRank().equals(armorCosmetic.getRank())) {
                                 player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
                                 return;
                             }
