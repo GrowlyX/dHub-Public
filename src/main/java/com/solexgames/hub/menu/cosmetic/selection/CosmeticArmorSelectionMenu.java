@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,6 +61,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
         this.plugin.getCosmeticHandler().getArmorCosmeticMap().values().stream()
                 .filter(cosmetic -> cosmetic.getCosmeticType().equals(CosmeticType.ARMOR) && cosmetic.getRank() != null && !cosmetic.getRank().isHidden())
+                .sorted(Comparator.comparingInt(cosmetic -> -cosmetic.getRank().getWeight()))
                 .forEach(armorCosmetic -> buttonMap.put(atomicInteger.getAndIncrement(), armorCosmetic.getMenuItemBuilder()
                         .addLore(
                                 "&7Required Rank: " + armorCosmetic.getRank().getColor() + armorCosmetic.getRank().getName(),
