@@ -35,8 +35,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
     public Map<Integer, Button> getGlobalButtons(Player player) {
         final Map<Integer, Button> buttonMap = new HashMap<>();
 
-        buttonMap.put(3, new ArmorCosmeticButton(null, ));
-
+        buttonMap.put(3, new ArmorCosmeticButton(null, this.plugin.getCosmeticHandler().getChromaCosmetic()));
         buttonMap.put(5, new ItemBuilder(Material.BED)
                 .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Reset Cosmetic")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -45,8 +44,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                         "&7cosmetic!",
                         "",
                         "&e[Click to reset cosmetic]"
-                )
-                .toButton((player1, clickType) -> {
+                ).toButton((player1, clickType) -> {
                     player1.getInventory().setArmorContents(null);
                     player1.updateInventory();
                     player1.closeInventory();
@@ -86,35 +84,29 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             final Rank rank = this.potPlayer.getActiveGrant().getRank();
-
-            final boolean canUse = rank != null ? rank.equals(this.cosmetic.getRank()) : this.potPlayer.getUserPermissions().contains(this.cosmetic.getPermission());
-
             final List<String> lore = new ArrayList<>();
-            lore.add("");
+            final boolean canUse = rank != null ? rank.equals(this.cosmetic.getRank()) : player.hasPermission(this.cosmetic.getPermission());
 
-            if (canUse) {
-                lore.add("&e[Click to apply this armor]");
-            } else {
-                lore.add("&c[You cannot apply this armor]");
+            lore.add(" ");
+            lore.add(canUse ? ChatColor.GRAY + "You have access to this armor." : Color.SECONDARY_COLOR + "You can buy this armor at");
+
+            if (!canUse) {
+                lore.add(Color.MAIN_COLOR + CorePlugin.getInstance().getServerManager().getNetwork().getStoreLink() + Color.SECONDARY_COLOR + ".");
             }
+
+            lore.add(" ");
+            lore.add(canUse ? "&e[Click to apply this armor]" : "&c[You cannot apply this armor]");
 
             return this.cosmetic.getMenuItemBuilder()
                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .addLore(
-                            (this.cosmetic.getRank() != null ? "&7Required Rank: " + this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() : ""),
-                            "",
-                            "&e[Click to apply this cosmetic]"
-                    ).create();
+                    .addLore(lore).create();
         }
 
         @Override
         public void clicked(Player player, ClickType clickType) {
-            if (this.cosmetic.getRank() == null) {
-
-            }
-
-            if (this.playerRank != null && !this.playerRank.equals(this.cosmetic.getRank())) {
-                player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
+            if (this.cosmetic.getRank() != null && !this.potPlayer.getActiveGrant().getRank().equals(this.cosmetic.getRank())) {
+                return;
+            } else if (this.cosmetic.getRank() == null && !player.hasPermission(this.cosmetic.getPermission())) {
                 return;
             }
 

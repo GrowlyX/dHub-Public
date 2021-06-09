@@ -28,6 +28,8 @@ public class CosmeticHandler {
 
     private final List<Cosmetic<?>> cosmeticList = new ArrayList<>();
 
+    private ArmorCosmetic chromaCosmetic;
+
     private final HubPlugin plugin;
 
     public void clearCosmetics() {
@@ -44,7 +46,7 @@ public class CosmeticHandler {
                     this.armorCosmeticMap.put(rank, cosmetic);
                 });
 
-        this.armorCosmeticMap.put(null, new ArmorCosmetic(null, "Chroma"));
+        this.chromaCosmetic = new ArmorCosmetic(null, "Chroma");
     }
 
     public void loadParticleCosmetics() {
