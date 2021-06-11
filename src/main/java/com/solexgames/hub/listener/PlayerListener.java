@@ -3,6 +3,7 @@ package com.solexgames.hub.listener;
 import com.solexgames.core.menu.impl.player.PlayerInfoMenu;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
+import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
 import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
@@ -76,6 +77,15 @@ public class PlayerListener implements Listener {
             bukkitRunnable.cancel();
 
             this.plugin.getCosmeticHandler().getRunnableHashMap().remove(event.getPlayer());
+        }
+
+        final ArmorCosmetic.ArmorUpdaterRunnable updaterRunnable = ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.get(event.getPlayer().getUniqueId());
+
+        if (updaterRunnable != null) {
+            event.getPlayer().getInventory().clear();
+
+            updaterRunnable.cancel();
+            ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.remove(event.getPlayer().getUniqueId());
         }
 
         event.setQuitMessage(null);

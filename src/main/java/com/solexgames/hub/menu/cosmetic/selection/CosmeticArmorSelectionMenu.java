@@ -34,8 +34,9 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
     @Override
     public Map<Integer, Button> getGlobalButtons(Player player) {
         final Map<Integer, Button> buttonMap = new HashMap<>();
+        final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
 
-        buttonMap.put(3, new ArmorCosmeticButton(null, this.plugin.getCosmeticHandler().getChromaCosmetic()));
+        buttonMap.put(3, new ArmorCosmeticButton(potPlayer, this.plugin.getCosmeticHandler().getChromaCosmetic()));
         buttonMap.put(5, new ItemBuilder(Material.BED)
                 .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Reset Cosmetic")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -45,6 +46,13 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                         "",
                         "&e[Click to reset cosmetic]"
                 ).toButton((player1, clickType) -> {
+                    final ArmorCosmetic.ArmorUpdaterRunnable updaterRunnable = ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.get(player1.getUniqueId());
+
+                    if (updaterRunnable != null) {
+                        updaterRunnable.cancel();
+                        ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.remove(player1.getUniqueId());
+                    }
+
                     player1.getInventory().setArmorContents(null);
                     player1.updateInventory();
                     player1.closeInventory();
@@ -76,7 +84,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
     }
 
     @AllArgsConstructor
-    public static class ArmorCosmeticButton extends Button {
+    public class ArmorCosmeticButton extends Button {
 
         private final PotPlayer potPlayer;
         private final ArmorCosmetic cosmetic;
@@ -112,8 +120,15 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
             this.cosmetic.applyTo(player, this.cosmetic.getRank());
 
+            if (this.cosmetic.getRank() == null) {
+                final ArmorCosmetic.ArmorUpdaterRunnable updaterRunnable = new ArmorCosmetic.ArmorUpdaterRunnable(player, this.cosmetic, plugin);
+                updaterRunnable.runTaskTimer(plugin, 0L, 2L);
+
+                ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.put(player.getUniqueId(), updaterRunnable);
+            }
+
             player.closeInventory();
-            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() + Color.SECONDARY_COLOR + " cosmetic!");
+            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + (this.cosmetic.getRank() != null ? this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() : ChatColor.GREEN + "Chroma") + Color.SECONDARY_COLOR + " cosmetic!");
         }
     }
 }

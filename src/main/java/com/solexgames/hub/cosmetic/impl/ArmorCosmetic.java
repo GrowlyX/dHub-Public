@@ -2,15 +2,24 @@ package com.solexgames.hub.cosmetic.impl;
 
 import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.builder.ItemBuilder;
+import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.cosmetic.Cosmetic;
 import com.solexgames.hub.cosmetic.CosmeticType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import xyz.xenondevs.particle.ParticleEffect;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author GrowlyX
@@ -20,6 +29,8 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 @RequiredArgsConstructor
 public class ArmorCosmetic extends Cosmetic<Rank> {
+
+    public static final Map<UUID, ArmorUpdaterRunnable> ARMOR_UPDATER_RUNNABLE_MAP = new HashMap<>();
 
     private final Rank rank;
     private final String name;
@@ -45,12 +56,14 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
         final Color color = this.getByChatColor(chatColor);
         final String rankFancy = chatColor + ChatColor.BOLD.toString() + (rank != null ? rank.getName() : this.name);
 
-        player.getInventory().setArmorContents(new ItemStack[]{
-                new ItemBuilder(Material.LEATHER_HELMET).setDisplayName(rankFancy + " Helmet").setColor(color).create(),
-                new ItemBuilder(Material.LEATHER_CHESTPLATE).setDisplayName(rankFancy + " Chestplate").setColor(color).create(),
-                new ItemBuilder(Material.LEATHER_LEGGINGS).setDisplayName(rankFancy + " Pants").setColor(color).create(),
-                new ItemBuilder(Material.LEATHER_BOOTS).setDisplayName(rankFancy + " Boots").setColor(color).create(),
-        });
+        final ItemStack[] itemStacks = new ItemStack[4];
+
+        itemStacks[3] = new ItemBuilder(Material.LEATHER_HELMET).setDisplayName(rankFancy + " Helmet").setColor(color).create();
+        itemStacks[2] = new ItemBuilder(Material.LEATHER_CHESTPLATE).setDisplayName(rankFancy + " Chestplate").setColor(color).create();
+        itemStacks[1] = new ItemBuilder(Material.LEATHER_LEGGINGS).setDisplayName(rankFancy + " Pants").setColor(color).create();
+        itemStacks[0] = new ItemBuilder(Material.LEATHER_BOOTS).setDisplayName(rankFancy + " Boots").setColor(color).create();
+
+        player.getInventory().setArmorContents(itemStacks);
 
         player.updateInventory();
     }
@@ -85,13 +98,46 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
             case GRAY: case DARK_GRAY: return Color.GRAY;
             case YELLOW: return Color.YELLOW;
             case WHITE: return Color.WHITE;
-            case RESET: return this.getChroma(3000f);
             default: return Color.BLACK;
         }
     }
 
-    public Color getChroma(float speed) {
-        final java.awt.Color c = new java.awt.Color(java.awt.Color.HSBtoRGB(System.currentTimeMillis() % speed / 3000.0F, 0.8f, 0.8f));
-        return Color.fromRGB(c.getRed(), c.getGreen(), c.getBlue());
+    @Getter
+    @RequiredArgsConstructor
+    public static class ArmorUpdaterRunnable extends BukkitRunnable {
+
+        private final Player player;
+        private final ArmorCosmetic armorCosmetic;
+        private final HubPlugin plugin;
+
+        private int tick = -1;
+        private int glassTick = -1;
+
+        @Override
+        public void run() {
+            if (this.tick == 256) {
+                this.tick = -1;
+            }
+            if (this.glassTick == 16) {
+                this.glassTick = -1;
+            }
+
+            final int newTick = this.tick++;
+            final int newGlassTick = this.glassTick++;
+
+            final Color color = this.plugin.getCosmeticHandler()
+                    .getColorHashMap().get(newTick);
+            final String rankFancy = ChatColor.GREEN.toString() + ChatColor.BOLD + "Chroma";
+
+            final ItemStack[] itemStacks = new ItemStack[4];
+
+            itemStacks[3] = new ItemBuilder(Material.STAINED_GLASS).setDisplayName(rankFancy + " Helmet").setDurability(newGlassTick).create();
+            itemStacks[2] = new ItemBuilder(Material.LEATHER_CHESTPLATE).setDisplayName(rankFancy + " Chestplate").setColor(color).create();
+            itemStacks[1] = new ItemBuilder(Material.LEATHER_LEGGINGS).setDisplayName(rankFancy + " Pants").setColor(color).create();
+            itemStacks[0] = new ItemBuilder(Material.LEATHER_BOOTS).setDisplayName(rankFancy + " Boots").setColor(color).create();
+
+            this.player.getInventory().setArmorContents(itemStacks);
+            this.player.updateInventory();
+        }
     }
 }

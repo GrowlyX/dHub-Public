@@ -9,13 +9,16 @@ import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
 import com.solexgames.hub.cosmetic.impl.ParticleCosmetic;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.xenondevs.particle.ParticleEffect;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class CosmeticHandler {
     private final Map<Player, BukkitRunnable> runnableHashMap = new HashMap<>();
 
     private final Map<Rank, ArmorCosmetic> armorCosmeticMap = new HashMap<>();
+    private final Map<Integer, Color> colorHashMap = new HashMap<>();
     private final Map<ParticleEffect, ParticleCosmetic> particleCosmeticMap = new HashMap<>();
 
     private final List<Cosmetic<?>> cosmeticList = new ArrayList<>();
@@ -47,6 +51,17 @@ public class CosmeticHandler {
                 });
 
         this.chromaCosmetic = new ArmorCosmetic(null, "Chroma");
+
+        final double range = 255D;
+        final double f = (6.48D / range);
+
+        for (int i = 0; i < range; ++i) {
+            final double r = Math.sin(f * i + 0.0D) * 127.0D + 128.0D;
+            final double g = Math.sin(f * i + (2 * Math.PI / 3)) * 127.0D + 128.0D;
+            final double b = Math.sin(f * i + (4 * Math.PI / 3)) * 127.0D + 128.0D;
+
+            this.colorHashMap.put(i, Color.fromRGB((int) r, (int) g, (int) b));
+        }
     }
 
     public void loadParticleCosmetics() {
