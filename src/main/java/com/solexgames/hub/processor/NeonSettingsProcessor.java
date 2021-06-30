@@ -5,6 +5,7 @@ import lombok.Data;
 import me.lucko.helper.serialize.Position;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,7 @@ public class NeonSettingsProcessor {
     private String queueSystem = "PORTAL";
 
     @Comment("Should we let players chat in the hub?")
-    private Position spawnLocation = null;
+    private Location spawnLocation = null;
 
     @Comment("What should the scoreboard title be?")
     private String scoreboardTitle = ChatColor.GOLD + "SolexGames";

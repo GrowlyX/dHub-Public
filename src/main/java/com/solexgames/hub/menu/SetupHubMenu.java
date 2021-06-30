@@ -56,7 +56,7 @@ public class SetupHubMenu extends AbstractInventoryMenu {
                     this.player.sendMessage(Color.SECONDARY_COLOR + "You've reloaded all configuration files related to Neon!");
                     this.player.closeInventory();
                 } else if (event.getRawSlot() == 0) {
-                    this.getPlugin().getSettingsProcessor().setSpawnLocation(Position.of(this.player.getLocation()));
+                    this.getPlugin().getSettingsProcessor().setSpawnLocation(this.player.getLocation());
 
                     this.player.closeInventory();
                     this.player.sendMessage("You've set the spawn of this hub!");

@@ -45,7 +45,7 @@ public class PlayerListener implements Listener {
         player.setAllowFlight(this.plugin.getSettingsProcessor().isDoubleJumpEnabled());
 
         if (this.plugin.getSettingsProcessor().getSpawnLocation() != null) {
-            player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation().toLocation());
+            player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation());
         } else {
             if (player.isOp()) {
                 player.sendMessage(Color.MAIN_COLOR + "[Neon] " + Color.SECONDARY_COLOR + "Hey! You should set the spawn location via /neon setup.");
@@ -71,6 +71,10 @@ public class PlayerListener implements Listener {
 
         if (this.plugin.getSettingsProcessor().isCaptchaEnabled()) {
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 5L);
+        }
+
+        if (this.plugin.getSettingsProcessor().isHidePlayers()) {
+            Bukkit.getOnlinePlayers().forEach(player::hidePlayer);
         }
     }
 

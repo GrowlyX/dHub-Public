@@ -1,8 +1,8 @@
 package com.solexgames.hub.processor.adapter;
 
-import com.google.gson.JsonParser;
+import com.solexgames.core.util.LocationUtil;
 import com.solexgames.lib.processor.config.internal.adapt.ObjectAdapter;
-import me.lucko.helper.serialize.Position;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -10,22 +10,21 @@ import org.bukkit.configuration.ConfigurationSection;
  * @since 6/29/2021
  */
 
-public class PositionObjectAdapter implements ObjectAdapter<Position, String> {
+public class PositionObjectAdapter implements ObjectAdapter<Location, String> {
 
     @Override
-    public Position read(String key, ConfigurationSection configurationSection) {
+    public Location read(String key, ConfigurationSection configurationSection) {
         final String value = configurationSection.getString(key);
-        final JsonParser jsonParser = new JsonParser();
 
         if (value.equals("Unknown")) {
             return null;
         }
 
-        return Position.deserialize(jsonParser.parse(value));
+        return LocationUtil.getLocationFromString(value).orElse(null);
     }
 
     @Override
-    public String write(Position position) {
-        return position == null ? "Unknown" : position.serialize().toString();
+    public String write(Location position) {
+        return LocationUtil.getStringFromLocation(position).orElse("Unknown");
     }
 }

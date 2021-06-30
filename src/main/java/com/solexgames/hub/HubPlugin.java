@@ -1,5 +1,6 @@
 package com.solexgames.hub;
 
+import com.solexgames.core.CorePlugin;
 import com.solexgames.hub.board.BoardAdapter;
 import com.solexgames.hub.command.NeonCommand;
 import com.solexgames.hub.external.ExternalConfig;
@@ -8,6 +9,7 @@ import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
 import com.solexgames.hub.listener.PlayerListener;
+import com.solexgames.hub.processor.NeonChatProcessor;
 import com.solexgames.hub.processor.NeonSettingsProcessor;
 import com.solexgames.hub.processor.adapter.PositionObjectAdapter;
 import com.solexgames.hub.queue.IQueue;
@@ -21,6 +23,7 @@ import com.solexgames.lib.processor.config.internal.adapt.AdapterHandler;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
 import lombok.Getter;
 import me.lucko.helper.serialize.Position;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,8 +48,6 @@ public final class HubPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
-
-        AdapterHandler.registerAdapter(Position.class, new PositionObjectAdapter());
 
         this.settingsProcessor = this.configFactory.fromFile("options", NeonSettingsProcessor.class);
         this.menus = new ExternalConfig("menus", this);
@@ -77,6 +78,10 @@ public final class HubPlugin extends JavaPlugin {
 
         if (this.itemCache.get("enderbutt") != null) {
             this.getServer().getPluginManager().registerEvents(new EnderbuttListener(this), this);
+        }
+
+        if (!this.settingsProcessor.isChatEnabled()) {
+            CorePlugin.getInstance().getChatCheckList().add(new NeonChatProcessor(this));
         }
 
         new GlobalStatusUpdateTask().runTaskTimerAsynchronously(this, 0L, 20L);

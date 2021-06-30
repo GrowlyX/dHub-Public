@@ -45,7 +45,7 @@ public class AntiListener implements Listener {
             final Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation().toLocation());
+                player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation());
             }
         }
     }
