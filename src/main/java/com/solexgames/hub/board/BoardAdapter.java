@@ -20,13 +20,13 @@ public class BoardAdapter implements ScoreboardElementHandler {
     public ScoreboardElement getElement(Player player) {
         final ScoreboardElement element = new ScoreboardElement();
 
-        element.setTitle(this.plugin.getHubHandler().getScoreboardTitle().replace("<bar>", "┃"));
+        element.setTitle(this.plugin.getSettingsProcessor().getScoreboardTitle().replace("<bar>", Character.toString('┃')));
 
         final boolean isInQueue = this.plugin.getQueueImpl().isInQueue(player);
         final List<String> finalLines = new ArrayList<>();
 
         if (isInQueue) {
-            final List<String> scoreboardLines = this.plugin.getHubHandler().getScoreboardLinesQueued();
+            final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getQueuedScoreboardLines();
 
             for (String string : scoreboardLines) {
                 finalLines.add(string.replace("<global_online>", String.valueOf(GlobalStatusUpdateTask.GLOBAL_PLAYERS))
@@ -36,7 +36,7 @@ public class BoardAdapter implements ScoreboardElementHandler {
                 );
             }
         } else {
-            final List<String> scoreboardLines = this.plugin.getHubHandler().getScoreboardLinesNormal();
+            final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getNormalScoreboardLines();
 
             for (String string : scoreboardLines) {
                 finalLines.add(string.replace("<global_online>", String.valueOf(GlobalStatusUpdateTask.GLOBAL_PLAYERS)));

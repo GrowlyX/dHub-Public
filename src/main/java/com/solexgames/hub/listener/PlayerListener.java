@@ -1,10 +1,10 @@
 package com.solexgames.hub.listener;
 
 import com.solexgames.core.menu.impl.player.PlayerInfoMenu;
+import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
-import com.solexgames.hub.handler.HubHandler;
 import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.menu.captcha.CaptchaMenu;
@@ -12,19 +12,16 @@ import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import xyz.xenondevs.particle.ParticleEffect;
-
-import java.time.LocalDate;
-import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -34,20 +31,28 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        final HubHandler hubHandler = this.plugin.getHubHandler();
 
         event.setJoinMessage(null);
 
         player.getInventory().clear();
+        player.getInventory().setArmorContents(new ItemStack[4]);
+
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setGameMode(GameMode.ADVENTURE);
 
         player.setWalkSpeed(0.4F);
-        player.setAllowFlight(hubHandler.isDoubleJumpEnabled());
-        player.teleport(hubHandler.getSpawn() == null ? Bukkit.getWorlds().get(0).getSpawnLocation().clone() : hubHandler.getSpawn());
+        player.setAllowFlight(this.plugin.getSettingsProcessor().isDoubleJumpEnabled());
 
-        if (hubHandler.isEnderButtEnabled()) {
+        if (this.plugin.getSettingsProcessor().getSpawnLocation() != null) {
+            player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation().toLocation());
+        } else {
+            if (player.isOp()) {
+                player.sendMessage(Color.MAIN_COLOR + "[Neon] " + Color.SECONDARY_COLOR + "Hey! You should set the spawn location via /neon setup.");
+            }
+        }
+
+        if (this.plugin.getItemCache().get("enderbutt") != null) {
             player.getInventory().setItem(this.plugin.getItemCache().get("enderbutt").getKey(), this.plugin.getItemCache().get("enderbutt").getValue());
         }
 
@@ -64,8 +69,8 @@ public class PlayerListener implements Listener {
 
         player.updateInventory();
 
-        if (hubHandler.isJoinCaptchaEnabled()) {
-            Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 10L);
+        if (this.plugin.getSettingsProcessor().isCaptchaEnabled()) {
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 5L);
         }
     }
 
@@ -94,13 +99,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerToggleFlight(PlayerToggleFlightEvent event) {
         final Player player = event.getPlayer();
-        final HubHandler hubHandler = this.plugin.getHubHandler();
 
         if (!this.plugin.getPermittedBuilders().contains(player)) {
             if (player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
 
-                final Vector finalLoc = player.getLocation().getDirection().multiply(hubHandler.getDoubleJumpMultiply()).setY(1.1D);
+                final Vector finalLoc = player.getLocation().getDirection().multiply(2.5D).setY(1.1D);
 
                 player.setVelocity(finalLoc);
 

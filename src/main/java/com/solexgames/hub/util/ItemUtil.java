@@ -16,7 +16,7 @@ import java.util.List;
 public final class ItemUtil {
 
     public static AbstractMap.SimpleEntry<Integer, ItemStack> getInventoryItemFromConfig(String section, HubPlugin plugin) {
-        final ConfigurationSection configurationSection = plugin.getSettings().getConfiguration().getConfigurationSection(section);
+        final ConfigurationSection configurationSection = plugin.getConfig().getConfigurationSection(section);
         final ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
 
         if (configurationSection.getString("display") != null) {

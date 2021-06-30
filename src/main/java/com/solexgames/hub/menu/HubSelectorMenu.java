@@ -53,7 +53,7 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                 .filter(Objects::nonNull)
                 .filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB))
                 .forEach(networkServer -> {
-                    if (atomicInteger.get() < 16) {
+                    if (atomicInteger.get() <= 16) {
                         List<String> list = this.hubPlugin.getMenus().getStringList("hub-selector.item.lore");
                         list = PlaceholderAPI.setPlaceholders(player, list);
 

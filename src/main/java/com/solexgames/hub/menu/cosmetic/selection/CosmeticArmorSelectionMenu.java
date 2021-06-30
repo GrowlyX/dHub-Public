@@ -96,11 +96,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
             final boolean canUse = rank != null ? rank.equals(this.cosmetic.getRank()) : player.hasPermission(this.cosmetic.getPermission());
 
             lore.add(" ");
-            lore.add(canUse ? ChatColor.GRAY + "You have access to this armor." : Color.SECONDARY_COLOR + "You can buy this armor at");
-
-            if (!canUse) {
-                lore.add(Color.MAIN_COLOR + CorePlugin.getInstance().getServerManager().getNetwork().getStoreLink() + Color.SECONDARY_COLOR + ".");
-            }
+            lore.add(canUse ? ChatColor.GRAY + "You have access to this armor." : ChatColor.RED + "You don't have this rank.");
 
             lore.add(" ");
             lore.add(canUse ? "&e[Click to apply this armor]" : "&c[You cannot apply this armor]");
@@ -121,6 +117,11 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
             this.cosmetic.applyTo(player, this.cosmetic.getRank());
 
             if (this.cosmetic.getRank() == null) {
+                if (ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.containsKey(player.getUniqueId())) {
+                    player.sendMessage(ChatColor.RED + "You already have chroma armor equipped.");
+                    return;
+                }
+
                 final ArmorCosmetic.ArmorUpdaterRunnable updaterRunnable = new ArmorCosmetic.ArmorUpdaterRunnable(player, this.cosmetic, plugin);
                 updaterRunnable.runTaskTimer(plugin, 0L, 2L);
 

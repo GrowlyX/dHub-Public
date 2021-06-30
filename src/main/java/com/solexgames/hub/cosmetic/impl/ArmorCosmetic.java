@@ -79,7 +79,7 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
         final Color color = this.getByChatColor(chatColor);
         final String rankFancy = chatColor + ChatColor.BOLD.toString() + (this.rank != null ? this.rank.getName() : this.name);
 
-        return new ItemBuilder(Material.LEATHER_CHESTPLATE)
+        return new ItemBuilder(Material.LEATHER_HELMET)
                 .setDisplayName(rankFancy + " Armor")
                 .setColor(color);
     }

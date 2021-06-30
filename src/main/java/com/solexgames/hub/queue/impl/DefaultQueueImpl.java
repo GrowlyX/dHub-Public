@@ -29,6 +29,5 @@ public class DefaultQueueImpl implements IQueue {
     @Override
     public void joinQueue(Player player, String server) {
         player.sendMessage(ChatColor.RED + "Something went terribly wrong while trying to add you to the " + ChatColor.YELLOW + server + ChatColor.RED + " queue.");
-        System.out.println("[Error] A player tried joining a queue, but there's no supported queue plugin installed!");
     }
 }

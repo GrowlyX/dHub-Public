@@ -1,1 +1,52 @@
 spawn: "NONE"
+items:
+  enderbutt:
+    display: "&6&lEnderbutt"
+    type: "ENDER_PEARL"
+    durability: 0
+    unbreakable: false
+    slot: 2
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to go flying with the Enderbutt!"
+  server-selector:
+    display: "&6&lServer Selector"
+    type: "COMPASS"
+    durability: 0
+    unbreakable: false
+    slot: 4
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view all available servers!"
+  hub-selector:
+    display: "&6&lHub Selector"
+    type: "NETHER_STAR"
+    durability: 0
+    unbreakable: false
+    slot: 6
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view all available hub servers!"
+  cosmetics:
+    display: "&6&lCosmetics"
+    type: "ENDER_CHEST"
+    durability: 0
+    unbreakable: false
+    slot: 8
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view all available cosmetics!"
+  profile:
+    display: "&6&lProfile"
+    type: "SKULL_ITEM"
+    durability: 3
+    unbreakable: false
+    slot: 1
+    lore:
+      enabled: true
+      strings:
+        - "&7Right-Click to view your in-game profile!"

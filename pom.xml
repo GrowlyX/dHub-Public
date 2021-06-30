@@ -102,11 +102,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.NoSequel</groupId>
-            <artifactId>TabAPI</artifactId>
-            <version>cdcecf027a</version>
-        </dependency>
-        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
@@ -119,38 +114,44 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.cryptomorin</groupId>
-            <artifactId>XSeries</artifactId>
-            <version>7.9.1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.solexgames.core</groupId>
-            <artifactId>Scandium</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/Scandium.jar</systemPath>
-        </dependency>
+
         <dependency>
             <groupId>xyz.xenondevs</groupId>
             <artifactId>particle</artifactId>
             <version>1.5.1</version>
         </dependency>
+
+        <!-- nv6 cutie dependencies !-->
         <dependency>
-            <groupId>com.github.vaperion</groupId>
-            <artifactId>blade</artifactId>
-            <version>1.1.0</version>
-            <scope>compile</scope>
+            <groupId>com.github.NoSequel</groupId>
+            <artifactId>TabAPI</artifactId>
+            <version>cdcecf027a</version>
         </dependency>
         <dependency>
             <groupId>com.github.NoSequel</groupId>
             <artifactId>ScoreboardAPI</artifactId>
             <version>d86c2c6d87</version>
+        </dependency>
+
+        <!-- solexgames :hot: !-->
+        <dependency>
+            <groupId>com.solexgames.core</groupId>
+            <artifactId>scandium-bukkit</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/Scandium.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.solexgames.lib.commons</groupId>
+            <artifactId>commonlibs-bukkit</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/commonslibs-bukkit.jar</systemPath>
         </dependency>
 
         <!-- Queue Implementation Dependencies !-->

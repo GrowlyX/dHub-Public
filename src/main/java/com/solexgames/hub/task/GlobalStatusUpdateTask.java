@@ -1,7 +1,7 @@
 package com.solexgames.hub.task;
 
-import com.solexgames.core.CorePlugin;
-import com.solexgames.core.server.NetworkServer;
+import me.lucko.helper.Services;
+import me.lucko.helper.messaging.bungee.BungeeCord;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -15,7 +15,10 @@ public class GlobalStatusUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        GlobalStatusUpdateTask.GLOBAL_PLAYERS = CorePlugin.getInstance().getServerManager().getNetworkServers().stream()
-                .mapToInt(NetworkServer::getOnlinePlayers).sum();
+        Services.get(BungeeCord.class).ifPresent(bungeeCord -> {
+            try {
+                GLOBAL_PLAYERS = bungeeCord.playerCount(BungeeCord.ALL_SERVERS).get();
+            } catch (Exception ignored) { }
+        });
     }
 }

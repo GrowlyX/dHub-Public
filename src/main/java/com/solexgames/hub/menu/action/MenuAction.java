@@ -6,6 +6,7 @@ import com.solexgames.core.util.BungeeUtil;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.LockedState;
 import com.solexgames.hub.HubPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -22,6 +23,9 @@ public class MenuAction {
                 break;
             case MENU:
                 plugin.getSubMenuHandler().openSubMenu(value, player);
+                break;
+            case COMMAND:
+                Bukkit.dispatchCommand(player, value);
                 break;
             case SERVER_SEND:
                 if (LockedState.isLocked(player)) {
@@ -67,6 +71,7 @@ public class MenuAction {
         SERVER_SEND,
         JOIN_QUEUE,
         MESSAGE,
+        COMMAND,
         MENU
 
     }
