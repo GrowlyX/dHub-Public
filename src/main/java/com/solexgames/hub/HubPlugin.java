@@ -84,6 +84,11 @@ public final class HubPlugin extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
+    @Override
+    public void onDisable() {
+        this.configFactory.save("options", this.settingsProcessor);
+    }
+
     private void loadQueueImpl() {
         if (this.settingsProcessor.getQueueSystem().equals("PORTAL")) {
             this.queueImpl = new PortalQueueImpl();
