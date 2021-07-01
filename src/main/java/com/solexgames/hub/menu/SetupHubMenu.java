@@ -50,7 +50,7 @@ public class SetupHubMenu extends AbstractInventoryMenu {
             final ItemStack item = event.getCurrentItem();
 
             if (!(item == null || item.getType() == Material.AIR)) {
-                if (event.getRawSlot() == 3) {
+                if (event.getRawSlot() == 1) {
                     this.plugin.reloadAllConfigs();
 
                     this.player.sendMessage(Color.SECONDARY_COLOR + "You've reloaded all configuration files related to Neon!");

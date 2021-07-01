@@ -15,12 +15,15 @@ import com.solexgames.hub.processor.adapter.PositionObjectAdapter;
 import com.solexgames.hub.queue.IQueue;
 import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
+import com.solexgames.hub.tab.NeonTabProcessor;
 import com.solexgames.hub.task.GlobalStatusUpdateTask;
 import com.solexgames.hub.util.ItemUtil;
 import com.solexgames.lib.commons.processor.AcfCommandProcessor;
 import com.solexgames.lib.processor.config.ConfigFactory;
 import com.solexgames.lib.processor.config.internal.adapt.AdapterHandler;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
+import io.github.nosequel.tab.shared.TabHandler;
+import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import lombok.Getter;
 import me.lucko.helper.serialize.Position;
 import org.bukkit.Location;
@@ -74,6 +77,10 @@ public final class HubPlugin extends JavaPlugin {
 
         if (this.settingsProcessor.isScoreboardEnabled()) {
             new ScoreboardHandler(this, new BoardAdapter(this), 20L);
+        }
+
+        if (this.settingsProcessor.isTablistEnabled()) {
+//            new TabHandler(new v1_8_R3TabAdapter(), new NeonTabProcessor(), this, 20L);
         }
 
         if (this.itemCache.get("enderbutt") != null) {
