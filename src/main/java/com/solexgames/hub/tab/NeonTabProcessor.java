@@ -37,29 +37,29 @@ public class NeonTabProcessor implements TabElementHandler {
         element.add(2, 3, ChatColor.GOLD + ChatColor.BOLD.toString() + "Discord");
         element.add(2, 4, ChatColor.GRAY + "discord.pvp.bar");
 
-        element.add(0, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "NA Practice");
-        element.add(0, 11, ChatColor.GREEN + this.getStatusOf("na-practice"));
-        element.add(0, 12, ChatColor.GRAY + "(" + this.getPlayerCountOf("na-practice") + "/350)");
-
-        element.add(0, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "EU Practice");
-        element.add(0, 15, ChatColor.RED + this.getStatusOf("eu-practice"));
-        element.add(0, 16, ChatColor.GRAY + "(" + this.getPlayerCountOf("eu-practice") + "/350)");
-
-        element.add(1, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "Hub");
-        element.add(1, 15, ChatColor.RED + this.getStatusOfServersWith(NetworkServerType.HUB));
-        element.add(1, 16, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.HUB) + "/" + this.getMaxPlayerCountOf(NetworkServerType.HUB) + ")");
-
-        element.add(1, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "HCF");
-        element.add(1, 11, ChatColor.RED + this.getStatusOf("na-hcf"));
-        element.add(1, 12, ChatColor.GRAY + "(" + this.getPlayerCountOf("na-hcf") + "/350)");
-
-        element.add(2, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "UHC Meetup");
-        element.add(2, 11, ChatColor.GREEN + this.getStatusOfServersWith(NetworkServerType.MEETUP));
-        element.add(2, 12, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.MEETUP) + "/" + this.getMaxPlayerCountOf(NetworkServerType.MEETUP) + ")");
-
-        element.add(2, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "SkyWars");
-        element.add(2, 15, ChatColor.GREEN + this.getStatusOfServersWith(NetworkServerType.SKYWARS));
-        element.add(2, 16, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.SKYWARS) + "/" + this.getMaxPlayerCountOf(NetworkServerType.SKYWARS) + ")");
+//        element.add(0, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "NA Practice");
+//        element.add(0, 11, ChatColor.GREEN + this.getStatusOf("na-practice"));
+//        element.add(0, 12, ChatColor.GRAY + "(" + this.getPlayerCountOf("na-practice") + "/350)");
+//
+//        element.add(0, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "EU Practice");
+//        element.add(0, 15, ChatColor.RED + this.getStatusOf("eu-practice"));
+//        element.add(0, 16, ChatColor.GRAY + "(" + this.getPlayerCountOf("eu-practice") + "/350)");
+//
+//        element.add(1, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "Hub");
+//        element.add(1, 15, ChatColor.RED + this.getStatusOfServersWith(NetworkServerType.HUB));
+//        element.add(1, 16, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.HUB) + "/" + this.getMaxPlayerCountOf(NetworkServerType.HUB) + ")");
+//
+//        element.add(1, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "HCF");
+//        element.add(1, 11, ChatColor.RED + this.getStatusOf("na-hcf"));
+//        element.add(1, 12, ChatColor.GRAY + "(" + this.getPlayerCountOf("na-hcf") + "/350)");
+//
+//        element.add(2, 10, ChatColor.GOLD + ChatColor.BOLD.toString() + "UHC Meetup");
+//        element.add(2, 11, ChatColor.GREEN + this.getStatusOfServersWith(NetworkServerType.MEETUP));
+//        element.add(2, 12, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.MEETUP) + "/" + this.getMaxPlayerCountOf(NetworkServerType.MEETUP) + ")");
+//
+//        element.add(2, 14, ChatColor.GOLD + ChatColor.BOLD.toString() + "SkyWars");
+//        element.add(2, 15, ChatColor.GREEN + this.getStatusOfServersWith(NetworkServerType.SKYWARS));
+//        element.add(2, 16, ChatColor.GRAY + "(" + this.getAllOnlineOn(NetworkServerType.SKYWARS) + "/" + this.getMaxPlayerCountOf(NetworkServerType.SKYWARS) + ")");
 
         return element;
     }

@@ -80,7 +80,7 @@ public final class HubPlugin extends JavaPlugin {
         }
 
         if (this.settingsProcessor.isTablistEnabled()) {
-//            new TabHandler(new v1_8_R3TabAdapter(), new NeonTabProcessor(), this, 20L);
+            new TabHandler(new v1_8_R3TabAdapter(), new NeonTabProcessor(), this, 20L);
         }
 
         if (this.itemCache.get("enderbutt") != null) {

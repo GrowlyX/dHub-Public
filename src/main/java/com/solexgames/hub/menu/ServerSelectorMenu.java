@@ -53,16 +53,6 @@ public class ServerSelectorMenu extends AbstractInventoryMenu {
             event.setCancelled(true);
 
             if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && !event.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE)) {
-                if (CorePlugin.getInstance().getServerManager().getNetwork().equals(ServerType.PVPBAR)) {
-                    if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Meetup")) {
-                        this.player.performCommand("connection meetup");
-                        return;
-                    } else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("SkyWars")) {
-                        this.player.performCommand("connection skywars");
-                        return;
-                    }
-                }
-
                 final MenuAction.Type action = ItemUtil.getActionFromConfig("server-selector.items." + event.getRawSlot(), this.plugin);
                 final String value = ItemUtil.getValueFromConfig("server-selector.items." + event.getRawSlot(), this.plugin);
 
