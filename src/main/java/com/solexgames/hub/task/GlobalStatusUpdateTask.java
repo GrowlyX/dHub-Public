@@ -15,10 +15,9 @@ public class GlobalStatusUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Services.get(BungeeCord.class).ifPresent(bungeeCord -> {
-            try {
-                GLOBAL_PLAYERS = bungeeCord.playerCount(BungeeCord.ALL_SERVERS).get();
-            } catch (Exception ignored) { }
-        });
+        Services.get(BungeeCord.class).ifPresent(bungeeCord ->
+                bungeeCord.playerCount(BungeeCord.ALL_SERVERS)
+                        .thenAcceptAsync(integer -> GLOBAL_PLAYERS = integer)
+        );
     }
 }

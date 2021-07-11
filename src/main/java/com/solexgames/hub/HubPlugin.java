@@ -1,6 +1,7 @@
 package com.solexgames.hub;
 
 import com.solexgames.core.CorePlugin;
+import com.solexgames.core.enums.NetworkServerType;
 import com.solexgames.hub.board.BoardAdapter;
 import com.solexgames.hub.command.NeonCommand;
 import com.solexgames.hub.external.ExternalConfig;
@@ -11,22 +12,21 @@ import com.solexgames.hub.listener.EnderbuttListener;
 import com.solexgames.hub.listener.PlayerListener;
 import com.solexgames.hub.processor.NeonChatProcessor;
 import com.solexgames.hub.processor.NeonSettingsProcessor;
-import com.solexgames.hub.processor.adapter.PositionObjectAdapter;
 import com.solexgames.hub.queue.IQueue;
 import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
 import com.solexgames.hub.tab.NeonTabProcessor;
 import com.solexgames.hub.task.GlobalStatusUpdateTask;
+import com.solexgames.hub.task.server.UpdateTask;
+import com.solexgames.hub.task.server.impl.LargescaleServerUpdateTask;
+import com.solexgames.hub.task.server.impl.SingleServerUpdateTask;
 import com.solexgames.hub.util.ItemUtil;
 import com.solexgames.lib.commons.processor.AcfCommandProcessor;
 import com.solexgames.lib.processor.config.ConfigFactory;
-import com.solexgames.lib.processor.config.internal.adapt.AdapterHandler;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
 import io.github.nosequel.tab.shared.TabHandler;
 import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import lombok.Getter;
-import me.lucko.helper.serialize.Position;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +35,8 @@ import java.util.*;
 
 @Getter
 public final class HubPlugin extends JavaPlugin {
+
+    private final Map<String, UpdateTask<?>> updateTaskMap = new HashMap<>();
 
     private final List<Player> permittedBuilders = new ArrayList<>();
     private final Map<String, AbstractMap.SimpleEntry<Integer, ItemStack>> itemCache = new HashMap<>();
@@ -90,6 +92,14 @@ public final class HubPlugin extends JavaPlugin {
         if (!this.settingsProcessor.isChatEnabled()) {
             CorePlugin.getInstance().getChatCheckList().add(new NeonChatProcessor(this));
         }
+
+        Arrays.asList("UHC", "Meetup", "SkyWars").forEach(id -> {
+            this.updateTaskMap.put(id, new LargescaleServerUpdateTask(id, NetworkServerType.valueOf(id.toUpperCase())));
+        });
+
+        Arrays.asList("NA_Practice", "NA_HCF").forEach(id -> {
+            this.updateTaskMap.put(id, new SingleServerUpdateTask(id, id.replace("_", "-").toLowerCase()));
+        });
 
         new GlobalStatusUpdateTask().runTaskTimerAsynchronously(this, 0L, 20L);
 

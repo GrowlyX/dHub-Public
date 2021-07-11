@@ -2,6 +2,7 @@ package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,6 +75,11 @@ public class AntiListener implements Listener {
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
+        if (event.getEntityType().equals(EntityType.ARMOR_STAND)) {
+            event.setCancelled(false);
+            return;
+        }
+
         event.setCancelled(true);
     }
 

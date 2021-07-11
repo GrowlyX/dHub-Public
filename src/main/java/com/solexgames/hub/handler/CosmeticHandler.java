@@ -36,11 +36,6 @@ public class CosmeticHandler {
 
     private final HubPlugin plugin;
 
-    public void clearCosmetics() {
-        this.cosmeticList.clear();
-        this.armorCosmeticMap.clear();
-    }
-
     public void loadArmorCosmetics() {
         CorePlugin.getInstance().getRankManager().getRanks()
                 .forEach(rank -> {

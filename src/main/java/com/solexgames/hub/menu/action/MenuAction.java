@@ -14,7 +14,6 @@ public class MenuAction {
 
     public static void completeAction(Type type, String value, Player player, HubPlugin plugin) {
         final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
-
         player.closeInventory();
 
         switch (type) {
