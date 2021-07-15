@@ -5,17 +5,22 @@ import com.solexgames.hub.task.server.UpdateTask;
 import com.solexgames.hub.task.server.callback.TypeCallback;
 import com.solexgames.lib.commons.CommonLibsBukkit;
 import com.solexgames.lib.commons.hologram.CommonsHologram;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.lucko.helper.Services;
+import me.lucko.helper.messaging.bungee.BungeeCord;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author GrowlyX
  * @since 7/10/2021
  */
 
+@Getter
 @RequiredArgsConstructor
 public class SingleServerUpdateTask extends UpdateTask<Integer> {
 

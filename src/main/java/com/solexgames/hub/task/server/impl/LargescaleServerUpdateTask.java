@@ -8,6 +8,7 @@ import com.solexgames.hub.task.server.callback.TypeCallback;
 import com.solexgames.lib.commons.CommonLibsBukkit;
 import com.solexgames.lib.commons.hologram.CommonsHologram;
 import com.solexgames.lib.commons.model.CommonsPlugin;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * @since 7/10/2021
  */
 
+@Getter
 @RequiredArgsConstructor
 public class LargescaleServerUpdateTask extends UpdateTask<Integer> {
 

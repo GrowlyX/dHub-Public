@@ -21,6 +21,8 @@ import com.solexgames.hub.task.server.UpdateTask;
 import com.solexgames.hub.task.server.impl.LargescaleServerUpdateTask;
 import com.solexgames.hub.task.server.impl.SingleServerUpdateTask;
 import com.solexgames.hub.util.ItemUtil;
+import com.solexgames.lib.commons.CommonLibsBukkit;
+import com.solexgames.lib.commons.hologram.CommonsHologram;
 import com.solexgames.lib.commons.processor.AcfCommandProcessor;
 import com.solexgames.lib.processor.config.ConfigFactory;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
@@ -108,6 +110,28 @@ public final class HubPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.updateTaskMap.forEach((s, updateTask) -> {
+            if (updateTask instanceof SingleServerUpdateTask) {
+                final SingleServerUpdateTask updateTask1 = (SingleServerUpdateTask) updateTask;
+                final CommonsHologram hologram = CommonLibsBukkit.getInstance().getHologramManager().fetchHologram(updateTask1.getHologramName());
+
+                if (hologram != null) {
+                    hologram.remove();
+                }
+
+                return;
+            }
+
+            if (updateTask instanceof LargescaleServerUpdateTask) {
+                final LargescaleServerUpdateTask updateTask1 = (LargescaleServerUpdateTask) updateTask;
+                final CommonsHologram hologram = CommonLibsBukkit.getInstance().getHologramManager().fetchHologram(updateTask1.getHologramName());
+
+                if (hologram != null) {
+                    hologram.remove();
+                }
+            }
+        });
+
         this.configFactory.save("options", this.settingsProcessor);
     }
 

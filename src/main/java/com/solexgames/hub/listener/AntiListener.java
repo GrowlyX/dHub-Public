@@ -2,6 +2,7 @@ package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -74,16 +75,6 @@ public class AntiListener implements Listener {
     }
 
     @EventHandler
-    public void onEntitySpawn(EntitySpawnEvent event) {
-        if (event.getEntityType().equals(EntityType.ARMOR_STAND)) {
-            event.setCancelled(false);
-            return;
-        }
-
-        event.setCancelled(true);
-    }
-
-    @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {
         if (event.toWeatherState()) {
             event.setCancelled(true);
@@ -98,7 +89,22 @@ public class AntiListener implements Listener {
     }
 
     @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent event) {
+        if (event.getEntityType().equals(EntityType.ARMOR_STAND)) {
+            event.setCancelled(false);
+            return;
+        }
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onMobSpawn(CreatureSpawnEvent event) {
+        if (event.getEntity() instanceof ArmorStand) {
+            event.setCancelled(false);
+            return;
+        }
+
         event.setCancelled(true);
     }
 
