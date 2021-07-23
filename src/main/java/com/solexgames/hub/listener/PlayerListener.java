@@ -9,6 +9,7 @@ import com.solexgames.hub.menu.HubSelectorMenu;
 import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.menu.captcha.CaptchaMenu;
 import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
+import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -45,7 +46,7 @@ public class PlayerListener implements Listener {
         player.setAllowFlight(this.plugin.getSettingsProcessor().isDoubleJumpEnabled());
 
         if (this.plugin.getSettingsProcessor().getSpawnLocation() != null) {
-            player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation());
+            PaperLib.teleportAsync(player, this.plugin.getSettingsProcessor().getSpawnLocation());
         } else {
             if (player.isOp()) {
                 player.sendMessage(Color.MAIN_COLOR + "[Neon] " + Color.SECONDARY_COLOR + "Hey! You should set the spawn location via /neon setup.");

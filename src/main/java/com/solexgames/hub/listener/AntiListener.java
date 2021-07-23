@@ -1,6 +1,7 @@
 package com.solexgames.hub.listener;
 
 import com.solexgames.hub.HubPlugin;
+import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -47,7 +48,7 @@ public class AntiListener implements Listener {
             final Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                player.teleport(this.plugin.getSettingsProcessor().getSpawnLocation());
+                PaperLib.teleportAsync(player, this.plugin.getSettingsProcessor().getSpawnLocation());
             }
         }
     }
