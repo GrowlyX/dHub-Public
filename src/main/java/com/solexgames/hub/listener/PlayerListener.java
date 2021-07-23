@@ -75,7 +75,7 @@ public class PlayerListener implements Listener {
 
         if (this.plugin.getSettingsProcessor().isHidePlayers()) {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if (onlinePlayer != player && !(onlinePlayer.hasPermission("neon.hub.show") || onlinePlayer.hasPermission("scandium.staf"))) {
+                if (onlinePlayer != player && !(onlinePlayer.hasPermission("neon.hub.show") || onlinePlayer.hasPermission("scandium.staff"))) {
                     player.hidePlayer(onlinePlayer);
                 }
             }

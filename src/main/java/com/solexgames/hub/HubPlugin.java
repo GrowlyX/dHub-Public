@@ -24,6 +24,8 @@ import com.solexgames.hub.util.ItemUtil;
 import com.solexgames.lib.commons.CommonLibsBukkit;
 import com.solexgames.lib.commons.hologram.CommonsHologram;
 import com.solexgames.lib.commons.processor.AcfCommandProcessor;
+import com.solexgames.lib.commons.redis.JedisBuilder;
+import com.solexgames.lib.commons.redis.JedisManager;
 import com.solexgames.lib.processor.config.ConfigFactory;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
 import io.github.nosequel.tab.shared.TabHandler;
@@ -103,7 +105,11 @@ public final class HubPlugin extends JavaPlugin {
             this.updateTaskMap.put(id, new SingleServerUpdateTask(id, id.replace("_", "-").toLowerCase()));
         });
 
-        new GlobalStatusUpdateTask().runTaskTimerAsynchronously(this, 0L, 20L);
+        final JedisManager jedisManager = new JedisBuilder()
+                .withChannel("neon")
+                .withSettings(CorePlugin.getInstance().getDefaultJedisSettings()).build();
+
+        new GlobalStatusUpdateTask(jedisManager).runTaskTimerAsynchronously(this, 0L, 20L);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
