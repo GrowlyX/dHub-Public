@@ -23,6 +23,11 @@ public class PortalQueueImpl implements IQueue {
     }
 
     @Override
+    public String getQueueLane(Player player) {
+        return "Normal";
+    }
+
+    @Override
     public int getQueuePosition(Player player) {
         return (Queue.getByPlayer(player.getUniqueId()) != null ? Queue.getByPlayer(player.getUniqueId()).getPosition(player.getUniqueId()) : 0);
     }

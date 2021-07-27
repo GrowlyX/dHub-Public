@@ -172,5 +172,12 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/queues/Portal-bukkit.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.portal.queue.2</groupId>
+            <artifactId>Portal</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/queues/queue-bukkit.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

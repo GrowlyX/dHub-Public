@@ -13,6 +13,7 @@ import com.solexgames.hub.listener.PlayerListener;
 import com.solexgames.hub.processor.NeonChatProcessor;
 import com.solexgames.hub.processor.NeonSettingsProcessor;
 import com.solexgames.hub.queue.IQueue;
+import com.solexgames.hub.queue.impl.AGQQueueImpl;
 import com.solexgames.hub.queue.impl.DefaultQueueImpl;
 import com.solexgames.hub.queue.impl.PortalQueueImpl;
 import com.solexgames.hub.tab.NeonTabProcessor;
@@ -136,6 +137,7 @@ public final class HubPlugin extends JavaPlugin {
                     hologram.remove();
                 }
             }
+
         });
 
         this.configFactory.save("options", this.settingsProcessor);
@@ -144,6 +146,8 @@ public final class HubPlugin extends JavaPlugin {
     private void loadQueueImpl() {
         if (this.settingsProcessor.getQueueSystem().equals("PORTAL")) {
             this.queueImpl = new PortalQueueImpl();
+        } else if (this.settingsProcessor.getQueueSystem().equals("AGQ")) {
+            this.queueImpl = new AGQQueueImpl();
         } else {
             this.queueImpl = new DefaultQueueImpl();
         }

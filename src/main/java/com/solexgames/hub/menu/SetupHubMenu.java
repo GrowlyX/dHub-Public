@@ -36,6 +36,12 @@ public class SetupHubMenu extends AbstractInventoryMenu {
                         "&7Click this button to set",
                         "&7the hub spawn!"
                 ).create());
+        this.inventory.setItem(8, new ItemBuilder(Material.INK_SACK, 1)
+                .setDisplayName("&aReload menus")
+                .addLore(
+                        "&7Click this button to reload",
+                        "&7menus!"
+                ).create());
     }
 
     @Override

@@ -31,6 +31,7 @@ public class BoardAdapter implements ScoreboardElementHandler {
             for (String string : scoreboardLines) {
                 finalLines.add(string.replace("<global_online>", String.valueOf(GlobalStatusUpdateTask.GLOBAL_PLAYERS))
                         .replace("<queue_name>", this.plugin.getQueueImpl().getQueueName(player))
+                        .replace("<queue_lane>", this.plugin.getQueueImpl().getQueueLane(player))
                         .replace("<queue_position>", String.valueOf(this.plugin.getQueueImpl().getQueuePosition(player)))
                         .replace("<queue_maximum>", String.valueOf(this.plugin.getQueueImpl().getQueuePlayers(player)))
                 );

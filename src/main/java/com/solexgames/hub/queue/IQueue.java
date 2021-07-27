@@ -13,6 +13,8 @@ public interface IQueue {
 
     String getQueueName(Player player);
 
+    String getQueueLane(Player player);
+
     int getQueuePosition(Player player);
 
     int getQueuePlayers(Player player);
