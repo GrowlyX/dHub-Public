@@ -3,6 +3,8 @@ package com.solexgames.hub.listener;
 import com.solexgames.hub.HubPlugin;
 import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -36,6 +38,15 @@ public class AntiListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (!this.plugin.getPermittedBuilders().contains(event.getPlayer())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        final Block block = event.getClickedBlock();
+
+        if (block != null && block.getType().equals(Material.DRAGON_EGG)) {
             event.setCancelled(true);
         }
     }

@@ -29,7 +29,7 @@ public class BoardAdapter implements ScoreboardElementHandler {
             final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getQueuedScoreboardLines();
 
             for (String string : scoreboardLines) {
-                finalLines.add(string.replace("<global_online>", String.valueOf(GlobalStatusUpdateTask.GLOBAL_PLAYERS))
+                finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + "")
                         .replace("<queue_name>", this.plugin.getQueueImpl().getQueueName(player))
                         .replace("<queue_lane>", this.plugin.getQueueImpl().getQueueLane(player))
                         .replace("<queue_position>", String.valueOf(this.plugin.getQueueImpl().getQueuePosition(player)))
@@ -40,7 +40,7 @@ public class BoardAdapter implements ScoreboardElementHandler {
             final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getNormalScoreboardLines();
 
             for (String string : scoreboardLines) {
-                finalLines.add(string.replace("<global_online>", String.valueOf(GlobalStatusUpdateTask.GLOBAL_PLAYERS)));
+                finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + ""));
             }
         }
 

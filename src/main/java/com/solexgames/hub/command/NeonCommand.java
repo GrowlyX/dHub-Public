@@ -35,17 +35,20 @@ public class NeonCommand extends BaseCommand {
 
     @Default
     @HelpCommand
+    @Syntax("[page]")
     public void onHelp(CommandSender sender, CommandHelp help) {
         help.showHelp();
     }
 
     @Subcommand("setup")
+    @Description("Launch the hub setup panel.")
     @CommandPermission("neon.command.neon.subcommand.setup")
     public void onSetup(Player sender) {
         new SetupHubMenu(sender, this.plugin).open(sender);
     }
 
     @Subcommand("build")
+    @Description("Enter/exit hub build mode.")
     @CommandPermission("neon.command.neon.subcommand.build")
     public void onBuild(Player player) {
         final boolean toggleType = !this.plugin.getPermittedBuilders().contains(player);
