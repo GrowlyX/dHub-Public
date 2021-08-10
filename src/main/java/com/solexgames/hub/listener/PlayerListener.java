@@ -5,10 +5,9 @@ import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.hub.cosmetic.impl.ArmorCosmetic;
-import com.solexgames.hub.menu.HubSelectorMenu;
-import com.solexgames.hub.menu.ServerSelectorMenu;
 import com.solexgames.hub.menu.captcha.CaptchaMenu;
 import com.solexgames.hub.menu.cosmetic.CosmeticMainMenu;
+import com.solexgames.hub.module.HubModule;
 import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -65,6 +64,12 @@ public class PlayerListener implements Listener {
         player.getInventory().setItem(this.plugin.getItemCache().get("profile").getKey(), new ItemBuilder(this.plugin.getItemCache().get("profile").getValue())
                 .setOwner(player.getName())
                 .create());
+
+        final HubModule hubModule = this.plugin.getHubModule();
+
+        if (hubModule != null && hubModule.getItemAdapter() != null) {
+            hubModule.getItemAdapter().handle(player);
+        }
 
         player.getInventory().setHeldItemSlot(serverSelectorSlot > 8 ? 0 : serverSelectorSlot);
 
@@ -139,9 +144,9 @@ public class PlayerListener implements Listener {
 
         if (event.getAction().name().contains("RIGHT") && event.getItem() != null && event.getItem().hasItemMeta()) {
             if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("server-selector").getValue().getItemMeta().getDisplayName())) {
-                new ServerSelectorMenu(player, this.plugin).open(player);
+                this.plugin.getSubMenuHandler().openSubMenu("server-selector", player);
             } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("hub-selector").getValue().getItemMeta().getDisplayName())) {
-                new HubSelectorMenu(player, this.plugin).open(player);
+                this.plugin.getSubMenuHandler().openSubMenu("hub-selector", player);
             } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("profile").getValue().getItemMeta().getDisplayName())) {
                 new PlayerInfoMenu(player).open(player);
             } else if (event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(this.plugin.getItemCache().get("cosmetics").getValue().getItemMeta().getDisplayName())) {

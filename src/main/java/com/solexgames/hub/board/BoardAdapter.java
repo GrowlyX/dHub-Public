@@ -1,6 +1,8 @@
 package com.solexgames.hub.board;
 
 import com.solexgames.hub.HubPlugin;
+import com.solexgames.hub.module.HubModule;
+import com.solexgames.hub.module.impl.HubModuleScoreboardAdapter;
 import com.solexgames.hub.task.GlobalStatusUpdateTask;
 import io.github.nosequel.scoreboard.element.ScoreboardElement;
 import io.github.nosequel.scoreboard.element.ScoreboardElementHandler;
@@ -19,32 +21,51 @@ public class BoardAdapter implements ScoreboardElementHandler {
     @Override
     public ScoreboardElement getElement(Player player) {
         final ScoreboardElement element = new ScoreboardElement();
+        final HubModule hubModule = this.plugin.getHubModule();
 
-        element.setTitle(this.plugin.getSettingsProcessor().getScoreboardTitle().replace("<bar>", Character.toString('┃')));
+        boolean shouldHandleDefault = true;
 
-        final boolean isInQueue = this.plugin.getQueueImpl().isInQueue(player);
-        final List<String> finalLines = new ArrayList<>();
+        if (hubModule != null) {
+            final HubModuleScoreboardAdapter adapter = hubModule.getScoreboardAdapter();
 
-        if (isInQueue) {
-            final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getQueuedScoreboardLines();
+            if (adapter != null) {
+                element.setTitle(adapter.getNewTitle());
 
-            for (String string : scoreboardLines) {
-                finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + "")
-                        .replace("<queue_name>", this.plugin.getQueueImpl().getQueueName(player))
-                        .replace("<queue_lane>", this.plugin.getQueueImpl().getQueueLane(player))
-                        .replace("<queue_position>", String.valueOf(this.plugin.getQueueImpl().getQueuePosition(player)))
-                        .replace("<queue_maximum>", String.valueOf(this.plugin.getQueueImpl().getQueuePlayers(player)))
-                );
-            }
-        } else {
-            final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getNormalScoreboardLines();
+                for (final String newLine : adapter.getNewLines(player)) {
+                    element.add(newLine);
+                }
 
-            for (String string : scoreboardLines) {
-                finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + ""));
+                shouldHandleDefault = false;
             }
         }
 
-        element.getLines().addAll(PlaceholderAPI.setPlaceholders(player, finalLines));
+        if (shouldHandleDefault) {
+            element.setTitle(this.plugin.getSettingsProcessor().getScoreboardTitle().replace("<bar>", Character.toString('┃')));
+
+            final boolean isInQueue = this.plugin.getQueueImpl().isInQueue(player);
+            final List<String> finalLines = new ArrayList<>();
+
+            if (isInQueue) {
+                final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getQueuedScoreboardLines();
+
+                for (String string : scoreboardLines) {
+                    finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + "")
+                            .replace("<queue_name>", this.plugin.getQueueImpl().getQueueName(player))
+                            .replace("<queue_lane>", this.plugin.getQueueImpl().getQueueLane(player))
+                            .replace("<queue_position>", String.valueOf(this.plugin.getQueueImpl().getQueuePosition(player)))
+                            .replace("<queue_maximum>", String.valueOf(this.plugin.getQueueImpl().getQueuePlayers(player)))
+                    );
+                }
+            } else {
+                final List<String> scoreboardLines = this.plugin.getSettingsProcessor().getNormalScoreboardLines();
+
+                for (String string : scoreboardLines) {
+                    finalLines.add(string.replace("<global_online>", GlobalStatusUpdateTask.GLOBAL_PLAYERS + ""));
+                }
+            }
+
+            element.getLines().addAll(PlaceholderAPI.setPlaceholders(player, finalLines));
+        }
 
         return element;
     }

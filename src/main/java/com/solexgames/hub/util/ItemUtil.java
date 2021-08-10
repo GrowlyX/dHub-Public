@@ -1,5 +1,6 @@
 package com.solexgames.hub.util;
 
+import com.solexgames.core.util.external.Button;
 import com.solexgames.hub.HubPlugin;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
@@ -8,10 +9,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.AbstractMap;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public final class ItemUtil {
 
@@ -32,7 +36,7 @@ public final class ItemUtil {
         return new AbstractMap.SimpleEntry<>(configurationSection.getInt("slot"), itemBuilder.create());
     }
 
-    public static ItemStack getMenuItem(String section, Player player, HubPlugin plugin) {
+    public static Button getMenuItem(String section, Player player, HubPlugin plugin, BiConsumer<Player, ClickType> consumer) {
         final ConfigurationSection configurationSection = plugin.getMenus().getConfiguration().getConfigurationSection(section);
         final ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(configurationSection.getString("type")));
 
@@ -49,7 +53,7 @@ public final class ItemUtil {
             itemBuilder.addLore(Color.translate(lore));
         }
 
-        return itemBuilder.create();
+        return itemBuilder.toButton(consumer);
     }
 
     public static String getValueFromConfig(String section, HubPlugin plugin) {

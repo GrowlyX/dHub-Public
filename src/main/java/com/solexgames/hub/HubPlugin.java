@@ -2,6 +2,8 @@ package com.solexgames.hub;
 
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.enums.NetworkServerType;
+import com.solexgames.core.util.builder.ItemBuilder;
+import com.solexgames.core.util.external.Button;
 import com.solexgames.hub.board.BoardAdapter;
 import com.solexgames.hub.command.NeonCommand;
 import com.solexgames.hub.external.ExternalConfig;
@@ -10,6 +12,7 @@ import com.solexgames.hub.handler.SubMenuHandler;
 import com.solexgames.hub.listener.AntiListener;
 import com.solexgames.hub.listener.EnderbuttListener;
 import com.solexgames.hub.listener.PlayerListener;
+import com.solexgames.hub.module.HubModule;
 import com.solexgames.hub.processor.NeonChatProcessor;
 import com.solexgames.hub.processor.NeonSettingsProcessor;
 import com.solexgames.hub.queue.IQueue;
@@ -25,13 +28,13 @@ import com.solexgames.hub.util.ItemUtil;
 import com.solexgames.lib.commons.CommonLibsBukkit;
 import com.solexgames.lib.commons.hologram.CommonsHologram;
 import com.solexgames.lib.commons.processor.AcfCommandProcessor;
-import com.solexgames.lib.commons.redis.JedisBuilder;
-import com.solexgames.lib.commons.redis.JedisManager;
 import com.solexgames.lib.processor.config.ConfigFactory;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
 import io.github.nosequel.tab.shared.TabHandler;
 import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,6 +43,10 @@ import java.util.*;
 
 @Getter
 public final class HubPlugin extends JavaPlugin {
+
+    public static final Button GLASS = new ItemBuilder(Material.STAINED_GLASS_PANE, 15)
+            .setDisplayName(" ")
+            .toButton();
 
     private final Map<String, UpdateTask<?>> updateTaskMap = new HashMap<>();
 
@@ -51,7 +58,11 @@ public final class HubPlugin extends JavaPlugin {
 
     private CosmeticHandler cosmeticHandler;
     private SubMenuHandler subMenuHandler;
+
     private IQueue queueImpl;
+
+    @Setter
+    private HubModule hubModule;
 
     private final ConfigFactory configFactory = ConfigFactory.newFactory(this);
 
@@ -106,11 +117,8 @@ public final class HubPlugin extends JavaPlugin {
             this.updateTaskMap.put(id, new SingleServerUpdateTask(id, id.replace("_", "-").toLowerCase()));
         });
 
-        final JedisManager jedisManager = new JedisBuilder()
-                .withChannel("neon")
-                .withSettings(CorePlugin.getInstance().getDefaultJedisSettings()).build();
-
-        new GlobalStatusUpdateTask(jedisManager).runTaskTimerAsynchronously(this, 0L, 20L);
+        new GlobalStatusUpdateTask(CorePlugin.getInstance().getJedisManager())
+                .runTaskTimerAsynchronously(this, 0L, 20L);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }

@@ -3,58 +3,57 @@ package com.solexgames.hub.menu;
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.enums.NetworkServerStatusType;
 import com.solexgames.core.enums.NetworkServerType;
-import com.solexgames.core.menu.AbstractInventoryMenu;
-import com.solexgames.core.server.NetworkServer;
 import com.solexgames.core.util.BungeeUtil;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
+import com.solexgames.core.util.external.Button;
+import com.solexgames.core.util.external.Menu;
 import com.solexgames.hub.HubPlugin;
-import lombok.Getter;
-import lombok.Setter;
+import com.solexgames.hub.menu.action.MenuAction;
+import com.solexgames.hub.util.ItemUtil;
+import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
-@Getter
-@Setter
-public class HubSelectorMenu extends AbstractInventoryMenu {
+@RequiredArgsConstructor
+public class HubSelectorMenu extends Menu {
 
-    private Player player;
-    private HubPlugin hubPlugin;
+    private final String root = "hub-selector";
+    private final HubPlugin plugin;
 
-    public HubSelectorMenu(Player player, HubPlugin hubPlugin) {
-        super(hubPlugin.getMenus().getString("hub-selector.title"), 27);
-
-        this.player = player;
-        this.hubPlugin = hubPlugin;
-
-        this.update();
+    @Override
+    public String getTitle(Player player) {
+        return this.plugin.getMenus().getString(this.root + ".title");
     }
 
     @Override
-    public void update() {
-        if (this.hubPlugin.getMenus().getBoolean("server-selector.fill-stained-glass")) {
-            while (this.inventory.firstEmpty() != -1) {
-                this.inventory.setItem(this.inventory.firstEmpty(), new ItemBuilder(Material.STAINED_GLASS_PANE, 7).setDisplayName(" ").create());
-            }
-        }
+    public int getSize() {
+        return this.plugin.getMenus().getInt(this.root + ".size");
+    }
 
+    @Override
+    public boolean isAutoUpdate() {
+        return true;
+    }
+
+    @Override
+    public Map<Integer, Button> getButtons(Player player) {
+        final Map<Integer, Button> buttonMap = new HashMap<>();
         final AtomicInteger atomicInteger = new AtomicInteger(10);
 
         CorePlugin.getInstance().getServerManager().getNetworkServers().stream()
                 .filter(Objects::nonNull)
-                .filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB))
+                .filter(networkServer -> networkServer.getServerType().equals(NetworkServerType.HUB) && !networkServer.getServerName().contains("dev"))
                 .forEach(networkServer -> {
                     if (atomicInteger.get() <= 16) {
-                        List<String> list = this.hubPlugin.getMenus().getStringList("hub-selector.item.lore");
+                        List<String> list = this.plugin.getMenus().getStringList("hub-selector.item.lore");
                         list = PlaceholderAPI.setPlaceholders(player, list);
 
                         final List<String> finalList = new ArrayList<>();
@@ -67,45 +66,30 @@ public class HubSelectorMenu extends AbstractInventoryMenu {
                                 .replace("<joinstatus>", (thisServer ? "&c[Currently already connected]" : this.getByStatus(networkServer.getServerStatus())))
                         ));
 
-                        this.inventory.setItem(atomicInteger.get(), new ItemBuilder(Material.valueOf(this.hubPlugin.getMenus().getString("hub-selector.item.item")))
-                                .setDurability(this.hubPlugin.getMenus().getInt("hub-selector.item.durability"))
+                        buttonMap.put(atomicInteger.getAndIncrement(), new ItemBuilder(Material.valueOf(this.plugin.getMenus().getString("hub-selector.item.item")))
+                                .setDurability(this.plugin.getMenus().getInt("hub-selector.item.durability"))
                                 .addLore(finalList)
-                                .setDisplayName(this.hubPlugin.getMenus().getString("hub-selector.item.display")
+                                .setDisplayName(this.plugin.getMenus().getString("hub-selector.item.display")
                                         .replace("<server-name>", networkServer.getServerName())
                                 )
-                                .create()
+                                .toButton((player1, clickType) -> {
+                                    if (!CorePlugin.getInstance().getServerName().equals(networkServer.getServerName())) {
+                                        BungeeUtil.sendToServer(player, networkServer.getServerName(), this.plugin);
+                                    } else {
+                                        player.sendMessage(ChatColor.RED + "You're already connected to " + ChatColor.YELLOW + networkServer.getServerName() + ChatColor.RED + ".");
+                                    }
+                                })
                         );
-
-                        atomicInteger.getAndIncrement();
                     }
                 });
-    }
 
-    @Override
-    public void onInventoryClick(InventoryClickEvent event) {
-        final Inventory clickedInventory = event.getClickedInventory();
-        final Inventory topInventory = event.getView().getTopInventory();
-
-        if (!topInventory.equals(this.inventory)) return;
-        if (topInventory.equals(clickedInventory)) {
-            event.setCancelled(true);
-
-            if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta()) {
-                final NetworkServer networkServer = NetworkServer.getByName(ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()));
-
-                if (networkServer != null) {
-                    if (!CorePlugin.getInstance().getServerName().equals(networkServer.getServerName())) {
-                        this.player.sendMessage(Color.SECONDARY_COLOR + "You're now being connected to " + Color.MAIN_COLOR + networkServer.getServerName() + Color.SECONDARY_COLOR + "...");
-
-                        BungeeUtil.sendToServer(this.player, networkServer.getServerName(), this.hubPlugin);
-                    } else {
-                        this.player.sendMessage(Color.translate("&cYou are already connected to " + networkServer.getServerName() + "!"));
-                    }
-
-                    this.player.closeInventory();
-                }
+        if (this.plugin.getMenus().getBoolean(this.root + ".fill-stained-glass")) {
+            for (int i = 0; i <= this.getSize(); i++) {
+                buttonMap.putIfAbsent(i, HubPlugin.GLASS);
             }
         }
+
+        return buttonMap;
     }
 
     public String getByStatus(NetworkServerStatusType statusType) {
