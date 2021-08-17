@@ -1,6 +1,6 @@
-name: Neon
+name: Pear
 version: ${git.commit.id.abbrev}
-main: com.solexgames.hub.HubPlugin
+main: com.solexgames.pear.PearSpigotPlugin
 
 author: SolexGames
 website: https://www.solexgames.com

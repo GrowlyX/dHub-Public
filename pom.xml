@@ -78,7 +78,7 @@
         </resources>
 
         <!--suppress UnresolvedMavenProperty -->
-        <finalName>Neon</finalName>
+        <finalName>Pear</finalName>
     </build>
 
     <repositories>
