@@ -21,7 +21,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class LargescaleServerUpdateTask extends UpdateTask<Integer> {
+public class MultiServerUpdateTask extends UpdateTask<Integer> {
 
     private final String hologramName;
     private final NetworkServerType type;

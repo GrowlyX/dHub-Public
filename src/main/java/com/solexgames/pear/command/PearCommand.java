@@ -37,7 +37,7 @@ public class PearCommand extends BaseCommand {
     @Description("Launch the hub setup panel.")
     @CommandPermission("pear.command.pear.subcommand.setup")
     public void onSetup(Player sender) {
-        new SetupHubMenu(sender, this.plugin).open(sender);
+        new SetupHubMenu(this.plugin).openMenu(sender);
     }
 
     @Subcommand("build")

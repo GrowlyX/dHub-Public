@@ -5,14 +5,12 @@ import com.solexgames.core.util.Color;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
 import com.solexgames.pear.menu.HubSelectorMenu;
-import com.solexgames.pear.menu.captcha.CaptchaMenu;
 import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.pear.module.HubModule;
 import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -77,10 +75,6 @@ public class PlayerListener implements Listener {
         player.getInventory().setHeldItemSlot(serverSelectorSlot > 8 ? 0 : serverSelectorSlot);
 
         player.updateInventory();
-
-        if (this.plugin.getSettingsProcessor().isCaptchaEnabled()) {
-            Bukkit.getScheduler().runTaskLater(this.plugin, () -> new CaptchaMenu(player, Material.BLAZE_POWDER, this.plugin).open(player), 5L);
-        }
 
         if (this.plugin.getSettingsProcessor().isHidePlayers()) {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

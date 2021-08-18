@@ -1,71 +1,60 @@
 package com.solexgames.pear.menu;
 
-import com.solexgames.pear.PearSpigotPlugin;
-import com.solexgames.core.menu.AbstractInventoryMenu;
-import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
-import lombok.Getter;
+import com.solexgames.core.util.external.Button;
+import com.solexgames.core.util.external.Menu;
+import com.solexgames.pear.PearSpigotConstants;
+import com.solexgames.pear.PearSpigotPlugin;
+import lombok.RequiredArgsConstructor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-@Getter
-public class SetupHubMenu extends AbstractInventoryMenu {
+import java.util.HashMap;
+import java.util.Map;
 
-    private final Player player;
+@RequiredArgsConstructor
+public class SetupHubMenu extends Menu {
+
     private final PearSpigotPlugin plugin;
 
-    public SetupHubMenu(Player player, PearSpigotPlugin plugin) {
-        super("Pear Spigot » Control", 9);
-
-        this.player = player;
-        this.plugin = plugin;
-
-        this.update();
+    @Override
+    public String getTitle(Player player) {
+        return "Pear » Main";
     }
 
     @Override
-    public void update() {
-        this.inventory.setItem(0, new ItemBuilder(Material.INK_SACK, 8)
-                .setDisplayName("&aSet Spawn")
+    public Map<Integer, Button> getButtons(Player player) {
+        final Map<Integer, Button> buttonMap = new HashMap<>();
+
+        buttonMap.put(0, new ItemBuilder(Material.INK_SACK, 8)
+                .setDisplayName(ChatColor.GREEN + "Set Spawn")
                 .addLore(
-                        "&7Click this button to set",
-                        "&7the hub spawn!"
-                ).create());
-        this.inventory.setItem(8, new ItemBuilder(Material.INK_SACK, 1)
-                .setDisplayName("&aReload menus")
+                        ChatColor.GRAY + "Modify the spawn location.",
+                        "",
+                        ChatColor.YELLOW + "[Click to set the spawn]"
+                ).toButton((player1, clickType) -> {
+                    this.plugin.getSettingsProcessor().setSpawnLocation(player1.getLocation());
+
+                    player1.closeInventory();
+                    player1.sendMessage(PearSpigotConstants.CHAT_PREFIX + ChatColor.GREEN + "You've set the hub spawn location.");
+                })
+        );
+
+        buttonMap.put(8, new ItemBuilder(Material.INK_SACK, 1)
+                .setDisplayName(ChatColor.GREEN + "Menu Reload")
                 .addLore(
-                        "&7Click this button to reload",
-                        "&7menus!"
-                ).create());
-    }
-
-    @Override
-    public void onInventoryClick(InventoryClickEvent event) {
-        final Inventory clickedInventory = event.getClickedInventory();
-        final Inventory topInventory = event.getView().getTopInventory();
-
-        if (!topInventory.equals(this.inventory)) return;
-        if (topInventory.equals(clickedInventory)) {
-            event.setCancelled(true);
-
-            final ItemStack item = event.getCurrentItem();
-
-            if (!(item == null || item.getType() == Material.AIR)) {
-                if (event.getRawSlot() == 1) {
+                        ChatColor.GRAY + "Reload all menus.",
+                        "",
+                        ChatColor.YELLOW + "[Click to reload menus]"
+                ).toButton((player1, clickType) -> {
                     this.plugin.reloadAllConfigs();
 
-                    this.player.sendMessage(Color.SECONDARY_COLOR + "You've reloaded all configuration files related to Neon!");
-                    this.player.closeInventory();
-                } else if (event.getRawSlot() == 0) {
-                    this.getPlugin().getSettingsProcessor().setSpawnLocation(this.player.getLocation());
+                    player1.closeInventory();
+                    player1.sendMessage(PearSpigotConstants.CHAT_PREFIX + ChatColor.GREEN + "You've reloaded all config files.");
+                })
+        );
 
-                    this.player.closeInventory();
-                    this.player.sendMessage("You've set the spawn of this hub!");
-                }
-            }
-        }
+        return buttonMap;
     }
 }

@@ -65,12 +65,6 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
         player.updateInventory();
     }
 
-    @Override
-    public void removeFrom(Player player) {
-        player.getInventory().setArmorContents(null);
-        player.updateInventory();
-    }
-
     public ItemBuilder getMenuItemBuilder() {
         final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(this.rank != null ? this.rank.getColor() : "&r").replace("&", "").replace("§", ""));
         final Color color = this.getByChatColor(chatColor);

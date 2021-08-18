@@ -1,7 +1,6 @@
 package com.solexgames.pear;
 
 import com.solexgames.core.CorePlugin;
-import com.solexgames.core.enums.NetworkServerType;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.pear.board.BoardAdapter;
@@ -22,7 +21,7 @@ import com.solexgames.pear.queue.impl.PortalQueueImpl;
 import com.solexgames.pear.tab.PearTabProcessor;
 import com.solexgames.pear.task.GlobalStatusUpdateTask;
 import com.solexgames.pear.task.server.UpdateTask;
-import com.solexgames.pear.task.server.impl.LargescaleServerUpdateTask;
+import com.solexgames.pear.task.server.impl.MultiServerUpdateTask;
 import com.solexgames.pear.task.server.impl.SingleServerUpdateTask;
 import com.solexgames.pear.util.ItemUtil;
 import com.solexgames.lib.commons.CommonLibsBukkit;
@@ -32,8 +31,10 @@ import com.solexgames.lib.processor.config.ConfigFactory;
 import io.github.nosequel.scoreboard.ScoreboardHandler;
 import io.github.nosequel.tab.shared.TabHandler;
 import io.github.nosequel.tab.v1_12_r1.v1_12_R1TabAdapter;
+import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -81,7 +82,6 @@ public final class PearSpigotPlugin extends JavaPlugin {
         this.subMenuHandler.registerSubMenusFromConfig();
 
         final AcfCommandProcessor commandProcessor = new AcfCommandProcessor(this);
-        commandProcessor.enableUnstableAPI("help");
         commandProcessor.registerCommand(new PearCommand(this));
 
         this.loadItems();
@@ -98,7 +98,7 @@ public final class PearSpigotPlugin extends JavaPlugin {
         }
 
         if (this.settingsProcessor.isTablistEnabled()) {
-            new TabHandler(new v1_12_R1TabAdapter(), new PearTabProcessor(), this, 20L);
+            new TabHandler(Bukkit.getVersion().contains("12") ? new v1_12_R1TabAdapter() : new v1_8_R3TabAdapter(), new PearTabProcessor(), this, 10L);
         }
 
         if (this.itemCache.get("enderbutt") != null) {
@@ -109,13 +109,13 @@ public final class PearSpigotPlugin extends JavaPlugin {
             CorePlugin.getInstance().getChatCheckList().add(new PearChatProcessor(this));
         }
 
-        Arrays.asList("UHC", "Meetup", "SkyWars").forEach(id -> {
-            this.updateTaskMap.put(id, new LargescaleServerUpdateTask(id, NetworkServerType.valueOf(id.toUpperCase())));
-        });
-
-        Arrays.asList("NA_Practice", "NA_HCF").forEach(id -> {
-            this.updateTaskMap.put(id, new SingleServerUpdateTask(id, id.replace("_", "-").toLowerCase()));
-        });
+//        Arrays.asList("UHC", "Meetup", "SkyWars").forEach(id -> {
+//            this.updateTaskMap.put(id, new MultiServerUpdateTask(id, NetworkServerType.valueOf(id.toUpperCase())));
+//        });
+//
+//        Arrays.asList("NA_Practice", "NA_HCF").forEach(id -> {
+//            this.updateTaskMap.put(id, new SingleServerUpdateTask(id, id.replace("_", "-").toLowerCase()));
+//        });
 
         new GlobalStatusUpdateTask(CorePlugin.getInstance().getJedisManager())
                 .runTaskTimerAsynchronously(this, 0L, 20L);
@@ -137,15 +137,14 @@ public final class PearSpigotPlugin extends JavaPlugin {
                 return;
             }
 
-            if (updateTask instanceof LargescaleServerUpdateTask) {
-                final LargescaleServerUpdateTask updateTask1 = (LargescaleServerUpdateTask) updateTask;
+            if (updateTask instanceof MultiServerUpdateTask) {
+                final MultiServerUpdateTask updateTask1 = (MultiServerUpdateTask) updateTask;
                 final CommonsHologram hologram = CommonLibsBukkit.getInstance().getHologramManager().fetchHologram(updateTask1.getHologramName());
 
                 if (hologram != null) {
                     hologram.remove();
                 }
             }
-
         });
 
         this.configFactory.save("options", this.settingsProcessor);

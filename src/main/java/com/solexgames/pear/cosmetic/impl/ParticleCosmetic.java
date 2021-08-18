@@ -52,11 +52,6 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
         this.hubPlugin.getCosmeticHandler().getRunnableHashMap().put(player, bukkitRunnable);
     }
 
-    @Override
-    public void removeFrom(Player player) {
-        // not used
-    }
-
     public ItemBuilder getMenuItemBuilder() {
         return new ItemBuilder(this.displayMaterial)
                 .setDurability(this.displayMaterial == Material.INK_SACK ? 15 : 0)
