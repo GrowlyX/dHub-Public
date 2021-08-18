@@ -10,6 +10,7 @@ import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.CosmeticType;
 import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
+import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
@@ -37,15 +38,14 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
         final Map<Integer, Button> buttonMap = new HashMap<>();
         final PotPlayer potPlayer = CorePlugin.getInstance().getPlayerManager().getPlayer(player);
 
-        buttonMap.put(3, new ArmorCosmeticButton(potPlayer, this.plugin.getCosmeticHandler().getChromaCosmetic()));
-        buttonMap.put(5, new ItemBuilder(Material.BED)
-                .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Reset Cosmetic")
+        buttonMap.put(2, new ArmorCosmeticButton(potPlayer, this.plugin.getCosmeticHandler().getChromaCosmetic()));
+        buttonMap.put(4, new ItemBuilder(Material.NETHER_STAR)
+                .setDisplayName(ChatColor.GREEN + "Reset Armor")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .addLore(
-                        "&7Reset your currently applied",
-                        "&7cosmetic!",
+                        "&7Clear & reset your armor.",
                         "",
-                        "&e[Click to reset cosmetic]"
+                        "&e[Click to reset armor]"
                 ).toButton((player1, clickType) -> {
                     final ArmorCosmetic.ArmorUpdaterRunnable updaterRunnable = ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.get(player1.getUniqueId());
 
@@ -65,7 +65,20 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                         pearPlayer.save();
                     }
 
-                    player1.sendMessage(Color.SECONDARY_COLOR + "You're currently applied cosmetic has been reset.");
+                    player1.sendMessage(ChatColor.RED + "You've unequipped your armor.");
+                })
+        );
+
+        buttonMap.put(6, new ItemBuilder(Material.BED)
+                .setDisplayName(ChatColor.RED + "Return to Main")
+                .addLore(
+                        "&7Return back to the",
+                        "&7main cosmetic menu.",
+                        " ",
+                        "&e[Click to open main]"
+                )
+                .toButton((player1, clickType) -> {
+                    new CosmeticMainMenu(this.plugin).openMenu(player1);
                 })
         );
 
@@ -99,19 +112,9 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            final Rank rank = this.potPlayer.getActiveGrant().getRank();
-            final List<String> lore = new ArrayList<>();
-            final boolean canUse = rank != null ? rank.equals(this.cosmetic.getRank()) : player.hasPermission(this.cosmetic.getPermission());
-
-            lore.add(" ");
-            lore.add(canUse ? ChatColor.GRAY + "You have access to this armor." : ChatColor.RED + "You don't have this rank.");
-
-            lore.add(" ");
-            lore.add(canUse ? "&e[Click to apply this armor]" : "&c[You cannot apply this armor]");
-
             return this.cosmetic.getMenuItemBuilder()
                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    .addLore(lore).create();
+                    .addLore("&e[Click to apply]").create();
         }
 
         @Override
@@ -127,7 +130,7 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
             final PersistentPearPlayer pearPlayer = plugin.getPersistentPlayerCache().getByPlayer(player);
 
             if (pearPlayer != null) {
-                pearPlayer.setArmor(this.cosmetic.getRank().getName());
+                pearPlayer.setArmor(this.cosmetic.getRank() == null ? "Chroma" : this.cosmetic.getRank().getName());
                 pearPlayer.save();
             }
 

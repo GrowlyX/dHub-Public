@@ -55,7 +55,7 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
     public ItemBuilder getMenuItemBuilder() {
         return new ItemBuilder(this.displayMaterial)
                 .setDurability(this.displayMaterial == Material.INK_SACK ? 15 : 0)
-                .setDisplayName(Color.MAIN_COLOR + ChatColor.BOLD + this.getName() + " Trail");
+                .setDisplayName(ChatColor.GREEN + this.getName() + " Trail");
     }
 
     @Getter

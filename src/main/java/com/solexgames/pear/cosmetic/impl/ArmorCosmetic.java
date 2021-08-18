@@ -67,7 +67,7 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
     public ItemBuilder getMenuItemBuilder() {
         final ChatColor chatColor = ChatColor.getByChar(com.solexgames.core.util.Color.translate(this.rank != null ? this.rank.getColor() : "&r").replace("&", "").replace("§", ""));
         final Color color = this.getByChatColor(chatColor);
-        final String rankFancy = chatColor + ChatColor.BOLD.toString() + (this.rank != null ? this.rank.getName() : this.name);
+        final String rankFancy = chatColor + (this.rank != null ? this.rank.getName() : this.name);
 
         return new ItemBuilder(Material.LEATHER_HELMET)
                 .setDisplayName(rankFancy + " Armor")

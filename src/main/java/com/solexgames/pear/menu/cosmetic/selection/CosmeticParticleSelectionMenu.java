@@ -5,6 +5,7 @@ import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.pear.PearSpigotPlugin;
+import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,20 +31,19 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
     public Map<Integer, Button> getGlobalButtons(Player player) {
         final Map<Integer, Button> buttonMap = new HashMap<>();
 
-        buttonMap.put(4, new ItemBuilder(Material.BED)
-                .setDisplayName(ChatColor.GREEN + ChatColor.BOLD.toString() + "Reset Cosmetic")
+        buttonMap.put(3, new ItemBuilder(Material.NETHER_STAR)
+                .setDisplayName(ChatColor.GREEN + "Reset Trail")
                 .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .addLore(
-                        "&7Reset your currently applied",
-                        "&7cosmetic!",
+                        "&7Clear & reset your trail.",
                         "",
-                        "&e[Click to reset cosmetic]"
+                        "&e[Click to reset trail]"
                 )
                 .toButton((player1, clickType) -> {
                     final BukkitRunnable bukkitRunnable = this.plugin.getCosmeticHandler().getRunnableHashMap().get(player);
 
                     if (bukkitRunnable == null) {
-                        player.sendMessage(ChatColor.RED + "You don't have a particle cosmetic equipped right now.");
+                        player.sendMessage(ChatColor.RED + "You do not have a trail selected.");
                         return;
                     }
 
@@ -58,7 +58,20 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
                         pearPlayer.save();
                     }
 
-                    player.sendMessage(ChatColor.RED + "You've unequipped your particle cosmetic.");
+                    player.sendMessage(ChatColor.RED + "You've unequipped your trail.");
+                })
+        );
+
+        buttonMap.put(5, new ItemBuilder(Material.BED)
+                .setDisplayName(ChatColor.RED + "Return to Main")
+                .addLore(
+                        "&7Return back to the",
+                        "&7main cosmetic menu.",
+                        " ",
+                        "&e[Click to open main]"
+                )
+                .toButton((player1, clickType) -> {
+                    new CosmeticMainMenu(this.plugin).openMenu(player1);
                 })
         );
 
@@ -71,7 +84,9 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
         final AtomicInteger atomicInteger = new AtomicInteger();
 
         this.plugin.getCosmeticHandler().getTrailCosmeticMap().values().forEach(trail -> buttonMap.put(atomicInteger.getAndIncrement(), trail.getMenuItemBuilder()
-                .addLore("&e[Click to apply this cosmetic]")
+                .addLore(
+                        "&e[Click to apply]"
+                )
                 .toButton((player1, clickType) -> {
                     if (!player.hasPermission(trail.getPermission())) {
                         player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
