@@ -10,6 +10,7 @@ import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.CosmeticType;
 import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
+import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -56,6 +57,13 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
                     player1.getInventory().setArmorContents(null);
                     player1.updateInventory();
                     player1.closeInventory();
+
+                    final PersistentPearPlayer pearPlayer = plugin.getPersistentPlayerCache().getByPlayer(player);
+
+                    if (pearPlayer != null) {
+                        pearPlayer.setArmor(null);
+                        pearPlayer.save();
+                    }
 
                     player1.sendMessage(Color.SECONDARY_COLOR + "You're currently applied cosmetic has been reset.");
                 })
@@ -116,6 +124,13 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
 
             this.cosmetic.applyTo(player, this.cosmetic.getRank());
 
+            final PersistentPearPlayer pearPlayer = plugin.getPersistentPlayerCache().getByPlayer(player);
+
+            if (pearPlayer != null) {
+                pearPlayer.setArmor(this.cosmetic.getRank().getName());
+                pearPlayer.save();
+            }
+
             if (this.cosmetic.getRank() == null) {
                 if (ArmorCosmetic.ARMOR_UPDATER_RUNNABLE_MAP.containsKey(player.getUniqueId())) {
                     player.sendMessage(ChatColor.RED + "You already have chroma armor equipped.");
@@ -132,11 +147,4 @@ public class CosmeticArmorSelectionMenu extends PaginatedMenu {
             player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + (this.cosmetic.getRank() != null ? this.cosmetic.getRank().getColor() + this.cosmetic.getRank().getName() : ChatColor.GREEN + "Chroma") + Color.SECONDARY_COLOR + " cosmetic!");
         }
     }
-
-//    @Override
-//    public void onClose(Player player) {
-//        Schedulers.sync().runLater(() -> {
-//            new CosmeticMainMenu(this.plugin).openMenu(player);
-//        }, 1L);
-//    }
 }

@@ -29,7 +29,7 @@ public class PearCommand extends BaseCommand {
     @Default
     @HelpCommand
     @Syntax("[page]")
-    public void onHelp(CommandSender sender, CommandHelp help) {
+    public void onHelp(CommandHelp help) {
         help.showHelp();
     }
 

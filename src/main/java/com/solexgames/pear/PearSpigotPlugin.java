@@ -1,18 +1,24 @@
 package com.solexgames.pear;
 
+import com.mongodb.client.model.Filters;
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
+import com.solexgames.lib.commons.game.PlayerCache;
+import com.solexgames.lib.commons.game.impl.BasicPlayerCache;
 import com.solexgames.pear.board.BoardAdapter;
 import com.solexgames.pear.command.PearCommand;
 import com.solexgames.pear.external.ExternalConfig;
 import com.solexgames.pear.handler.CosmeticHandler;
+import com.solexgames.pear.handler.StorageHandler;
 import com.solexgames.pear.handler.SubMenuHandler;
 import com.solexgames.pear.listener.AntiListener;
 import com.solexgames.pear.listener.EnderbuttListener;
 import com.solexgames.pear.listener.PlayerListener;
 import com.solexgames.pear.module.HubModule;
+import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import com.solexgames.pear.processor.PearChatProcessor;
+import com.solexgames.pear.processor.PearServerPlaceholderProcessor;
 import com.solexgames.pear.processor.PearSettingsProcessor;
 import com.solexgames.pear.queue.IQueue;
 import com.solexgames.pear.queue.impl.AGQQueueImpl;
@@ -34,13 +40,18 @@ import io.github.nosequel.tab.v1_12_r1.v1_12_R1TabAdapter;
 import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter;
 import lombok.Getter;
 import lombok.Setter;
+import me.lucko.helper.Events;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Getter
 public final class PearSpigotPlugin extends JavaPlugin {
@@ -59,6 +70,7 @@ public final class PearSpigotPlugin extends JavaPlugin {
 
     private CosmeticHandler cosmeticHandler;
     private SubMenuHandler subMenuHandler;
+    private StorageHandler storageHandler;
 
     private IQueue queueImpl;
 
@@ -67,12 +79,16 @@ public final class PearSpigotPlugin extends JavaPlugin {
 
     private final ConfigFactory configFactory = ConfigFactory.newFactory(this);
 
+    private final PlayerCache<PersistentPearPlayer> persistentPlayerCache = new BasicPlayerCache<>();
+
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
 
         this.settingsProcessor = this.configFactory.fromFile("options", PearSettingsProcessor.class);
         this.menus = new ExternalConfig("menus", this);
+
+        this.storageHandler = new StorageHandler();
 
         this.cosmeticHandler = new CosmeticHandler(this);
         this.cosmeticHandler.loadArmorCosmetics();
@@ -108,6 +124,10 @@ public final class PearSpigotPlugin extends JavaPlugin {
         if (!this.settingsProcessor.isChatEnabled()) {
             CorePlugin.getInstance().getChatCheckList().add(new PearChatProcessor(this));
         }
+
+        this.setupListeners();
+
+        new PearServerPlaceholderProcessor().register();
 
 //        Arrays.asList("UHC", "Meetup", "SkyWars").forEach(id -> {
 //            this.updateTaskMap.put(id, new MultiServerUpdateTask(id, NetworkServerType.valueOf(id.toUpperCase())));
@@ -166,6 +186,33 @@ public final class PearSpigotPlugin extends JavaPlugin {
         this.itemCache.put("cosmetics", ItemUtil.getInventoryItemFromConfig("items.cosmetics", this));
         this.itemCache.put("server-selector", ItemUtil.getInventoryItemFromConfig("items.server-selector", this));
         this.itemCache.put("profile", ItemUtil.getInventoryItemFromConfig("items.profile", this));
+    }
+
+    private void setupListeners() {
+        Events.subscribe(AsyncPlayerPreLoginEvent.class).handler(event -> {
+            final PersistentPearPlayer player = new PersistentPearPlayer(
+                    event.getName(),
+                    event.getUniqueId()
+            );
+
+            final CompletableFuture<Document> completableFuture = CompletableFuture.supplyAsync(() ->
+                    this.storageHandler.getPlayerCollection().find(Filters.eq("uuid", event.getUniqueId().toString())).first()
+            );
+
+            player.load(completableFuture);
+
+            this.persistentPlayerCache.getPlayerTypeMap().put(event.getUniqueId(), player);
+        });
+
+        Events.subscribe(PlayerQuitEvent.class).handler(playerQuitEvent -> {
+            final PersistentPearPlayer player = this.persistentPlayerCache.getByPlayer(playerQuitEvent.getPlayer());
+
+            if (player != null) {
+                player.save();
+
+                this.persistentPlayerCache.getPlayerTypeMap().remove(player.getUniqueId());
+            }
+        });
     }
 
     public void reloadAllConfigs() {

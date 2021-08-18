@@ -28,7 +28,8 @@ public class CosmeticHandler {
 
     private final Map<Rank, ArmorCosmetic> armorCosmeticMap = new HashMap<>();
     private final Map<Integer, Color> colorHashMap = new HashMap<>();
-    private final Map<ParticleEffect, ParticleCosmetic> particleCosmeticMap = new HashMap<>();
+
+    private final Map<ParticleEffect, ParticleCosmetic> trailCosmeticMap = new HashMap<>();
 
     private final List<Cosmetic<?>> cosmeticList = new ArrayList<>();
 
@@ -60,13 +61,13 @@ public class CosmeticHandler {
     }
 
     public void loadParticleCosmetics() {
-        this.particleCosmeticMap.put(ParticleEffect.HEART, new ParticleCosmetic(ParticleEffect.HEART, Material.REDSTONE, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.NOTE, new ParticleCosmetic(ParticleEffect.NOTE, Material.NOTE_BLOCK, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.FIREWORKS_SPARK, new ParticleCosmetic(ParticleEffect.FIREWORKS_SPARK, Material.FIREWORK, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.SLIME, new ParticleCosmetic(ParticleEffect.SLIME, Material.SLIME_BALL, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.WATER_SPLASH, new ParticleCosmetic(ParticleEffect.WATER_SPLASH, Material.WATER_BUCKET, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.FLAME, new ParticleCosmetic(ParticleEffect.FLAME, Material.BLAZE_POWDER, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.CLOUD, new ParticleCosmetic(ParticleEffect.CLOUD, Material.INK_SACK, this.plugin));
-        this.particleCosmeticMap.put(ParticleEffect.SMOKE_NORMAL, new ParticleCosmetic(ParticleEffect.SMOKE_NORMAL, XMaterial.GUNPOWDER.parseMaterial(), this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.HEART, new ParticleCosmetic(ParticleEffect.HEART, Material.REDSTONE, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.NOTE, new ParticleCosmetic(ParticleEffect.NOTE, Material.NOTE_BLOCK, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.FIREWORKS_SPARK, new ParticleCosmetic(ParticleEffect.FIREWORKS_SPARK, Material.FIREWORK, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.SLIME, new ParticleCosmetic(ParticleEffect.SLIME, Material.SLIME_BALL, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.WATER_SPLASH, new ParticleCosmetic(ParticleEffect.WATER_SPLASH, Material.WATER_BUCKET, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.FLAME, new ParticleCosmetic(ParticleEffect.FLAME, Material.BLAZE_POWDER, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.CLOUD, new ParticleCosmetic(ParticleEffect.CLOUD, Material.INK_SACK, this.plugin));
+        this.trailCosmeticMap.put(ParticleEffect.SMOKE_NORMAL, new ParticleCosmetic(ParticleEffect.SMOKE_NORMAL, XMaterial.GUNPOWDER.parseMaterial(), this.plugin));
     }
 }

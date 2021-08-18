@@ -1,5 +1,6 @@
 package com.solexgames.pear.queue.impl;
 
+import com.solexgames.pear.PearSpigotConstants;
 import com.solexgames.pear.queue.IQueue;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -33,6 +34,6 @@ public class DefaultQueueImpl implements IQueue {
 
     @Override
     public void joinQueue(Player player, String server) {
-        player.sendMessage(ChatColor.RED + "Something went terribly wrong while trying to add you to the " + ChatColor.YELLOW + server + ChatColor.RED + " queue.");
+        player.sendMessage(PearSpigotConstants.CHAT_PREFIX + ChatColor.RED + "We couldn't add you to a queue, sorry.");
     }
 }

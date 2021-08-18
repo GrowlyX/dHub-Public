@@ -61,7 +61,6 @@ public class ArmorCosmetic extends Cosmetic<Rank> {
         itemStacks[0] = new ItemBuilder(Material.LEATHER_BOOTS).setDisplayName(rankFancy + " Boots").setColor(color).create();
 
         player.getInventory().setArmorContents(itemStacks);
-
         player.updateInventory();
     }
 

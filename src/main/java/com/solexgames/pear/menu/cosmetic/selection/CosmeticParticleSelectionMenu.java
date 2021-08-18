@@ -5,6 +5,7 @@ import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.pear.PearSpigotPlugin;
+import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -50,6 +51,13 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
 
                     this.plugin.getCosmeticHandler().getRunnableHashMap().remove(player);
 
+                    final PersistentPearPlayer pearPlayer = plugin.getPersistentPlayerCache().getByPlayer(player);
+
+                    if (pearPlayer != null) {
+                        pearPlayer.setTrail(null);
+                        pearPlayer.save();
+                    }
+
                     player.sendMessage(ChatColor.RED + "You've unequipped your particle cosmetic.");
                 })
         );
@@ -62,27 +70,33 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
         final Map<Integer, Button> buttonMap = new HashMap<>();
         final AtomicInteger atomicInteger = new AtomicInteger();
 
-        this.plugin.getCosmeticHandler().getParticleCosmeticMap().values()
-                .forEach(armorCosmetic -> buttonMap.put(atomicInteger.getAndIncrement(), armorCosmetic.getMenuItemBuilder()
-                        .addLore("&e[Click to apply this cosmetic]")
-                        .toButton((player1, clickType) -> {
-                            if (!player.hasPermission(armorCosmetic.getPermission())) {
-                                player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
-                                return;
-                            }
+        this.plugin.getCosmeticHandler().getTrailCosmeticMap().values().forEach(trail -> buttonMap.put(atomicInteger.getAndIncrement(), trail.getMenuItemBuilder()
+                .addLore("&e[Click to apply this cosmetic]")
+                .toButton((player1, clickType) -> {
+                    if (!player.hasPermission(trail.getPermission())) {
+                        player.sendMessage(ChatColor.RED + "You don't have permission to apply this cosmetic!");
+                        return;
+                    }
 
-                            final BukkitRunnable bukkitRunnable = this.plugin.getCosmeticHandler().getRunnableHashMap().get(player);
+                    final BukkitRunnable bukkitRunnable = this.plugin.getCosmeticHandler().getRunnableHashMap().get(player);
 
-                            if (bukkitRunnable != null) {
-                                player.sendMessage(ChatColor.RED + "You already have a cosmetic equipped.");
-                                return;
-                            }
+                    if (bukkitRunnable != null) {
+                        player.sendMessage(ChatColor.RED + "You already have a cosmetic equipped.");
+                        return;
+                    }
 
-                            armorCosmetic.applyTo(player, armorCosmetic.getParticleEffect());
+                    trail.applyTo(player, trail.getParticleEffect());
 
-                            player.closeInventory();
-                            player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + armorCosmetic.getName() + Color.SECONDARY_COLOR + " cosmetic!");
-                        })));
+                    final PersistentPearPlayer pearPlayer = plugin.getPersistentPlayerCache().getByPlayer(player);
+
+                    if (pearPlayer != null) {
+                        pearPlayer.setTrail(trail.getParticleEffect().name());
+                        pearPlayer.save();
+                    }
+
+                    player.closeInventory();
+                    player.sendMessage(Color.SECONDARY_COLOR + "You've applied the " + ChatColor.BLUE + trail.getName() + Color.SECONDARY_COLOR + " cosmetic!");
+                })));
 
         return buttonMap;
     }
@@ -91,11 +105,4 @@ public class CosmeticParticleSelectionMenu extends PaginatedMenu {
     public String getPrePaginatedTitle(Player player) {
         return "Cosmetics » Trails";
     }
-
-//    @Override
-//    public void onClose(Player player) {
-//        Schedulers.sync().runLater(() -> {
-//            new CosmeticMainMenu(this.plugin).openMenu(player);
-//        }, 1L);
-//    }
 }

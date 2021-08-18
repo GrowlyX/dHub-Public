@@ -66,7 +66,7 @@ public class ConfigurableMenu extends Menu {
         });
 
         if (this.plugin.getMenus().getBoolean(this.root + ".fill-stained-glass")) {
-            for (int i = 0; i <= (this.getSize() - 1); i++) {
+            for (int i = 0; i <= (this.size(buttonMap) - 1); i++) {
                 buttonMap.putIfAbsent(i, PearSpigotPlugin.GLASS);
             }
         }

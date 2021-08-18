@@ -1,12 +1,15 @@
 package com.solexgames.pear.listener;
 
 import com.solexgames.core.menu.impl.player.PlayerInfoMenu;
+import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.Color;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
+import com.solexgames.pear.cosmetic.impl.ParticleCosmetic;
 import com.solexgames.pear.menu.HubSelectorMenu;
 import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.pear.module.HubModule;
+import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -73,7 +76,6 @@ public class PlayerListener implements Listener {
         }
 
         player.getInventory().setHeldItemSlot(serverSelectorSlot > 8 ? 0 : serverSelectorSlot);
-
         player.updateInventory();
 
         if (this.plugin.getSettingsProcessor().isHidePlayers()) {
@@ -81,6 +83,33 @@ public class PlayerListener implements Listener {
                 if (onlinePlayer != player && !(onlinePlayer.hasPermission("pear.hub.show") || onlinePlayer.hasPermission("scandium.staff"))) {
                     player.hidePlayer(onlinePlayer);
                 }
+            }
+        }
+
+        final PersistentPearPlayer pearPlayer = this.plugin.getPersistentPlayerCache().getByPlayer(player);
+
+        if (pearPlayer != null) {
+            if (pearPlayer.getArmor() != null) {
+                final Rank rank = Rank.getByName(pearPlayer.getArmor());
+
+                if (rank != null) {
+                    final ArmorCosmetic armorCosmetic = this.plugin.getCosmeticHandler().getArmorCosmeticMap().get(rank);
+
+                    if (armorCosmetic != null) {
+                        armorCosmetic.applyTo(player, rank);
+                    }
+                } else {
+                    if (pearPlayer.getArmor().equals("Chroma")) {
+                        this.plugin.getCosmeticHandler().getChromaCosmetic().applyTo(player, null);
+                    }
+                }
+            }
+
+            if (pearPlayer.getTrail() != null) {
+                final ParticleEffect particleEffect = ParticleEffect.valueOf(pearPlayer.getTrail());
+                final ParticleCosmetic particleCosmetic = this.plugin.getCosmeticHandler().getTrailCosmeticMap().get(particleEffect);
+
+                particleCosmetic.applyTo(player, particleEffect);
             }
         }
     }
