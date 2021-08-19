@@ -30,6 +30,9 @@ public class PersistentPearPlayer extends PearPlayer implements PersistentModel<
 
     private String armor;
     private String trail;
+    private String gadget;
+
+    private boolean ruleAgreed;
 
     @Override
     public void load(CompletableFuture<Document> documentCompletableFuture) {
@@ -46,6 +49,9 @@ public class PersistentPearPlayer extends PearPlayer implements PersistentModel<
 
             this.armor = document.getString("armor");
             this.trail = document.getString("trail");
+            this.gadget = document.getString("gadget");
+
+            this.ruleAgreed = document.getBoolean("ruleAgreed");
         });
     }
 
@@ -70,6 +76,9 @@ public class PersistentPearPlayer extends PearPlayer implements PersistentModel<
 
         document.put("armor", this.armor);
         document.put("trail", this.trail);
+        document.put("gadget", this.gadget);
+
+        document.put("ruleAgreed", this.ruleAgreed);
 
         return document;
     }

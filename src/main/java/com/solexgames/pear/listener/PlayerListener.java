@@ -8,10 +8,12 @@ import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
 import com.solexgames.pear.cosmetic.impl.ParticleCosmetic;
 import com.solexgames.pear.menu.HubSelectorMenu;
 import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
+import com.solexgames.pear.menu.rules.RuleAgreementMenu;
 import com.solexgames.pear.module.HubModule;
 import com.solexgames.pear.player.impl.PersistentPearPlayer;
 import io.papermc.lib.PaperLib;
 import lombok.RequiredArgsConstructor;
+import me.lucko.helper.Schedulers;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
@@ -110,6 +112,12 @@ public class PlayerListener implements Listener {
                 final ParticleCosmetic particleCosmetic = this.plugin.getCosmeticHandler().getTrailCosmeticMap().get(particleEffect);
 
                 particleCosmetic.applyTo(player, particleEffect);
+            }
+
+            if (!pearPlayer.isRuleAgreed()) {
+                Schedulers.sync().runLater(() -> {
+                    new RuleAgreementMenu(this.plugin).openMenu(player);
+                }, 1L);
             }
         }
     }

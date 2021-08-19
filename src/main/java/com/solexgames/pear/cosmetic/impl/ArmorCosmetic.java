@@ -4,7 +4,7 @@ import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.Cosmetic;
-import com.solexgames.pear.cosmetic.CosmeticType;
+import com.solexgames.pear.cosmetic.type.CosmeticType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;

@@ -1,5 +1,6 @@
 package com.solexgames.pear.cosmetic;
 
+import com.solexgames.pear.cosmetic.type.CosmeticType;
 import org.bukkit.entity.Player;
 
 /**

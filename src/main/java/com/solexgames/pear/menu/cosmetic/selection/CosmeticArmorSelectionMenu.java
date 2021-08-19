@@ -2,13 +2,12 @@ package com.solexgames.pear.menu.cosmetic.selection;
 
 import com.solexgames.core.CorePlugin;
 import com.solexgames.core.player.PotPlayer;
-import com.solexgames.core.player.ranks.Rank;
 import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.core.util.external.Button;
 import com.solexgames.core.util.external.pagination.PaginatedMenu;
 import com.solexgames.pear.PearSpigotPlugin;
-import com.solexgames.pear.cosmetic.CosmeticType;
+import com.solexgames.pear.cosmetic.type.CosmeticType;
 import com.solexgames.pear.cosmetic.impl.ArmorCosmetic;
 import com.solexgames.pear.menu.cosmetic.CosmeticMainMenu;
 import com.solexgames.pear.player.impl.PersistentPearPlayer;

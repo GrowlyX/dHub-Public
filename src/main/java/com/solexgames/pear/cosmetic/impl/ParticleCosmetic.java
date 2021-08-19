@@ -1,10 +1,9 @@
 package com.solexgames.pear.cosmetic.impl;
 
-import com.solexgames.core.util.Color;
 import com.solexgames.core.util.builder.ItemBuilder;
 import com.solexgames.pear.PearSpigotPlugin;
 import com.solexgames.pear.cosmetic.Cosmetic;
-import com.solexgames.pear.cosmetic.CosmeticType;
+import com.solexgames.pear.cosmetic.type.CosmeticType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;

@@ -31,7 +31,7 @@ public class CosmeticMainMenu extends Menu {
         final Map<Integer, Button> buttonMap = new HashMap<>();
         final PersistentPearPlayer pearPlayer = this.plugin.getPersistentPlayerCache().getByPlayer(player);
 
-        buttonMap.put(1, new ItemBuilder(Material.LEATHER_CHESTPLATE)
+        buttonMap.put(2, new ItemBuilder(Material.LEATHER_CHESTPLATE)
                 .setDisplayName(ChatColor.GREEN + "Armor")
                 .addLore(
                         "&7Select one of our multiple",
@@ -46,11 +46,11 @@ public class CosmeticMainMenu extends Menu {
                 })
         );
 
-        buttonMap.put(3, new ItemBuilder(Material.EMERALD)
+        buttonMap.put(4, new ItemBuilder(Material.EMERALD)
                 .setDisplayName(ChatColor.GREEN + "Trails")
                 .addLore(
-                        "&7Click to view all available",
-                        "&7trails!",
+                        "&7Select one of our multiple",
+                        "&7trail effects!",
                         "",
                         "&7Selected: " + ChatColor.WHITE + (pearPlayer.getTrail() == null ? "None" : StringUtils.capitalize(pearPlayer.getTrail().toLowerCase())),
                         "",
@@ -58,6 +58,21 @@ public class CosmeticMainMenu extends Menu {
                 )
                 .toButton((player1, clickType) -> {
                     new CosmeticParticleSelectionMenu(this.plugin).openMenu(player);
+                })
+        );
+
+        buttonMap.put(6, new ItemBuilder(Material.FIREWORK)
+                .setDisplayName(ChatColor.GREEN + "Gadgets")
+                .addLore(
+                        "&7Select one of our multiple",
+                        "&7gadgets!",
+                        "",
+                        "&7Selected: " + ChatColor.WHITE + (pearPlayer.getTrail() == null ? "None" : StringUtils.capitalize(pearPlayer.getTrail().toLowerCase())),
+                        "",
+                        "&e[Click to view trails]"
+                )
+                .toButton((player1, clickType) -> {
+                    player1.sendMessage(ChatColor.RED + "Gadgets are temporarily disabled.");
                 })
         );
 
