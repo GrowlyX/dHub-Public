@@ -215,6 +215,7 @@ public final class PearSpigotPlugin extends JavaPlugin {
         });
     }
 
+
     public void reloadAllConfigs() {
         this.menus.reloadConfig();
 

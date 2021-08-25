@@ -66,10 +66,10 @@ public class ParticleCosmetic extends Cosmetic<ParticleEffect> {
 
         @Override
         public void run() {
-            final Vector vector = this.player.getLocation().toVector()
+            final Vector vector = this.player.getEyeLocation().toVector()
                     .normalize().multiply(-1);
             final Location location = this.player.getLocation().clone()
-                    .add(0.0D, 2.2D, 0.0D).add(vector);
+                    .add(0.0D, 1.5D, 0.0D).add(vector);
 
             this.particleEffect.display(location);
         }

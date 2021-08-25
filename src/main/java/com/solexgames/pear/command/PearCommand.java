@@ -1,16 +1,15 @@
 package com.solexgames.pear.command;
 
 import com.solexgames.core.util.PlayerUtil;
-import com.solexgames.pear.PearSpigotPlugin;
-import com.solexgames.pear.menu.SetupHubMenu;
 import com.solexgames.lib.acf.BaseCommand;
 import com.solexgames.lib.acf.CommandHelp;
 import com.solexgames.lib.acf.annotation.*;
 import com.solexgames.lib.commons.command.annotation.Service;
+import com.solexgames.pear.PearSpigotPlugin;
+import com.solexgames.pear.menu.SetupHubMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
